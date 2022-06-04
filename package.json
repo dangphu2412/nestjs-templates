@@ -1,0 +1,19 @@
+{
+  "name": "design-pattern",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "generate": "node ./cli --projectName=",
+    "prepare": "husky install",
+    "test": "echo test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@commitlint/cli": "16.2.3",
+    "@commitlint/config-angular": "16.2.3",
+    "husky": "^8.0.1"
+  }
+}
