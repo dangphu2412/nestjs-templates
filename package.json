@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "generate": "node ./cli --projectName=",
+    "generate": "node ./cli/bin --projectName=",
     "prepare": "husky install",
     "test": "echo test"
   },
