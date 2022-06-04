@@ -13,6 +13,7 @@ export class ProjectGenerator {
     const currentWorkingDir = process.cwd();
     const baseDir = `${currentWorkingDir}/${BASE_PROJECT}`;
     const newDir = `${currentWorkingDir}/${this.projectName}`;
+
     console.time('Finish generation');
     console.log(chalk.green(`Generating project ${this.projectName} in ${newDir}`));
 
@@ -21,12 +22,13 @@ export class ProjectGenerator {
     }
 
     await mkdir(newDir);
-    await this.copyFolderRecursive(baseDir, newDir);
+    await this.copyAllContents(baseDir, newDir);
+
     console.log(chalk.green(`Finish generate project ${this.projectName} in ${newDir}`));
     console.timeEnd('Finish generation');
   }
 
-  private async copyFolderRecursive(source: string, target: string) {
+  private async copyAllContents(source: string, target: string) {
     let files = [];
   
     const targetFolder = join(target, basename(source));
@@ -42,9 +44,9 @@ export class ProjectGenerator {
           const curSource = join(source, file);
 
           if ((await lstat(curSource)).isDirectory()) {
-              return this.copyFolderRecursive(curSource, targetFolder);
+              return this.copyAllContents(curSource, targetFolder);
           }
-          return copyFile(curSource, targetFolder + '/' + file);
+          return copyFile(curSource, join(targetFolder, file));
         }));
     }
   }

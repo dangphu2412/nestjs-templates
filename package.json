@@ -6,7 +6,7 @@
   "scripts": {
     "build:cli": "cd ./cli && npm run build",
     "prepare": "husky install",
-    "test": "echo test"
+    "test": "echo testing"
   },
   "keywords": [],
   "author": "",
