@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:cli": "tsc ./cli",
+    "build:cli": "cd ./cli && npm run build",
     "prepare": "husky install",
     "test": "echo test"
   },

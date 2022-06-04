@@ -17,6 +17,7 @@
     "generator": "bin/index.js"
   },
   "dependencies": {
+    "chalk": "4.1.2",
     "commander": "^9.3.0"
   }
 }

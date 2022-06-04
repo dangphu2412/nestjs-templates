@@ -1,5 +1,7 @@
-import { existsSync, mkdirSync, lstatSync, readdirSync, copyFileSync, readFileSync } from 'fs';
+import { existsSync } from 'fs';
+import { copyFile, lstat, mkdir, readdir } from 'fs/promises';
 import { basename, join } from 'path';
+import * as chalk from 'chalk';
 
 const BASE_PROJECT = 'base-project';
 
@@ -8,34 +10,42 @@ export class ProjectGenerator {
   }
 
   public async generate() {
-    const cwd = process.cwd();
-    const baseDir = `${cwd}/${BASE_PROJECT}`;
-    const newDir = `${cwd}/${this.projectName}`;
-    if (!existsSync(newDir) ) {
-      mkdirSync(newDir);
+    const currentWorkingDir = process.cwd();
+    const baseDir = `${currentWorkingDir}/${BASE_PROJECT}`;
+    const newDir = `${currentWorkingDir}/${this.projectName}`;
+    console.time('Finish generation');
+    console.log(chalk.green(`Generating project ${this.projectName} in ${newDir}`));
+
+    if (existsSync(newDir) ) {
+      throw new Error(`Project ${this.projectName} already exists`);
     }
-    this.copyFolderRecursiveSync(baseDir, newDir);
+
+    await mkdir(newDir);
+    await this.copyFolderRecursive(baseDir, newDir);
+    console.log(chalk.green(`Finish generate project ${this.projectName} in ${newDir}`));
+    console.timeEnd('Finish generation');
   }
 
-  private copyFolderRecursiveSync(source: string, target: string) {
+  private async copyFolderRecursive(source: string, target: string) {
     let files = [];
   
     const targetFolder = join(target, basename(source));
   
     if (!existsSync(targetFolder) ) {
-      mkdirSync(targetFolder);
+      await mkdir(targetFolder);
     }
   
-    if (lstatSync(source).isDirectory()) {
-        files = readdirSync(source);
-        files.forEach((file) => {
+    if ((await lstat(source)).isDirectory()) {
+        files = await readdir(source);
+        
+        await Promise.all(files.map(async (file) => {
           const curSource = join(source, file);
-          if (lstatSync(curSource ).isDirectory() ) {
-              this.copyFolderRecursiveSync( curSource, targetFolder );
-          } else {
-              copyFileSync(curSource, targetFolder + '/' + file);
+
+          if ((await lstat(curSource)).isDirectory()) {
+              return this.copyFolderRecursive(curSource, targetFolder);
           }
-        });
+          return copyFile(curSource, targetFolder + '/' + file);
+        }));
     }
   }
 }
