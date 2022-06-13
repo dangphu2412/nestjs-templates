@@ -9,7 +9,9 @@
     "start:dev": "nodemon"
   },
   "dependencies": {
-    "fastify": "^3.29.0"
+    "@types/saml2-js": "^3.0.0",
+    "fastify": "^3.29.0",
+    "saml2-js": "^3.0.1"
   },
   "devDependencies": {
     "@types/jest": "^27.0.1",

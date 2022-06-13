@@ -1,14 +1,10 @@
 import fastify from 'fastify';
-import { ExampleRouter } from './example-module';
+import { AuthControllerRegister } from './auth/auth.controller';
 
 const server = fastify();
 const PORT = 8080;
 
-server.get('/ping', async (request, reply) => {
-  return 'pong\n';
-});
-
-server.register(ExampleRouter, { prefix: '/example' });
+server.register(AuthControllerRegister, { prefix: '/auth' });
 
 server.listen(PORT, (err, address) => {
   if (err) {
