@@ -1,8 +1,19 @@
-import { Constructor } from "../common/types";
+import { Constructor } from '../common/types';
 
-export interface IModule {
-  imports: Array<IModule>;
-  controllers: Array<Constructor>;
-  components: Array<Constructor>;
-  exports: Array<Constructor>;
+export interface Module {
+  imports: Array<Module>;
+  controllers: Array<DependencyDeclaration>;
+  components: Array<DependencyDeclaration>;
+  exports: Array<DependencyDeclaration>;
+}
+
+export interface RootModule {
+  imports: Array<Module>;
+}
+
+export type DependencyDeclaration = Constructor | InjectionDeclaration;
+
+export interface InjectionDeclaration {
+  injectionToken: string;
+  implementation: Constructor;
 }
