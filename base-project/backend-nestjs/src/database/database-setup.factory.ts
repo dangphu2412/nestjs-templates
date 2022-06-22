@@ -6,6 +6,7 @@ import { ConfigService } from '@nestjs/config';
 export class DatabaseSetupFactory implements ModuleFactory {
   initialize(): DynamicModule {
     const pathLookupEntities = [`${process.cwd()}/**/*.entity.js`];
+    const ROOT_DATABASE_MODULE_DIR = 'src/database';
     return TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
@@ -21,6 +22,11 @@ export class DatabaseSetupFactory implements ModuleFactory {
           entities: pathLookupEntities,
           synchronize: isNotProd,
           logging: isNotProd,
+          migrations: [`${ROOT_DATABASE_MODULE_DIR}/migrations/*.ts`],
+          cli: {
+            migrationsDir: `${ROOT_DATABASE_MODULE_DIR}/migrations`,
+            subscribersDir: `${ROOT_DATABASE_MODULE_DIR}/subscribers`,
+          },
         };
       },
     });
