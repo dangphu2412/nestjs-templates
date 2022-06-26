@@ -13,6 +13,8 @@ services:
       - ./docker/data:/data/db
     ports:
       - "5432:${DB_PORT}"
+    networks:
+      - node-network
 
   backend:
     container_name: backend
@@ -28,10 +30,17 @@ services:
       - redis
     ports:
       - "3000:${PORT}"
+   networks:
+      - node-network
 
   redis:
     container_name: redis
+    privileged: true
     image: redis:6.2.5-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - node-network
 
   pgadmin:
     container_name: pgadmin
@@ -39,8 +48,19 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: 'test@gmail.com'
       PGADMIN_DEFAULT_PASSWORD: 'changeme'
+    volumes:
+      - pgadmin:/root/.pgadmin
+    depends_on:
+      - postgres
     ports:
-      - "3005:80"
+      - "5050:80"
+    networks:
+      - node-network
 
 volumes:
   data:
+  pgadmin:
+
+networks:
+  node-network:
+    driver: bridge

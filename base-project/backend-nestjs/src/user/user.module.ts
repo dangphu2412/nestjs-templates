@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { UserController } from './user.controller';
-import { UserServiceIT } from './client/user.service';
+import { UserServiceToken } from './client/user.service';
 import { UserServiceImpl } from './user.service';
 
 @Module({
@@ -10,10 +10,10 @@ import { UserServiceImpl } from './user.service';
   controllers: [UserController],
   providers: [
     {
-      provide: UserServiceIT,
+      provide: UserServiceToken,
       useClass: UserServiceImpl,
     },
   ],
-  exports: [UserServiceIT],
+  exports: [UserServiceToken],
 })
 export class UserModule {}

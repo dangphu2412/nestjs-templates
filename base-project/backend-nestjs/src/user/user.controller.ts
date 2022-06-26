@@ -1,6 +1,6 @@
 import { Controller, Inject } from '@nestjs/common';
 import { User } from './user.entity';
-import { UserService, UserServiceIT } from './client/user.service';
+import { UserService, UserServiceToken } from './client/user.service';
 
 @Controller({
   path: 'users',
@@ -8,7 +8,7 @@ import { UserService, UserServiceIT } from './client/user.service';
 })
 export class UserController {
   constructor(
-    @Inject(UserServiceIT)
+    @Inject(UserServiceToken)
     private readonly userService: UserService,
   ) {}
 
