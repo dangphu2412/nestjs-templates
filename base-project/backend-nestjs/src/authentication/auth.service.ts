@@ -9,14 +9,22 @@ import { UserService, UserServiceToken } from '../user/client/user.service';
 import { Inject, UnprocessableEntityException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthExceptionClientCode } from '../exception/exception-client-code.constant';
+import { Transactional } from 'typeorm-transactional-cls-hooked';
+import {
+  RoleService,
+  RoleServiceToken,
+} from '../authorization/client/role.service';
 
 export class AuthServiceImpl implements AuthService {
   constructor(
     @Inject(UserServiceToken)
     private readonly userService: UserService,
+    @Inject(RoleServiceToken)
+    private readonly roleService: RoleService,
     private readonly jwtService: JwtService,
   ) {}
 
+  @Transactional()
   async register(
     basicRegisterRequestDto: BasicRegisterRequestDto,
   ): Promise<FinishLoginResponseDto> {
@@ -30,13 +38,21 @@ export class AuthServiceImpl implements AuthService {
       );
     }
 
-    const userId: string = await this.userService.create({
+    const createdUser = await this.userService.create({
       username: basicRegisterRequestDto.username,
       rawPassword: basicRegisterRequestDto.password,
     });
 
+    await this.userService.create({
+      username:
+        basicRegisterRequestDto.username + 'test transactional rollback',
+      rawPassword: basicRegisterRequestDto.password,
+    });
+
+    createdUser.roles = await this.roleService.getNewUserRoles();
+
     return {
-      tokens: await this.generateTokens(userId),
+      tokens: await this.generateTokens(createdUser.id),
     };
   }
 

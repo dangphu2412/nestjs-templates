@@ -1,8 +1,8 @@
 import { UserService } from './client/user.service';
-import { User } from './user.entity';
 import { UserRepository } from './user.repository';
 import { CreateUserDto } from './entities/dtos/create-user.dto';
 import { Injectable } from '@nestjs/common';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserServiceImpl implements UserService {
@@ -20,12 +20,11 @@ export class UserServiceImpl implements UserService {
     });
   }
 
-  async create(dto: CreateUserDto): Promise<string> {
+  create(dto: CreateUserDto): Promise<User> {
     const entity = new User();
     entity.username = dto.username;
     entity.email = '';
 
-    const result = await this.userRepository.save(entity);
-    return result.id;
+    return this.userRepository.save(entity);
   }
 }

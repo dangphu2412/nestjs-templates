@@ -4,8 +4,15 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import { ClientExceptionFilter } from './exception/exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import {
+  initializeTransactionalContext,
+  patchTypeORMRepositoryWithBaseRepository,
+} from 'typeorm-transactional-cls-hooked';
 
 async function bootstrap() {
+  initializeTransactionalContext();
+  patchTypeORMRepositoryWithBaseRepository();
+
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
     .setTitle('App example')
