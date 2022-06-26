@@ -1,5 +1,5 @@
 import { Controller, Inject } from '@nestjs/common';
-import { User } from './user.entity';
+import { User } from './entities/user.entity';
 import { UserService, UserServiceToken } from './client/user.service';
 
 @Controller({
