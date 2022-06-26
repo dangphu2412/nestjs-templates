@@ -30,13 +30,13 @@ export class AuthServiceImpl implements AuthService {
       );
     }
 
-    const newUser = await this.userService.create({
+    const userId: string = await this.userService.create({
       username: basicRegisterRequestDto.username,
       rawPassword: basicRegisterRequestDto.password,
     });
 
     return {
-      tokens: await this.generateTokens(newUser.id),
+      tokens: await this.generateTokens(userId),
     };
   }
 

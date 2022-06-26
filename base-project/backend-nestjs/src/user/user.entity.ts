@@ -4,17 +4,14 @@ import { Column, Entity, PrimaryColumn } from 'typeorm';
   name: 'users',
 })
 export class User {
-  @PrimaryColumn({
-    type: 'uuid',
-    name: 'id',
-  })
+  @PrimaryColumn('uuid', { generated: 'uuid' })
   id: string;
 
   @Column({
-    name: 'name',
+    name: 'username',
     nullable: false,
   })
-  name: string;
+  username: string;
 
   @Column({
     name: 'email',
