@@ -42,14 +42,9 @@ export class AuthServiceImpl implements AuthService {
       username: basicRegisterRequestDto.username,
       rawPassword: basicRegisterRequestDto.password,
     });
+    const roles = await this.roleService.getNewUserRoles();
 
-    await this.userService.create({
-      username:
-        basicRegisterRequestDto.username + 'test transactional rollback',
-      rawPassword: basicRegisterRequestDto.password,
-    });
-
-    createdUser.roles = await this.roleService.getNewUserRoles();
+    await this.userService.updateRolesForUser(createdUser, roles);
 
     return {
       tokens: await this.generateTokens(createdUser.id),

@@ -3,6 +3,7 @@ import { UserRepository } from './user.repository';
 import { CreateUserDto } from './entities/dtos/create-user.dto';
 import { Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
+import { Role } from '../authorization/entities/role.entity';
 
 @Injectable()
 export class UserServiceImpl implements UserService {
@@ -26,5 +27,10 @@ export class UserServiceImpl implements UserService {
     entity.email = '';
 
     return this.userRepository.save(entity);
+  }
+
+  async updateRolesForUser(user: User, roles: Role[]) {
+    user.roles = roles;
+    await this.userRepository.save(user, { reload: false });
   }
 }
