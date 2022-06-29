@@ -1,7 +1,9 @@
 import { Controller, Inject } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { UserService, UserServiceToken } from './client/user.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('users')
 @Controller({
   path: 'users',
   version: '1',

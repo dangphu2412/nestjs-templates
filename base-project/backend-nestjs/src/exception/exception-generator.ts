@@ -15,7 +15,7 @@ export function generateClientException(
   if (typeof errorOrErrorCode === 'string') {
     return {
       errorCode: `${PREFIX_STRATEGY}${errorOrErrorCode}`,
-      message: 'System is getting error',
+      message: 'Default message',
     };
   }
   return {
@@ -24,6 +24,6 @@ export function generateClientException(
   };
 }
 
-export function isClientException(error: any): error is ClientError {
-  return !!(error as ClientError).errorCode;
+export function isClientException(response: any): response is ClientError {
+  return !!(response as ClientError).errorCode;
 }

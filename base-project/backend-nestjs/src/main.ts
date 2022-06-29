@@ -2,18 +2,20 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
-import { ClientExceptionFilter } from './exception/exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import {
   initializeTransactionalContext,
   patchTypeORMRepositoryWithBaseRepository,
 } from 'typeorm-transactional-cls-hooked';
+import { ClientExceptionFilter } from './exception/exception.filter';
 
 async function bootstrap() {
   initializeTransactionalContext();
   patchTypeORMRepositoryWithBaseRepository();
 
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: true,
+  });
   const config = new DocumentBuilder()
     .setTitle('App example')
     .setDescription('The App API description')

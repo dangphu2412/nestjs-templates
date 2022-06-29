@@ -2,16 +2,16 @@ import { ModuleFactory } from '../core/client/app-factory.interface';
 import { DynamicModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
+import { User } from '../user/entities/user.entity';
+import { Role } from '../authorization/entities/role.entity';
 
 export class DatabaseSetupFactory implements ModuleFactory {
   initialize(): DynamicModule {
-    const pathLookupEntities = [`${process.cwd()}/**/*.entity.js`];
-    const ROOT_DATABASE_MODULE_DIR = 'src/database';
     return TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         const isNotProd = configService.get('NODE_ENV') !== 'production';
-
+        const ROOT_DATABASE_MODULE_DIR = 'src/database';
         return {
           type: 'postgres',
           host: configService.get<string>('DB_HOST'),
@@ -19,7 +19,7 @@ export class DatabaseSetupFactory implements ModuleFactory {
           username: configService.get<string>('DB_USERNAME'),
           password: configService.get<string>('DB_PASSWORD'),
           database: configService.get<string>('DB_DATABASE'),
-          entities: pathLookupEntities,
+          entities: [User, Role],
           synchronize: isNotProd,
           logging: isNotProd,
           migrations: [`${ROOT_DATABASE_MODULE_DIR}/migrations/*.ts`],

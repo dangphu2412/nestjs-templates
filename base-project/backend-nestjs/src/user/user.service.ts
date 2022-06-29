@@ -21,15 +21,19 @@ export class UserServiceImpl implements UserService {
     });
   }
 
-  create(dto: CreateUserDto): Promise<User> {
+  async create(dto: CreateUserDto): Promise<User> {
     const entity = new User();
+
     entity.username = dto.username;
     entity.email = '';
+    entity.password = dto.password;
 
     return this.userRepository.save(entity);
   }
 
   async updateRolesForUser(user: User, roles: Role[]) {
+    console.log(user);
+    console.log(roles);
     user.roles = roles;
     await this.userRepository.save(user, { reload: false });
   }

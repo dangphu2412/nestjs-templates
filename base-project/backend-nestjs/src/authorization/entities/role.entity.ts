@@ -5,9 +5,7 @@ import { User } from '../../user/entities/user.entity';
   name: 'roles',
 })
 export class Role {
-  @PrimaryGeneratedColumn('increment', {
-    name: 'id',
-  })
+  @PrimaryGeneratedColumn('increment')
   id: string;
 
   @Column({
@@ -23,6 +21,6 @@ export class Role {
   })
   name: string;
 
-  @ManyToMany(() => User, (user) => user.roles)
+  @ManyToMany(() => User)
   users: User[];
 }

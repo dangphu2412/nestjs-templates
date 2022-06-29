@@ -4,7 +4,7 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
-  LoggerService,
+  Logger,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { isClientException } from './exception-generator';
@@ -12,23 +12,27 @@ import { SystemExceptionClientCode } from './exception-client-code.constant';
 
 @Catch(HttpException)
 export class ClientExceptionFilter implements ExceptionFilter {
-  constructor(private readonly logger: LoggerService) {}
+  private readonly logger: Logger;
+  constructor() {
+    this.logger = new Logger(ClientExceptionFilter.name);
+  }
 
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const status = exception.getStatus();
+    const errorResponse = exception.getResponse();
 
-    if (isClientException(exception)) {
+    if (isClientException(errorResponse)) {
       response.status(status).json({
-        errorCode: exception.errorCode,
+        errorCode: errorResponse.errorCode,
         statusCode: status,
-        message: exception.message,
+        message: errorResponse.message,
       });
       return;
     }
 
-    this.logger.error(exception.message);
+    this.logger.error(errorResponse);
 
     response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       errorCode: SystemExceptionClientCode.GOT_ISSUE.errorCode,

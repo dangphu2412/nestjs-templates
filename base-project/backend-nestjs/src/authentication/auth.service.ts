@@ -14,6 +14,7 @@ import {
   RoleService,
   RoleServiceToken,
 } from '../authorization/client/role.service';
+import { BcryptService } from '../shared/bcrypt.service';
 
 export class AuthServiceImpl implements AuthService {
   constructor(
@@ -22,6 +23,7 @@ export class AuthServiceImpl implements AuthService {
     @Inject(RoleServiceToken)
     private readonly roleService: RoleService,
     private readonly jwtService: JwtService,
+    private readonly bcryptService: BcryptService,
   ) {}
 
   @Transactional()
@@ -38,11 +40,17 @@ export class AuthServiceImpl implements AuthService {
       );
     }
 
-    const createdUser = await this.userService.create({
-      username: basicRegisterRequestDto.username,
-      rawPassword: basicRegisterRequestDto.password,
-    });
-    const roles = await this.roleService.getNewUserRoles();
+    const hashedPassword = await this.bcryptService.hash(
+      basicRegisterRequestDto.password,
+    );
+
+    const [createdUser, roles] = await Promise.all([
+      this.userService.create({
+        username: basicRegisterRequestDto.username,
+        password: hashedPassword,
+      }),
+      this.roleService.getNewUserRoles(),
+    ]);
 
     await this.userService.updateRolesForUser(createdUser, roles);
 
@@ -58,8 +66,13 @@ export class AuthServiceImpl implements AuthService {
       basicLoginRequestDto.username,
     );
 
-    // TODO: Check password
-    if (!user) {
+    if (
+      !user ||
+      (await this.bcryptService.compare(
+        basicLoginRequestDto.password,
+        user.password,
+      ))
+    ) {
       throw new UnprocessableEntityException(
         AuthExceptionClientCode.INCORRECT_USERNAME_OR_PASSWORD,
       );

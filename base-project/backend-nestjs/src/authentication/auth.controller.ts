@@ -2,7 +2,9 @@ import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { AuthService, AuthServiceToken } from './client/auth.service';
 import { BasicRegisterRequestDto } from './entities/dtos/basic-register-request.dto';
 import { BasicLoginRequestDto } from './entities/dtos/basic-login-request.dto';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('auth')
 @Controller({
   path: 'auth',
   version: '1',
@@ -14,11 +16,21 @@ export class AuthController {
   ) {}
 
   @Post('register')
+  @ApiResponse({
+    status: 201,
+  })
   public register(@Body() basicRegisterRequestDto: BasicRegisterRequestDto) {
     return this.authService.register(basicRegisterRequestDto);
   }
 
   @Post('login')
+  @ApiResponse({
+    status: 201,
+  })
+  @ApiResponse({
+    status: 422,
+    description: 'AUTH__INCORRECT_USERNAME_OR_PASSWORD',
+  })
   public login(@Body() basicLoginRequestDto: BasicLoginRequestDto) {
     return this.authService.login(basicLoginRequestDto);
   }

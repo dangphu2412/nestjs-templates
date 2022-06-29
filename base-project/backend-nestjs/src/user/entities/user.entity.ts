@@ -1,11 +1,17 @@
-import { Column, Entity, ManyToMany, PrimaryColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Role } from '../../authorization/entities/role.entity';
 
 @Entity({
   name: 'users',
 })
 export class User {
-  @PrimaryColumn('uuid', { generated: 'uuid' })
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({
@@ -17,10 +23,18 @@ export class User {
   @Column({
     name: 'email',
     type: 'varchar',
-    nullable: false,
+    nullable: true,
   })
   email: string;
 
-  @ManyToMany(() => Role, (role) => role.users)
+  @Column({
+    name: 'password',
+    type: 'varchar',
+    nullable: true,
+  })
+  password: string;
+
+  @ManyToMany(() => Role)
+  @JoinTable()
   roles: Role[];
 }
