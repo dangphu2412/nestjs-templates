@@ -11,4 +11,5 @@ export interface AuthService {
   login(
     basicLoginRequestDto: BasicLoginRequestDto,
   ): Promise<FinishLoginResponseDto>;
+  renewTokens(refreshToken: string): Promise<FinishLoginResponseDto>;
 }

@@ -6,7 +6,11 @@ import {
 import { BasicRegisterRequestDto } from './entities/dtos/basic-register-request.dto';
 import { BasicLoginRequestDto } from './entities/dtos/basic-login-request.dto';
 import { UserService, UserServiceToken } from '../user/client/user.service';
-import { Inject, UnprocessableEntityException } from '@nestjs/common';
+import {
+  Inject,
+  UnauthorizedException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthExceptionClientCode } from '../exception/exception-client-code.constant';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
@@ -84,25 +88,31 @@ export class AuthServiceImpl implements AuthService {
   }
 
   // TODO: Separate into new service to handle token for Single responsibility
-  private async generateTokens(userId: string): Promise<TokenDto[]> {
-    const [accessToken, refreshToken] = await Promise.all([
-      this.jwtService.signAsync(
-        {
-          sub: userId,
-        },
-        {
-          expiresIn: '15m',
-        },
-      ),
-      this.jwtService.signAsync(
+  private async generateTokens(
+    userId: string,
+    providedRefreshToken?: string,
+  ): Promise<TokenDto[]> {
+    const accessToken = await this.jwtService.signAsync(
+      {
+        sub: userId,
+      },
+      {
+        expiresIn: '15m',
+      },
+    );
+    let refreshToken = providedRefreshToken;
+
+    if (!providedRefreshToken) {
+      refreshToken = await this.jwtService.signAsync(
         {
           sub: userId,
         },
         {
           expiresIn: '7d',
         },
-      ),
-    ]);
+      );
+    }
+
     return [
       {
         name: 'accessToken',
@@ -115,5 +125,19 @@ export class AuthServiceImpl implements AuthService {
         value: refreshToken,
       },
     ];
+  }
+
+  async renewTokens(refreshToken: string): Promise<FinishLoginResponseDto> {
+    try {
+      const { sub } = await this.jwtService.verifyAsync<{
+        sub: string;
+      }>(refreshToken);
+
+      return {
+        tokens: await this.generateTokens(sub, refreshToken),
+      };
+    } catch (e) {
+      throw new UnauthorizedException(AuthExceptionClientCode.LOGOUT_REQUIRED);
+    }
   }
 }
