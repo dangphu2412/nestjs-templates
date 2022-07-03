@@ -21,6 +21,7 @@ export function AuthenticatedGuard(props: AuthenticatedGuardProps): React.ReactE
                 await router.push(props.defaultRoute);
             }
             setLoading(false);
+            // TODO: Check are tokens valid else redirect back to login page
         }
         protectPage();
         // eslint-disable-next-line react-hooks/exhaustive-deps

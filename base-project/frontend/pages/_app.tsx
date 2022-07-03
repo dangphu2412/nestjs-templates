@@ -1,28 +1,29 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import * as React from 'react'
+import { ChakraProvider } from '@chakra-ui/react'
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
-import store from '../config/store.config';
-import { Provider } from 'react-redux';
-import {AuthenticatedGuard} from "../modules/auth/components/AuthenticatedGuard.component";
+import * as React from 'react'
+import { Provider } from 'react-redux'
+import { store } from '../config/store'
+import { AuthenticatedGuard } from '../modules/auth/components/AuthenticatedGuard.component'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [queryClient] = React.useState(() => new QueryClient());
+  const [queryClient] = React.useState(() => new QueryClient())
 
-  return (
+  return <ChakraProvider>
     <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
         <Hydrate state={pageProps.dehydratedState}>
-            <AuthenticatedGuard
-                publicRoutes={['/login']}
-                defaultRoute={'/'}
-            >
-                <Component {...pageProps} />
-            </AuthenticatedGuard>
-        </Hydrate>
-      </Provider>
+          <Provider store={store}>
+                <AuthenticatedGuard
+                    publicRoutes={['/login']}
+                    defaultRoute={'/'}
+                >
+                    <Component {...pageProps} />
+                </AuthenticatedGuard>
+          </Provider>
+       </Hydrate>
     </QueryClientProvider>
-  )
+  </ChakraProvider>
 }
 
 export default MyApp
