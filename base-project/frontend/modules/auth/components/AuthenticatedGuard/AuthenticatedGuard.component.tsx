@@ -1,6 +1,6 @@
 import React, {PropsWithChildren, useState} from "react";
 import {useRouter} from "next/router";
-import {useProtectPublicPageGuard} from "../hooks/useProtectPublicPageGuard";
+import {useProtectPublicPageGuard} from "../../hooks/useProtectPublicPageGuard";
 
 type AuthenticatedGuardProps = PropsWithChildren<{
     publicRoutes: string[];

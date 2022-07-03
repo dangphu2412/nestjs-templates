@@ -1,11 +1,11 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_ENDPOINT;
+const API_URL = process.env.NEXT_PUBLIC_API_ENDPOINT ?? 'http://localhost:3000';
 
 if (!API_URL) {
     throw new Error('Missing API_ENDPOINT');
 }
-
+axios.defaults.baseURL = API_URL;
 axios.interceptors.request.use(config => {
     if (config.headers) {
         config.headers['authorization'] = localStorage.getItem('accessToken') ?? '';
