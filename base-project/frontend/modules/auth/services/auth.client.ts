@@ -11,6 +11,6 @@ export interface Tokens {
 
 export const AuthClient = {
     login(body: LoginRequest) {
-        return ApiClient.post<Tokens, LoginRequest>('/v1/auth/login', body);
+        return ApiClient.post<Tokens, LoginRequest>('/auth/login', body);
     }
 }

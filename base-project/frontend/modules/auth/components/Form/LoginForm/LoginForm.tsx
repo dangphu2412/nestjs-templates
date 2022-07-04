@@ -1,8 +1,10 @@
 import React from "react";
 import {useForm} from "react-hook-form";
-import {FormControl, FormLabel, Input} from "@chakra-ui/react";
+import {FormControl, FormLabel, Input, useToast} from "@chakra-ui/react";
 import {useMutation} from "react-query";
 import {AuthClient} from "../../../services/auth.client";
+import {useClientErrorHandler} from "../../../../error-handling/useClientErrorHandler";
+import Link from "next/link";
 
 type FormInputs = {
     username: string;
@@ -11,17 +13,29 @@ type FormInputs = {
 
 export function LoginForm(): React.ReactElement {
     const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>();
-    const requestLoginMutation = useMutation(AuthClient.login, {
+    const toast = useToast();
+    const errorHandler = useClientErrorHandler();
+
+    const {mutate, isLoading} = useMutation(AuthClient.login, {
         onSuccess: () => {
             alert('Login success');
         },
-        onError: () => {
-            alert('Username or password is incorrect');
+        onError: (error) => {
+            const { isClientError, message } = errorHandler.handle(error);
+            if (isClientError) {
+                toast({
+                    title: message,
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                    position: 'top'
+                });
+            }
         }
     })
 
     function onSubmit(inputs: FormInputs) {
-        requestLoginMutation.mutate(inputs);
+        mutate(inputs);
     }
 
     return (
@@ -59,6 +73,12 @@ export function LoginForm(): React.ReactElement {
             <button type="submit">
                 Submit
             </button>
+
+            <Link href={'/register'}>
+                <button type="submit">
+                    Register
+                </button>
+            </Link>
         </form>
     );
 }

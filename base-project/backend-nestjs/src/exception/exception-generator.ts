@@ -1,4 +1,5 @@
-const PREFIX_STRATEGY = 'CLIENT_';
+const PREFIX_CLIENT_STRATEGY = 'CLIENT_';
+const PREFIX_SYSTEM_STRATEGY = 'SYS_';
 
 export interface ClientError {
   errorCode: string;
@@ -14,12 +15,27 @@ export function generateClientException(
 ): ClientError {
   if (typeof errorOrErrorCode === 'string') {
     return {
-      errorCode: `${PREFIX_STRATEGY}${errorOrErrorCode}`,
+      errorCode: `${PREFIX_CLIENT_STRATEGY}${errorOrErrorCode}`,
       message: 'Default message',
     };
   }
   return {
-    errorCode: `${PREFIX_STRATEGY}${errorOrErrorCode.errorCode}`,
+    errorCode: `${PREFIX_CLIENT_STRATEGY}${errorOrErrorCode.errorCode}`,
+    message: errorOrErrorCode.message,
+  };
+}
+
+export function generateSystemException(
+  errorOrErrorCode: ClientError | string,
+): ClientError {
+  if (typeof errorOrErrorCode === 'string') {
+    return {
+      errorCode: `${PREFIX_SYSTEM_STRATEGY}${errorOrErrorCode}`,
+      message: 'Default message',
+    };
+  }
+  return {
+    errorCode: `${PREFIX_SYSTEM_STRATEGY}${errorOrErrorCode.errorCode}`,
     message: errorOrErrorCode.message,
   };
 }

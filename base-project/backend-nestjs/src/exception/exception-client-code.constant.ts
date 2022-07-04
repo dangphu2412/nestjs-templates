@@ -1,4 +1,7 @@
-import { generateClientException } from './exception-generator';
+import {
+  generateClientException,
+  generateSystemException,
+} from './exception-generator';
 
 export const AuthExceptionClientCode = {
   DUPLICATED_USERNAME: generateClientException('AUTH__DUPLICATED_USERNAME'),
@@ -10,6 +13,6 @@ export const AuthExceptionClientCode = {
 };
 
 export const SystemExceptionClientCode = {
-  MAINTENANCE: generateClientException('SYS__MAINTENANCE'),
-  GOT_ISSUE: generateClientException('SYS__GOT_ISSUE'),
+  MAINTENANCE: generateSystemException('MAINTENANCE'),
+  GOT_ISSUE: generateSystemException('GOT_ISSUE'),
 };
