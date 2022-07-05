@@ -5,9 +5,7 @@ import Head from "next/head";
 export default function LoginPage(): React.ReactElement {
     return (
         <>
-            <Head>
-                Login page example
-            </Head>
+            <Head>Login page example</Head>
 
             <LoginForm/>
         </>
