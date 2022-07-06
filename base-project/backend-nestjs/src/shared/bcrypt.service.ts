@@ -15,7 +15,7 @@ export class BcryptService {
     return hash(data, salt);
   }
 
-  public async compare(data: string | Buffer, encrypted: string) {
-    return compare(data, encrypted);
+  public async compare(data: string, encrypted: string | Buffer) {
+    return compare(encrypted, data);
   }
 }

@@ -15,13 +15,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <Provider store={store}>
-                <AuthenticatedGuard
-                    publicRoutes={['/login']}
-                    defaultRoute={'/'}
-                >
-                    <Header/>
-                    <Component {...pageProps} />
-                </AuthenticatedGuard>
+            <AuthenticatedGuard
+                publicRoutes={['/login']}
+                defaultRoute={'/'}
+            >
+                <Header/>
+                <Component {...pageProps} />
+            </AuthenticatedGuard>
           </Provider>
        </Hydrate>
     </QueryClientProvider>

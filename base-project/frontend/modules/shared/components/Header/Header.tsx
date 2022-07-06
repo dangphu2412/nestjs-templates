@@ -10,10 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 
-type HeaderProps = {
-}
-
-export function Header(props: HeaderProps): React.ReactElement {
+export function Header(): React.ReactElement {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const handleToggle = () => (isOpen ? onClose() : onOpen());
 
@@ -27,7 +24,6 @@ export function Header(props: HeaderProps): React.ReactElement {
             bg="teal.500"
             color="white"
             height={'6rem'}
-            {...props}
         >
             <Flex align="center" mr={5}>
                 <Heading as="h1" size="md" letterSpacing={"tighter"}>
@@ -66,5 +62,3 @@ export function Header(props: HeaderProps): React.ReactElement {
         </Flex>
     );
 }
-
-export default Header;

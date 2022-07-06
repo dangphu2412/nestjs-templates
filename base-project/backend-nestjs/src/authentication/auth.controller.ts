@@ -3,7 +3,7 @@ import { AuthService, AuthServiceToken } from './client/auth.service';
 import { BasicRegisterRequestDto } from './entities/dtos/basic-register-request.dto';
 import { BasicLoginRequestDto } from './entities/dtos/basic-login-request.dto';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../shared/jwt/jwt.guard';
+import { JwtAuthGuard } from './jwt/jwt.guard';
 import { RenewTokensRequestDto } from './entities/dtos/renew-tokens-request.dto';
 
 @ApiTags('auth')

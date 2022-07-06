@@ -6,6 +6,7 @@ if (!API_URL) {
     throw new Error('Missing API_ENDPOINT');
 }
 axios.defaults.baseURL = API_URL;
+axios.defaults.timeout = 10000;
 axios.interceptors.request.use(config => {
     if (config.headers) {
         config.headers['authorization'] = localStorage.getItem('accessToken') ?? '';

@@ -6,10 +6,10 @@ export interface LoginRequest {
 }
 
 export interface Tokens {
-    tokens: {type: string, value: string}[];
+    tokens: {name: string, type: string, value: string}[];
 }
 
-export const AuthClient = {
+export const AuthApiClient = {
     login(body: LoginRequest) {
         return ApiClient.post<Tokens, LoginRequest>('/auth/login', body);
     }

@@ -1,49 +1,26 @@
 import React from "react";
 import {useForm} from "react-hook-form";
-import {Button, FormControl, FormLabel, Heading, Input, Text, useToast} from "@chakra-ui/react";
-import {useMutation} from "react-query";
-import {AuthClient} from "../../../services/auth.client";
-import {useClientErrorHandler} from "../../../../error-handling/useClientErrorHandler";
+import {Button, FormControl, FormLabel, Heading, Input, Text} from "@chakra-ui/react";
 import classes from './LoginForm.module.scss';
-import {FullLoader} from "../../../../shared/components/Loader/Full/FullLoader";
+
+type LoginFormProps = {
+    doLogin(inputs: FormInputs): void;
+}
 
 type FormInputs = {
     username: string;
     password: string;
 }
 
-export function LoginForm(): React.ReactElement {
+export function LoginForm(props: LoginFormProps): React.ReactElement {
     const { register, handleSubmit, formState: { errors } } = useForm<FormInputs>();
-    const toast = useToast();
-    const errorHandler = useClientErrorHandler();
-
-    const {mutate, isLoading} = useMutation(AuthClient.login, {
-        onSuccess: () => {
-            alert('Login success');
-        },
-        onError: (error) => {
-            const { isClientError, message } = errorHandler.handle(error);
-            if (isClientError) {
-                toast({
-                    title: message,
-                    status: 'error',
-                    duration: 9000,
-                    isClosable: true,
-                    position: 'top'
-                });
-                return;
-            }
-        }
-    })
 
     function onSubmit(inputs: FormInputs) {
-        mutate(inputs);
+        props.doLogin(inputs);
     }
 
     return (
         <>
-            <FullLoader isLoading={isLoading}/>
-
             <div className={classes['form-layout']}>
                 <div className={classes['form-container']}>
 
