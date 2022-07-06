@@ -2784,6 +2784,11 @@ react-is@^18.0.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
+react-loader-spinner@^5.1.5:
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/react-loader-spinner/-/react-loader-spinner-5.1.5.tgz#392ecc2c964363cde0572b8aaa41c29ebbe372ad"
+  integrity sha512-kHSBa3pNPNzd3UGOiOsHCC33qx5bZA7IHKau+YSTVn36Jib4eBVx/TNMggudbzW5CTnRCbP5bnYU4ACAX3mA6g==
+
 react-query@^3.39.1:
   version "3.39.1"
   resolved "https://registry.yarnpkg.com/react-query/-/react-query-3.39.1.tgz#3876c0fdac7a3b5a84e195534e5fa8fbdd628847"

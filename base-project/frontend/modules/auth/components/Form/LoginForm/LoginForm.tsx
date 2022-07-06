@@ -5,6 +5,7 @@ import {useMutation} from "react-query";
 import {AuthClient} from "../../../services/auth.client";
 import {useClientErrorHandler} from "../../../../error-handling/useClientErrorHandler";
 import classes from './LoginForm.module.scss';
+import {FullLoader} from "../../../../shared/components/Loader/Full/FullLoader";
 
 type FormInputs = {
     username: string;
@@ -16,7 +17,7 @@ export function LoginForm(): React.ReactElement {
     const toast = useToast();
     const errorHandler = useClientErrorHandler();
 
-    const {mutate} = useMutation(AuthClient.login, {
+    const {mutate, isLoading} = useMutation(AuthClient.login, {
         onSuccess: () => {
             alert('Login success');
         },
@@ -30,6 +31,7 @@ export function LoginForm(): React.ReactElement {
                     isClosable: true,
                     position: 'top'
                 });
+                return;
             }
         }
     })
@@ -39,61 +41,65 @@ export function LoginForm(): React.ReactElement {
     }
 
     return (
-        <div className={classes['form-layout']}>
-            <div className={classes['form-container']}>
+        <>
+            <FullLoader isLoading={isLoading}/>
 
-                <Heading size={'md'} className={'text-center mb-3'}>
-                    Login
-                </Heading>
+            <div className={classes['form-layout']}>
+                <div className={classes['form-container']}>
 
-                <Text fontSize={'sm'} className={'mb-5'}>
-                    Hey, Enter your details to get sign in to your account
-                </Text>
+                    <Heading size={'md'} className={'text-center mb-3'}>
+                        Login
+                    </Heading>
 
-                <form
-                    onSubmit={handleSubmit(onSubmit)}
-                    className={classes['form']}
-                >
-                    <FormControl
-                        isInvalid={!!errors?.username?.message}
-                        isRequired
+                    <Text fontSize={'sm'} className={'mb-5'}>
+                        Hey, Enter your details to get sign in to your account
+                    </Text>
+
+                    <form
+                        onSubmit={handleSubmit(onSubmit)}
+                        className={classes['form']}
                     >
-                        <FormLabel htmlFor='username'>Username</FormLabel>
-                        <Input id='username' type='text' {...register('username', {
-                            minLength: 6,
-                            required: true
-                        })}/>
-                        {
-                            errors.username &&
-                            <div>Username required longer than 6 character</div>
-                        }
-                    </FormControl>
+                        <FormControl
+                            isInvalid={!!errors?.username?.message}
+                            isRequired
+                        >
+                            <FormLabel htmlFor='username'>Username</FormLabel>
+                            <Input id='username' type='text' {...register('username', {
+                                minLength: 6,
+                                required: true
+                            })}/>
+                            {
+                                errors.username &&
+                                <div>Username required longer than 6 character</div>
+                            }
+                        </FormControl>
 
-                    <FormControl
-                        isInvalid={!!errors?.password?.message}
-                        isRequired
-                    >
-                        <FormLabel htmlFor='password'>Password</FormLabel>
-                        <Input id='password' type='password' {...register('password', {
-                            minLength: 6,
-                            required: true
-                        })}/>
-                        {
-                            errors.password &&
-                            <div>Password required longer than 6 character</div>
-                        }
-                    </FormControl>
+                        <FormControl
+                            isInvalid={!!errors?.password?.message}
+                            isRequired
+                        >
+                            <FormLabel htmlFor='password'>Password</FormLabel>
+                            <Input id='password' type='password' {...register('password', {
+                                minLength: 6,
+                                required: true
+                            })}/>
+                            {
+                                errors.password &&
+                                <div>Password required longer than 6 character</div>
+                            }
+                        </FormControl>
 
-                    <Button
-                        variant="outline"
-                        colorScheme={'teal'}
-                        type="submit"
-                        className={'w-full mt-5'}
-                    >
-                        Submit
-                    </Button>
-                </form>
+                        <Button
+                            variant="outline"
+                            colorScheme={'teal'}
+                            type="submit"
+                            className={'w-full mt-5'}
+                        >
+                            Submit
+                        </Button>
+                    </form>
+                </div>
             </div>
-        </div>
+        </>
     );
 }
