@@ -1,64 +1,85 @@
-import React from "react";
+import React from 'react'
 import {
-    Box,
-    Stack,
-    Heading,
-    Flex,
-    Text,
-    Button,
-    useDisclosure
-} from "@chakra-ui/react";
-import { HamburgerIcon } from "@chakra-ui/icons";
+  Box,
+  Stack,
+  Heading,
+  Flex,
+  Text,
+  Button,
+  useDisclosure
+} from '@chakra-ui/react'
+import { HamburgerIcon } from '@chakra-ui/icons'
+import Link from 'next/link'
+import { LogOutButton } from '../../../auth/components/Button/LogOutButton/LogOutButton'
+
+type NavItem = {
+  link: string
+  content: string
+}
 
 export function Header(): React.ReactElement {
-    const { isOpen, onOpen, onClose } = useDisclosure();
-    const handleToggle = () => (isOpen ? onClose() : onOpen());
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const handleToggle = () => (isOpen ? onClose() : onOpen())
+  const navItems: NavItem[] = [
+    {
+      content: 'Home',
+      link: '/'
+    },
+    {
+      content: 'Docs',
+      link: '/docs'
+    }
+  ]
 
-    return (
-        <Flex
-            as="nav"
-            align="center"
-            justify="space-between"
-            wrap="wrap"
-            padding={6}
-            bg="teal.500"
-            color="white"
-            height={'6rem'}
+  return (
+    <Flex
+      as="nav"
+      align="center"
+      justify="space-between"
+      wrap="wrap"
+      padding={6}
+      bg="teal.500"
+      color="white"
+      height="6rem"
+    >
+      <Flex align="center" mr={5}>
+        <Heading as="h1" size="md" letterSpacing="tighter">
+          SUF
+        </Heading>
+      </Flex>
+
+      <Box display={{ base: 'block', md: 'none' }} onClick={handleToggle}>
+        <HamburgerIcon />
+      </Box>
+
+      <Stack
+        direction={{ base: 'column', md: 'row' }}
+        display={{ base: isOpen ? 'block' : 'none', md: 'flex' }}
+        width={{ base: 'full', md: 'auto' }}
+        alignItems="center"
+        flexGrow={1}
+        mt={{ base: 4, md: 0 }}
+      >
+        {navItems.map(item => (
+          <Text key={item.link}>
+            <Link href={item.link}>{item.content}</Link>
+          </Text>
+        ))}
+      </Stack>
+
+      <Box
+        display={{ base: isOpen ? 'block' : 'none', md: 'block' }}
+        mt={{ base: 4, md: 0 }}
+      >
+        <Button
+          variant="outline"
+          _hover={{ bg: 'teal.700', borderColor: 'teal.700' }}
         >
-            <Flex align="center" mr={5}>
-                <Heading as="h1" size="md" letterSpacing={"tighter"}>
-                    Crazy
-                </Heading>
-            </Flex>
+          <Link href="/login">Login</Link>
+        </Button>
 
-            <Box display={{ base: "block", md: "none" }} onClick={handleToggle}>
-                <HamburgerIcon />
-            </Box>
-
-            <Stack
-                direction={{ base: "column", md: "row" }}
-                display={{ base: isOpen ? "block" : "none", md: "flex" }}
-                width={{ base: "full", md: "auto" }}
-                alignItems="center"
-                flexGrow={1}
-                mt={{ base: 4, md: 0 }}
-            >
-                <Text>Docs</Text>
-                <Text>Examples</Text>
-                <Text>Blog</Text>
-            </Stack>
-
-            <Box
-                display={{ base: isOpen ? "block" : "none", md: "block" }}
-                mt={{ base: 4, md: 0 }}
-            >
-                <Button
-                    variant="outline"
-                    _hover={{ bg: "teal.700", borderColor: "teal.700" }}
-                >
-                    Create account
-                </Button>
-            </Box>
-        </Flex>
-    );
+        <LogOutButton className="ml-3" colorScheme="red" />
+      </Box>
+    </Flex>
+  )
 }

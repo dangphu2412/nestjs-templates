@@ -1,4 +1,11 @@
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, Heading } from '@chakra-ui/react'
+import * as React from 'react'
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Heading
+} from '@chakra-ui/react'
+// eslint-disable-next-line prettier/prettier
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
@@ -14,29 +21,25 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <Heading>
-          Heading of chakra
-        </Heading>
+        <Heading>Heading of chakra</Heading>
         <Breadcrumb>
           <BreadcrumbItem>
-            <BreadcrumbLink href='#'>Home</BreadcrumbLink>
+            <BreadcrumbLink href="#">Home</BreadcrumbLink>
           </BreadcrumbItem>
 
           <BreadcrumbItem>
-            <BreadcrumbLink href='#'>Docs</BreadcrumbLink>
+            <BreadcrumbLink href="#">Docs</BreadcrumbLink>
           </BreadcrumbItem>
 
           <BreadcrumbItem isCurrentPage>
-            <BreadcrumbLink href='#'>Breadcrumb</BreadcrumbLink>
+            <BreadcrumbLink href="#">Breadcrumb</BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
 
-        <h1 className="text-3xl font-bold underline">
-          Hello world!
-        </h1>
+        <h1 className="text-3xl font-bold underline">Hello world!</h1>
 
         <p className={styles.description}>
-          Get started by editing{' '}
+          Get started by editing
           <code className={styles.code}>pages/index.tsx</code>
         </p>
 
@@ -77,7 +80,7 @@ const Home: NextPage = () => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
+          Powered by
           <span className={styles.logo}>
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>

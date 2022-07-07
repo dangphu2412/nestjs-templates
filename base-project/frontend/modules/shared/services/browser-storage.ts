@@ -1,35 +1,39 @@
-type BrowserStorageType = 'localStorage' | 'sessionStorage';
+type BrowserStorageType = 'localStorage' | 'sessionStorage'
 
-let storage: Storage;
+let storage: Storage
 
 export function registerBrowserStorage(type?: BrowserStorageType): void {
-    if (!type || type === 'localStorage') {
-        if (!localStorage) {
-            throw new Error('Not found localStorage');
-        }
-        storage = localStorage;
-        console.log('Current browser storage is localStorage');
-        return;
-    }
-
+  if (!type || type === 'localStorage') {
     if (!localStorage) {
-        throw new Error('Not found sessionStorage');
+      throw new Error('Not found localStorage')
     }
-    storage = sessionStorage;
-    console.log('Current browser storage is sessionStorage');
+    storage = localStorage
+    return
+  }
+
+  if (!localStorage) {
+    throw new Error('Not found sessionStorage')
+  }
+  storage = sessionStorage
 }
 
 export const BrowserStorage = {
-    get(key: string): string | null {
-        if (!storage) {
-            throw new Error('Unregister browser storage');
-        }
-        return storage.getItem(key);
-    },
-    set(key: string, value: string): void {
-        if (!storage) {
-            throw new Error('Unregister browser storage');
-        }
-        storage.setItem(key, value);
-    },
+  get(key: string): string | null {
+    if (!storage) {
+      throw new Error('Unregister browser storage')
+    }
+    return storage.getItem(key)
+  },
+  set(key: string, value: string): void {
+    if (!storage) {
+      throw new Error('Unregister browser storage')
+    }
+    storage.setItem(key, value)
+  },
+  remove(key: string): void {
+    if (!storage) {
+      throw new Error('Unregister browser storage')
+    }
+    storage.removeItem(key)
+  }
 }
