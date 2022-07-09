@@ -6,7 +6,8 @@ import {
   Flex,
   Text,
   Button,
-  useDisclosure
+  useDisclosure,
+  Avatar
 } from '@chakra-ui/react'
 import { HamburgerIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
@@ -71,6 +72,11 @@ export function Header(): React.ReactElement {
         display={{ base: isOpen ? 'block' : 'none', md: 'block' }}
         mt={{ base: 4, md: 0 }}
       >
+        <Avatar
+          size="sm"
+          name="Kola Tioluwani"
+          src="https://bit.ly/tioluwani-kolawole"
+        />
         <Button
           variant="outline"
           _hover={{ bg: 'teal.700', borderColor: 'teal.700' }}

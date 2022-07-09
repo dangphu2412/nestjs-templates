@@ -4,10 +4,18 @@ import { CreateUserDto } from './entities/dtos/create-user.dto';
 import { Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { Role } from '../authorization/entities/role.entity';
+import { MyProfile } from '../authentication/entities/my-profile';
 
 @Injectable()
 export class UserServiceImpl implements UserService {
   constructor(private readonly userRepository: UserRepository) {}
+
+  getMyProfile(id: string): Promise<MyProfile> {
+    return this.userRepository.findOne(id, {
+      select: ['id', 'username', 'roles'],
+      relations: ['roles'],
+    }) as Promise<MyProfile>;
+  }
 
   find(): Promise<User[]> {
     return this.userRepository.find();

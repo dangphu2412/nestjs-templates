@@ -21,6 +21,13 @@ export class Role {
   })
   name: string;
 
+  @Column({
+    name: 'description',
+    type: 'varchar',
+    nullable: true,
+  })
+  description: string;
+
   @ManyToMany(() => User)
   users: User[];
 }

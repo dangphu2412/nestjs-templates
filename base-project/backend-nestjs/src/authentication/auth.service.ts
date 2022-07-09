@@ -19,6 +19,7 @@ import {
   RoleServiceToken,
 } from '../authorization/client/role.service';
 import { BcryptService } from '../shared/bcrypt.service';
+import { JwtPayload } from './entities/jwt-payload';
 
 export class AuthServiceImpl implements AuthService {
   constructor(
@@ -95,7 +96,7 @@ export class AuthServiceImpl implements AuthService {
     const accessToken = await this.jwtService.signAsync(
       {
         sub: userId,
-      },
+      } as JwtPayload,
       {
         expiresIn: '15m',
       },
@@ -106,7 +107,7 @@ export class AuthServiceImpl implements AuthService {
       refreshToken = await this.jwtService.signAsync(
         {
           sub: userId,
-        },
+        } as JwtPayload,
         {
           expiresIn: '7d',
         },

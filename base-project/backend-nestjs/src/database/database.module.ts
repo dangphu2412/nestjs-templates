@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
-import { DatabaseSetupFactory } from './database-setup.factory';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { connectionConfig } from './config/base-connection.config';
 
 @Module({
-  imports: [new DatabaseSetupFactory().initialize()],
+  imports: [TypeOrmModule.forRoot(connectionConfig)],
 })
 export class DatabaseModule {}
