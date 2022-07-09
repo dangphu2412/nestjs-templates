@@ -1,9 +1,9 @@
-import { Guard } from '../clients/guard.interface'
+import { Guard } from '../clients/guard.interface';
 
 type ProtectPublicPageGuardHookProps = {
-  accessPathName: string
-  publicRoutes: string[]
-}
+  accessPathName: string;
+  publicRoutes: string[];
+};
 
 export function useProtectPublicPageGuard(
   protectPublicPageGuardHookProps: ProtectPublicPageGuardHookProps
@@ -11,15 +11,16 @@ export function useProtectPublicPageGuard(
   return {
     canAccess(): boolean {
       if (typeof window !== 'undefined') {
-        const isNotLogInned = !window.localStorage.getItem('accessToken')
-        const isNotInPublicRoutes = !protectPublicPageGuardHookProps.publicRoutes.includes(
-          protectPublicPageGuardHookProps.accessPathName
-        )
+        const isNotLogInned = !window.localStorage.getItem('accessToken');
+        const isNotInPublicRoutes =
+          !protectPublicPageGuardHookProps.publicRoutes.includes(
+            protectPublicPageGuardHookProps.accessPathName
+          );
 
-        return isNotLogInned || isNotInPublicRoutes
+        return isNotLogInned || isNotInPublicRoutes;
       }
 
-      return false
+      return false;
     }
-  }
+  };
 }

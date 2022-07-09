@@ -1,11 +1,11 @@
-import React from 'react'
-import Head from 'next/head'
-import { LoginForm } from '../modules/auth/components/Form/LoginForm/LoginForm'
-import { FullLoader } from '../modules/shared/components/Loader/Full/FullLoader'
-import { useLoginMutation } from '../modules/auth/hooks/useLoginMutation'
+import React from 'react';
+import Head from 'next/head';
+import { LoginForm } from '../modules/auth/components/Form/LoginForm/LoginForm';
+import { FullLoader } from '../modules/shared/components/Loader/Full/FullLoader';
+import { useLoginMutation } from '../modules/auth/hooks/useLoginMutation';
 
 export default function LoginPage(): React.ReactElement {
-  const { isLoading, mutate: doLogin } = useLoginMutation()
+  const { isLoading, mutate: doLogin } = useLoginMutation();
 
   return (
     <>
@@ -17,5 +17,5 @@ export default function LoginPage(): React.ReactElement {
 
       <LoginForm doLogin={doLogin} />
     </>
-  )
+  );
 }

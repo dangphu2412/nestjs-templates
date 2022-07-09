@@ -98,7 +98,7 @@ export class AuthServiceImpl implements AuthService {
         sub: userId,
       } as JwtPayload,
       {
-        expiresIn: '15m',
+        expiresIn: '1m',
       },
     );
     let refreshToken = providedRefreshToken;
@@ -109,7 +109,7 @@ export class AuthServiceImpl implements AuthService {
           sub: userId,
         } as JwtPayload,
         {
-          expiresIn: '7d',
+          expiresIn: '15m',
         },
       );
     }

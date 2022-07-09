@@ -1,15 +1,15 @@
-import * as React from 'react'
+import * as React from 'react';
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   Heading
-} from '@chakra-ui/react'
+} from '@chakra-ui/react';
 // eslint-disable-next-line prettier/prettier
 import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import Head from 'next/head';
+import Image from 'next/image';
+import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
   return (
@@ -87,7 +87,7 @@ const Home: NextPage = () => {
         </a>
       </footer>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

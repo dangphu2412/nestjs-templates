@@ -1,5 +1,5 @@
-import React from 'react'
-import { useForm } from 'react-hook-form'
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import {
   Button,
   FormControl,
@@ -7,27 +7,27 @@ import {
   Heading,
   Input,
   Text
-} from '@chakra-ui/react'
-import classes from './LoginForm.module.scss'
+} from '@chakra-ui/react';
+import classes from './LoginForm.module.scss';
 
 type LoginFormProps = {
-  doLogin(inputs: FormInputs): void
-}
+  doLogin(inputs: FormInputs): void;
+};
 
 type FormInputs = {
-  username: string
-  password: string
-}
+  username: string;
+  password: string;
+};
 
 export function LoginForm(props: LoginFormProps): React.ReactElement {
   const {
     register,
     handleSubmit,
     formState: { errors }
-  } = useForm<FormInputs>()
+  } = useForm<FormInputs>();
 
   function onSubmit(inputs: FormInputs) {
-    props.doLogin(inputs)
+    props.doLogin(inputs);
   }
 
   return (
@@ -85,5 +85,5 @@ export function LoginForm(props: LoginFormProps): React.ReactElement {
         </div>
       </div>
     </>
-  )
+  );
 }

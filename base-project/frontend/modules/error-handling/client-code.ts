@@ -5,4 +5,4 @@ export const ClientCodeManager = new Map([
   ],
   ['MAINTENANCE', 'System is maintenance'],
   ['GOT_ISSUE', 'System is getting some issue']
-])
+]);

@@ -1,16 +1,16 @@
-import '../styles/globals.css'
+import '../styles/globals.css';
 // eslint-disable-next-line prettier/prettier
 import type { AppProps } from 'next/app'
-import { ChakraProvider } from '@chakra-ui/react'
-import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
-import * as React from 'react'
-import { Provider } from 'react-redux'
-import { store } from '../config/store'
-import { AuthenticatedGuard } from '../modules/auth/components/AuthenticatedGuard/AuthenticatedGuard.component'
-import { Header } from '../modules/shared/components/Header/Header'
+import { ChakraProvider } from '@chakra-ui/react';
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
+import * as React from 'react';
+import { Provider } from 'react-redux';
+import { store } from '../config/store';
+import { AuthenticatedGuard } from '../modules/auth/components/AuthenticatedGuard/AuthenticatedGuard.component';
+import { Header } from '../modules/shared/components/Header/Header';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const [queryClient] = React.useState(() => new QueryClient())
+  const [queryClient] = React.useState(() => new QueryClient());
 
   return (
     <ChakraProvider>
@@ -25,7 +25,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </Hydrate>
       </QueryClientProvider>
     </ChakraProvider>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;

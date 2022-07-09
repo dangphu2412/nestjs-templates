@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   Box,
   Stack,
@@ -8,19 +8,19 @@ import {
   Button,
   useDisclosure,
   Avatar
-} from '@chakra-ui/react'
-import { HamburgerIcon } from '@chakra-ui/icons'
-import Link from 'next/link'
-import { LogOutButton } from '../../../auth/components/Button/LogOutButton/LogOutButton'
+} from '@chakra-ui/react';
+import { HamburgerIcon } from '@chakra-ui/icons';
+import Link from 'next/link';
+import { LogOutButton } from '../../../auth/components/Button/LogOutButton/LogOutButton';
 
 type NavItem = {
-  link: string
-  content: string
-}
+  link: string;
+  content: string;
+};
 
 export function Header(): React.ReactElement {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const handleToggle = () => (isOpen ? onClose() : onOpen())
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const handleToggle = () => (isOpen ? onClose() : onOpen());
   const navItems: NavItem[] = [
     {
       content: 'Home',
@@ -30,7 +30,7 @@ export function Header(): React.ReactElement {
       content: 'Docs',
       link: '/docs'
     }
-  ]
+  ];
 
   return (
     <Flex
@@ -87,5 +87,5 @@ export function Header(): React.ReactElement {
         <LogOutButton className="ml-3" colorScheme="red" />
       </Box>
     </Flex>
-  )
+  );
 }

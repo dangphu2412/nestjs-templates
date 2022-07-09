@@ -1,10 +1,10 @@
-import { Audio } from 'react-loader-spinner'
-import React from 'react'
-import classes from './FullLoader.module.scss'
+import { Audio } from 'react-loader-spinner';
+import React from 'react';
+import classes from './FullLoader.module.scss';
 
 type FullLoaderProps = {
-  isLoading?: boolean
-}
+  isLoading?: boolean;
+};
 
 export function FullLoader(props: FullLoaderProps): React.ReactElement {
   return (
@@ -15,5 +15,5 @@ export function FullLoader(props: FullLoaderProps): React.ReactElement {
         </div>
       )}
     </>
-  )
+  );
 }
