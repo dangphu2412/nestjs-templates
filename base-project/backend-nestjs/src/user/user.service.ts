@@ -10,11 +10,16 @@ import { MyProfile } from '../authentication/entities/my-profile';
 export class UserServiceImpl implements UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
-  getMyProfile(id: string): Promise<MyProfile> {
-    return this.userRepository.findOne(id, {
-      select: ['id', 'username', 'roles'],
+  async getMyProfile(id: string): Promise<MyProfile> {
+    const userWithRoles = await this.userRepository.findOne(id, {
+      select: ['id', 'username'],
       relations: ['roles'],
-    }) as Promise<MyProfile>;
+    });
+
+    return {
+      ...userWithRoles,
+      roles: userWithRoles.roles.map((role) => role.key),
+    };
   }
 
   find(): Promise<User[]> {
@@ -40,8 +45,6 @@ export class UserServiceImpl implements UserService {
   }
 
   async updateRolesForUser(user: User, roles: Role[]) {
-    console.log(user);
-    console.log(roles);
     user.roles = roles;
     await this.userRepository.save(user, { reload: false });
   }

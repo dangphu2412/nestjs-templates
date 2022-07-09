@@ -1,11 +1,11 @@
-import { Controller, Get, Inject, UseGuards } from '@nestjs/common';
+import { Controller, Get, Inject } from '@nestjs/common';
 import { UserService, UserServiceToken } from './client/user.service';
 import { ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from '../authentication/jwt/jwt.guard';
 import { CurrentUser } from '../authentication/decorators/user.decorator';
 import { User } from './entities/user.entity';
 import { JwtPayload } from '../authentication/entities/jwt-payload';
 import { CanAccessBy } from '../authorization/decorators/can-access-by.decorator';
+import { Identified } from '../authentication/decorators/identified.decorator';
 
 @ApiTags('users')
 @Controller({
@@ -18,7 +18,7 @@ export class UserController {
     private readonly userService: UserService,
   ) {}
 
-  @UseGuards(JwtAuthGuard)
+  @Identified
   @Get('/me')
   getMyProfile(@CurrentUser() user: JwtPayload) {
     return this.userService.getMyProfile(user.sub);

@@ -1,6 +1,12 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  ForbiddenException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ROLE_META_DATA_KEY } from '../decorators/can-access-by.decorator';
+import { AuthExceptionClientCode } from '../../exception/exception-client-code.constant';
 
 @Injectable()
 export class AuthorizationGuard implements CanActivate {
@@ -15,6 +21,12 @@ export class AuthorizationGuard implements CanActivate {
       return true;
     }
     const { user } = context.switchToHttp().getRequest();
-    return requiredRoles.some((role) => user.roles?.includes(role));
+    const canAccess = requiredRoles.some((role) => user.roles?.includes(role));
+
+    if (!canAccess) {
+      throw new ForbiddenException(AuthExceptionClientCode.FORBIDDEN);
+    }
+
+    return true;
   }
 }

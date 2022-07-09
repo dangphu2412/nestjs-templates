@@ -1,10 +1,10 @@
-import { Body, Controller, Inject, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Inject, Post } from '@nestjs/common';
 import { AuthService, AuthServiceToken } from './client/auth.service';
 import { BasicRegisterRequestDto } from './entities/dtos/basic-register-request.dto';
 import { BasicLoginRequestDto } from './entities/dtos/basic-login-request.dto';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { JwtAuthGuard } from './jwt/jwt.guard';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RenewTokensRequestDto } from './entities/dtos/renew-tokens-request.dto';
+import { Identified } from './decorators/identified.decorator';
 
 @ApiTags('auth')
 @Controller({
@@ -37,8 +37,7 @@ export class AuthController {
     return this.authService.login(basicLoginRequestDto);
   }
 
-  @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  @Identified
   @Post('tokens/renew')
   public renewAccessToken(
     @Body() renewTokensRequestDto: RenewTokensRequestDto,

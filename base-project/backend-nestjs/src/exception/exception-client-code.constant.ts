@@ -10,6 +10,7 @@ export const AuthExceptionClientCode = {
     message: 'Incorrect username or password',
   }),
   LOGOUT_REQUIRED: generateClientException('LOGOUT_REQUIRED'),
+  FORBIDDEN: generateClientException('FORBIDDEN'),
 };
 
 export const SystemExceptionClientCode = {
