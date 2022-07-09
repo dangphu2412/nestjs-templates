@@ -1,4 +1,8 @@
 import { Guard } from '../clients/guard.interface';
+import {
+  BrowserStorage,
+  registerBrowserStorage
+} from '../../shared/services/browser-storage';
 
 type ProtectPublicPageGuardHookProps = {
   accessPathName: string;
@@ -11,7 +15,8 @@ export function useProtectPublicPageGuard(
   return {
     canAccess(): boolean {
       if (typeof window !== 'undefined') {
-        const isNotLogInned = !window.localStorage.getItem('accessToken');
+        registerBrowserStorage('localStorage');
+        const isNotLogInned = !BrowserStorage.get('accessToken');
         const isNotInPublicRoutes =
           !protectPublicPageGuardHookProps.publicRoutes.includes(
             protectPublicPageGuardHookProps.accessPathName

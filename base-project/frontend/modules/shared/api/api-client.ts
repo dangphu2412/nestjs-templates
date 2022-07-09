@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { BrowserStorage } from '../services/browser-storage';
 
 const API_URL = process.env.NEXT_PUBLIC_API_ENDPOINT ?? 'http://localhost:8080';
 
@@ -9,7 +10,8 @@ axios.defaults.baseURL = API_URL;
 axios.defaults.timeout = 10000;
 axios.interceptors.request.use(config => {
   if (config.headers) {
-    config.headers.authorization = localStorage.getItem('accessToken') ?? '';
+    config.headers.authorization =
+      `Bearer ${BrowserStorage.get('accessToken')}` ?? '';
   }
   return config;
 });
@@ -31,7 +33,7 @@ export const ApiClient = {
   },
   async post<T = any, D = any>(
     url: string,
-    body: D,
+    body?: D,
     config?: ClientRequestConfig<D>
   ): Promise<T> {
     const response = await axios.post<T, AxiosResponse<T>, D>(

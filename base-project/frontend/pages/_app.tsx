@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { store } from '../config/store';
 import { AuthenticatedGuard } from '../modules/auth/components/AuthenticatedGuard/AuthenticatedGuard.component';
 import { Header } from '../modules/shared/components/Header/Header';
+import { UserProvider } from '../modules/user/providers/user-provider';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = React.useState(() => new QueryClient());
@@ -17,10 +18,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <Provider store={store}>
-            <AuthenticatedGuard publicRoutes={['/login']} defaultRoute="/">
-              <Header />
-              <Component {...pageProps} />
-            </AuthenticatedGuard>
+            <UserProvider>
+              <AuthenticatedGuard publicRoutes={['/login']} defaultRoute="/">
+                <Header />
+                <Component {...pageProps} />
+              </AuthenticatedGuard>
+            </UserProvider>
           </Provider>
         </Hydrate>
       </QueryClientProvider>

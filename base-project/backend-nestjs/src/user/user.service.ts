@@ -11,15 +11,9 @@ export class UserServiceImpl implements UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   async getMyProfile(id: string): Promise<MyProfile> {
-    const userWithRoles = await this.userRepository.findOne(id, {
+    return this.userRepository.findOne(id, {
       select: ['id', 'username'],
-      relations: ['roles'],
     });
-
-    return {
-      ...userWithRoles,
-      roles: userWithRoles.roles.map((role) => role.key),
-    };
   }
 
   find(): Promise<User[]> {

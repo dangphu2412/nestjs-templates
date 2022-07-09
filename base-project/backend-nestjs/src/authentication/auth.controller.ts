@@ -4,7 +4,6 @@ import { BasicRegisterRequestDto } from './entities/dtos/basic-register-request.
 import { BasicLoginRequestDto } from './entities/dtos/basic-login-request.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RenewTokensRequestDto } from './entities/dtos/renew-tokens-request.dto';
-import { Identified } from './decorators/identified.decorator';
 
 @ApiTags('auth')
 @Controller({
@@ -37,7 +36,6 @@ export class AuthController {
     return this.authService.login(basicLoginRequestDto);
   }
 
-  @Identified
   @Post('tokens/renew')
   public renewAccessToken(
     @Body() renewTokensRequestDto: RenewTokensRequestDto,

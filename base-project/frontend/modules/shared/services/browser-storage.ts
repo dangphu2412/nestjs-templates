@@ -20,7 +20,7 @@ export function registerBrowserStorage(type?: BrowserStorageType): void {
 export const BrowserStorage = {
   get(key: string): string | null {
     if (!storage) {
-      throw new Error('Unregister browser storage');
+      return null;
     }
     return storage.getItem(key);
   },
