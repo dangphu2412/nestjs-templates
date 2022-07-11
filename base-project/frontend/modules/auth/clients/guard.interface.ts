@@ -1,3 +1,3 @@
-export interface Guard {
-  canAccess(): boolean;
+export interface Guard<P> {
+  canAccess(payload: P): boolean;
 }

@@ -12,7 +12,7 @@ export class RoleServiceImpl implements RoleService {
   getNewUserRoles(): Promise<Role[]> {
     return this.roleRepository.find({
       where: {
-        key: In([RoleDef.VISITOR]),
+        key: In([RoleDef.ADMIN]),
       },
     });
   }

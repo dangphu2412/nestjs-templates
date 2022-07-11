@@ -1,11 +1,11 @@
 import React, { PropsWithChildren } from 'react';
 import { useRouter } from 'next/router';
-import { useProtectPublicPageGuard } from '../../hooks/useProtectPublicPageGuard';
 import { UserContext } from '../../../user/contexts/user.context';
 import { useQueryMyProfile } from '../../../user/hooks/useQueryMyProfile';
 import { useClientErrorHandler } from '../../../error-handling/useClientErrorHandler';
-import { RenewToken } from '../../../shared/services/renewToken';
-import { BrowserStorage } from '../../../shared/services/browser-storage';
+import { TokenManager } from '../../../shared/services/token-manager';
+import { ClientErrorCode } from '../../../error-handling/client-code';
+import { ProtectPublicPageGuard } from '../../guards/protectPublicPage.guard';
 
 type AuthenticatedGuardProps = PropsWithChildren<{
   publicRoutes: string[];
@@ -20,39 +20,47 @@ export function AuthenticatedGuard(
 
   const { dispatch: setUser } = React.useContext(UserContext);
 
-  const protectPublicPageGuard = useProtectPublicPageGuard({
-    publicRoutes: props.publicRoutes,
-    accessPathName: router.pathname
-  });
   const {
     refetch: fetchMyProfile,
     data,
     error,
-    isLoading
+    status,
+    isFetching
   } = useQueryMyProfile();
 
   React.useEffect(() => {
     async function protectPage() {
-      if (!protectPublicPageGuard.canAccess()) {
+      if (
+        !ProtectPublicPageGuard.canAccess({
+          publicRoutes: props.publicRoutes,
+          accessPathName: router.pathname
+        })
+      ) {
         await router.push(props.defaultRoute);
       }
-      fetchMyProfile();
+      if (!data && status === 'idle') {
+        await fetchMyProfile();
+      }
     }
     protectPage();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.publicRoutes, router.pathname, fetchMyProfile]);
+  }, [data, status, props.publicRoutes, router.pathname, fetchMyProfile]);
 
   React.useEffect(() => {
     async function handleError() {
       if (error) {
         const { clientCode } = errorHandler.handle(error);
-        if (clientCode === '401') {
-          await RenewToken.renew();
-          fetchMyProfile();
+        if (clientCode === ClientErrorCode.UNAUTHORIZED) {
+          try {
+            await TokenManager.renew();
+            await fetchMyProfile();
+          } catch (e) {
+            // TODO: Handle if renew failed
+            console.log(e);
+          }
         }
         if (clientCode === 'LOGOUT_REQUIRED') {
-          BrowserStorage.remove('accessToken');
-          BrowserStorage.remove('refreshToken');
+          TokenManager.refresh();
           window.location.reload();
         }
       }
@@ -66,8 +74,7 @@ export function AuthenticatedGuard(
     if (data) {
       setUser(data);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [data, setUser]);
 
-  return <>{!isLoading && props.children}</>;
+  return <>{!isFetching && props.children}</>;
 }
