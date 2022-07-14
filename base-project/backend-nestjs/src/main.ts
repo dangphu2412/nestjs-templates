@@ -14,6 +14,7 @@ import {
 } from '@nestjs/platform-fastify';
 import { fastifyHelmet } from '@fastify/helmet';
 import compression from 'fastify-compress';
+import { logAppScaffold } from './utils/app.utils';
 
 async function bootstrap() {
   initializeTransactionalContext();
@@ -32,6 +33,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .addBearerAuth()
     .build();
+
   const document = SwaggerModule.createDocument(app, config);
 
   await app.register(fastifyHelmet, {
@@ -55,6 +57,8 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const port = configService.get<string>('PORT');
   await app.listen(port ?? 3000);
+
+  logAppScaffold(app);
 }
 
 bootstrap();
