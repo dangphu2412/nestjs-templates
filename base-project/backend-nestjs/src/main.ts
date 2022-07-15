@@ -15,10 +15,12 @@ import {
 import { fastifyHelmet } from '@fastify/helmet';
 import compression from 'fastify-compress';
 import { logAppScaffold } from './utils/app.utils';
+import { registerPaginationConfig } from './shared/query-shape/pagination/config/register-pagination.config';
 
 async function bootstrap() {
   initializeTransactionalContext();
   patchTypeORMRepositoryWithBaseRepository();
+  registerPaginationConfig();
 
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
@@ -49,7 +51,11 @@ async function bootstrap() {
   await app.register(compression, { encodings: ['gzip', 'deflate'] });
 
   app.enableCors();
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+    }),
+  );
   app.useGlobalFilters(new ClientExceptionFilter());
 
   SwaggerModule.setup('api', app, document);
