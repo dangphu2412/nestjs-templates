@@ -69,6 +69,7 @@ export class AuthServiceImpl implements AuthService {
   ): Promise<FinishLoginResponseDto> {
     const user = await this.userService.findByUsername(
       basicLoginRequestDto.username,
+      ['roles'],
     );
 
     if (

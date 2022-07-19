@@ -8,7 +8,9 @@ export const UserServiceToken = 'UserServiceToken';
 
 export interface UserService {
   find(query: GetUserQueryDto): Promise<User[]>;
+
   findByUsername(username: string): Promise<User>;
+  findByUsername(username: string, relations: string[]): Promise<User>;
 
   getMyProfile(id: string): Promise<MyProfile>;
 

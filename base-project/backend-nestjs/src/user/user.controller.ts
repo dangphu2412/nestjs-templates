@@ -25,7 +25,7 @@ export class UserController {
     return this.userService.getMyProfile(user.sub);
   }
 
-  // @CanAccessBy('ADMIN')
+  @CanAccessBy('ADMIN')
   @Get('/')
   find(@Query() query: GetUserQueryDto): Promise<User[]> {
     console.log(query);

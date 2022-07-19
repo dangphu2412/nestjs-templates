@@ -25,11 +25,14 @@ export class UserServiceImpl implements UserService {
     });
   }
 
-  findByUsername(username: string): Promise<User> {
+  findByUsername(username: string): Promise<User>;
+  findByUsername(username: string, relations: string[]): Promise<User>;
+  findByUsername(username: string, relations?: string[]): Promise<User> {
     return this.userRepository.findOne({
       where: {
         username,
       },
+      relations,
     });
   }
 
