@@ -5,6 +5,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { Role } from '../authorization/entities/role.entity';
 import { MyProfile } from '../authentication/entities/my-profile';
+import { GetUserQueryDto } from './entities/dtos/get-user-query.dto';
 
 @Injectable()
 export class UserServiceImpl implements UserService {
@@ -16,8 +17,12 @@ export class UserServiceImpl implements UserService {
     });
   }
 
-  find(): Promise<User[]> {
-    return this.userRepository.find();
+  find(query: GetUserQueryDto): Promise<User[]> {
+    const offset = (query.page - 1) * query.size;
+    return this.userRepository.find({
+      skip: offset,
+      take: query.size,
+    });
   }
 
   findByUsername(username: string): Promise<User> {

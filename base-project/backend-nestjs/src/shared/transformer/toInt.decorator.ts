@@ -1,7 +1,8 @@
-import { Transform } from 'class-transformer';
+import { Transform, TransformFnParams } from 'class-transformer';
 
 export function ToInt() {
-  return Transform((value: any) => {
-    return parseInt(value);
+  return Transform((params: TransformFnParams) => {
+    const parsedValue = parseInt(params.value);
+    return isNaN(parsedValue) ? params.value : parsedValue;
   });
 }

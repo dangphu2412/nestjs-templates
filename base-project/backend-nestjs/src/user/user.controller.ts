@@ -29,6 +29,6 @@ export class UserController {
   @Get('/')
   find(@Query() query: GetUserQueryDto): Promise<User[]> {
     console.log(query);
-    return this.userService.find();
+    return this.userService.find(query);
   }
 }

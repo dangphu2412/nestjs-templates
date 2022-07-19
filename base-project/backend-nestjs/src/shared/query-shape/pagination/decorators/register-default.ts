@@ -1,11 +1,10 @@
-import { Transform } from 'class-transformer';
+import { Transform, TransformFnParams } from 'class-transformer';
 import { ConfigKeys, ConfigRegistry } from '../../config.registry';
-import { isEmpty } from '@nestjs/common/utils/shared.utils';
+import { isEmpty } from 'class-validator';
 
 export function RegisterDefault(key: ConfigKeys) {
-  return Transform((value: any) => {
+  return Transform((params: TransformFnParams) => {
     const defaultValue = ConfigRegistry.get(key);
-    console.log(isEmpty(value) ? defaultValue : value);
-    return isEmpty(value) ? defaultValue : value;
+    return isEmpty(params.value) ? defaultValue : params.value;
   });
 }
