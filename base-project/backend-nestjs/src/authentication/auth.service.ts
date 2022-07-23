@@ -20,6 +20,10 @@ import {
 } from '../authorization/client/role.service';
 import { BcryptService } from '../shared/bcrypt.service';
 import { JwtPayload } from './entities/jwt-payload';
+import {
+  RoleStorage,
+  RoleStorageToken,
+} from '../authorization/client/role-storage';
 
 export class AuthServiceImpl implements AuthService {
   constructor(
@@ -29,6 +33,8 @@ export class AuthServiceImpl implements AuthService {
     private readonly roleService: RoleService,
     private readonly jwtService: JwtService,
     private readonly bcryptService: BcryptService,
+    @Inject(RoleStorageToken)
+    private readonly roleStorage: RoleStorage,
   ) {}
 
   @Transactional()
@@ -58,9 +64,18 @@ export class AuthServiceImpl implements AuthService {
     ]);
 
     await this.userService.updateRolesForUser(createdUser, roles);
+    const rolesMap = roles.reduce((roles, currentRole) => {
+      roles[currentRole.key] = true;
+      return roles;
+    }, {});
+
+    const [tokens] = await Promise.all([
+      this.generateTokens(createdUser.id),
+      this.roleStorage.set(createdUser.id, rolesMap),
+    ]);
 
     return {
-      tokens: await this.generateTokens(createdUser.id),
+      tokens,
     };
   }
 
@@ -83,9 +98,17 @@ export class AuthServiceImpl implements AuthService {
         AuthExceptionClientCode.INCORRECT_USERNAME_OR_PASSWORD,
       );
     }
+    const rolesMap = user.roles.reduce((roles, currentRole) => {
+      roles[currentRole.key] = true;
+      return roles;
+    }, {});
+    const [tokens] = await Promise.all([
+      this.generateTokens(user.id),
+      this.roleStorage.set(user.id, rolesMap),
+    ]);
 
     return {
-      tokens: await this.generateTokens(user.id),
+      tokens,
     };
   }
 
@@ -99,7 +122,7 @@ export class AuthServiceImpl implements AuthService {
         sub: userId,
       } as JwtPayload,
       {
-        expiresIn: '1m',
+        expiresIn: '15m',
       },
     );
     let refreshToken = providedRefreshToken;
@@ -110,7 +133,7 @@ export class AuthServiceImpl implements AuthService {
           sub: userId,
         } as JwtPayload,
         {
-          expiresIn: '15m',
+          expiresIn: '1h',
         },
       );
     }

@@ -16,7 +16,7 @@ export function generateClientException(
   if (typeof errorOrErrorCode === 'string') {
     return {
       errorCode: `${PREFIX_CLIENT_STRATEGY}${errorOrErrorCode}`,
-      message: 'RegisterDefault message',
+      message: 'There is an error',
     };
   }
   return {
@@ -31,7 +31,7 @@ export function generateSystemException(
   if (typeof errorOrErrorCode === 'string') {
     return {
       errorCode: `${PREFIX_SYSTEM_STRATEGY}${errorOrErrorCode}`,
-      message: 'RegisterDefault message',
+      message: 'There is a system error',
     };
   }
   return {
