@@ -1,12 +1,13 @@
 import { Controller, Get, Inject, Query } from '@nestjs/common';
-import { UserService, UserServiceToken } from './client/user.service';
 import { ApiTags } from '@nestjs/swagger';
+import { UserService, UserServiceToken } from './client/user.service';
 import { CurrentUser } from '../authentication/decorators/user.decorator';
 import { User } from './entities/user.entity';
 import { JwtPayload } from '../authentication/entities/jwt-payload';
 import { CanAccessBy } from '../authorization/decorators/can-access-by.decorator';
 import { Identified } from '../authentication/decorators/identified.decorator';
 import { GetUserQueryDto } from './entities/dtos/get-user-query.dto';
+import { RoleDef } from '../authorization/constants/role-def.enum';
 
 @ApiTags('users')
 @Controller({
@@ -25,10 +26,9 @@ export class UserController {
     return this.userService.getMyProfile(user.sub);
   }
 
-  @CanAccessBy('ADMIN')
+  @CanAccessBy(RoleDef.ADMIN)
   @Get('/')
   find(@Query() query: GetUserQueryDto): Promise<User[]> {
-    console.log(query);
     return this.userService.find(query);
   }
 }

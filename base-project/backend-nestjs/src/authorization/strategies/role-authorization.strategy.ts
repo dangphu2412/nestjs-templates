@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { Authorization } from '../client/authorization';
+import { AuthorizationStrategy } from '../client/authorization';
 import { RoleStorage, RoleStorageToken } from '../client/role-storage';
 import { JwtPayload } from '../../authentication/entities/jwt-payload';
 import { useAuthorizationStrategy } from './authorization-strategy.register';
 
 @Injectable()
 export class RoleAuthorizationStrategy
-  implements Authorization<JwtPayload, string[]>
+  implements AuthorizationStrategy<JwtPayload, string[]>
 {
   constructor(
     @Inject(RoleStorageToken)

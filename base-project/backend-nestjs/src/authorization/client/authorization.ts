@@ -1,6 +1,6 @@
 import { CanActivate } from '@nestjs/common';
 
-export interface Authorization<T = any, R = any> {
+export interface AuthorizationStrategy<T = any, R = any> {
   canAccess(providedData: T, toCompareData: R): boolean | Promise<boolean>;
 }
 

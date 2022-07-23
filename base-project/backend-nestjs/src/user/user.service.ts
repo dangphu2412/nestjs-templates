@@ -1,7 +1,7 @@
+import { Injectable } from '@nestjs/common';
 import { UserService } from './client/user.service';
 import { UserRepository } from './user.repository';
 import { CreateUserDto } from './entities/dtos/create-user.dto';
-import { Injectable } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { Role } from '../authorization/entities/role.entity';
 import { MyProfile } from '../authentication/entities/my-profile';

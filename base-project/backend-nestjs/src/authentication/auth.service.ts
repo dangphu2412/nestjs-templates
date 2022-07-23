@@ -24,6 +24,7 @@ import {
   RoleStorage,
   RoleStorageToken,
 } from '../authorization/client/role-storage';
+import { Role } from '../authorization/entities/role.entity';
 
 export class AuthServiceImpl implements AuthService {
   constructor(
@@ -64,14 +65,11 @@ export class AuthServiceImpl implements AuthService {
     ]);
 
     await this.userService.updateRolesForUser(createdUser, roles);
-    const rolesMap = roles.reduce((roles, currentRole) => {
-      roles[currentRole.key] = true;
-      return roles;
-    }, {});
+    const roleKeys = this.toRoleKeys(roles);
 
     const [tokens] = await Promise.all([
       this.generateTokens(createdUser.id),
-      this.roleStorage.set(createdUser.id, rolesMap),
+      this.roleStorage.set(createdUser.id, roleKeys),
     ]);
 
     return {
@@ -98,18 +96,23 @@ export class AuthServiceImpl implements AuthService {
         AuthExceptionClientCode.INCORRECT_USERNAME_OR_PASSWORD,
       );
     }
-    const rolesMap = user.roles.reduce((roles, currentRole) => {
-      roles[currentRole.key] = true;
-      return roles;
-    }, {});
+    const roleKeys = this.toRoleKeys(user.roles);
+
     const [tokens] = await Promise.all([
       this.generateTokens(user.id),
-      this.roleStorage.set(user.id, rolesMap),
+      this.roleStorage.set(user.id, roleKeys),
     ]);
 
     return {
       tokens,
     };
+  }
+
+  private toRoleKeys(roles: Role[]): Record<string, boolean> {
+    return roles.reduce((roles: Record<string, boolean>, currentRole) => {
+      roles[currentRole.key] = true;
+      return roles;
+    }, {});
   }
 
   // TODO: Separate into new service to handle token for Single responsibility
