@@ -1,17 +1,28 @@
 import '../styles/globals.css';
 // eslint-disable-next-line prettier/prettier
-import type { AppProps } from 'next/app'
+import type { AppProps } from 'next/app';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query';
 import * as React from 'react';
 import { Provider } from 'react-redux';
+import { NextPage } from 'next';
 import { store } from '../config/store';
 import { AuthenticatedGuard } from '../modules/auth/components/AuthenticatedGuard/AuthenticatedGuard.component';
-import { Header } from '../modules/shared/components/Header/Header';
 import { UserProvider } from '../modules/user/providers/user-provider';
+import { AdminLayout } from '../modules/shared/layouts/AdminLayout/AdminLayout';
 
-function MyApp({ Component, pageProps }: AppProps) {
+export type NextPageWithLayout = NextPage & {
+  getLayout?: (page: React.ReactElement) => React.ReactNode;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const [queryClient] = React.useState(() => new QueryClient());
+  const renderLayout =
+    Component.getLayout ?? (page => <AdminLayout>{page}</AdminLayout>);
 
   return (
     <ChakraProvider>
@@ -19,10 +30,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Hydrate state={pageProps.dehydratedState}>
           <Provider store={store}>
             <UserProvider>
-              <AuthenticatedGuard publicRoutes={['/login']} defaultRoute="/">
-                <Header />
-                <Component {...pageProps} />
-              </AuthenticatedGuard>
+              {renderLayout(<Component {...pageProps} />)}
             </UserProvider>
           </Provider>
         </Hydrate>

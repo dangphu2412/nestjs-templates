@@ -1,5 +1,5 @@
 import { registerDecorator, ValidationOptions, isEmpty } from 'class-validator';
-import { SortQuery } from '../entities/sort.dto';
+import { SortQuery } from '../entities/sort.query';
 
 export function IsSortQueryContains(
   allowFields: string[],
@@ -16,7 +16,7 @@ export function IsSortQueryContains(
         ...validationOptions,
       },
       validator: {
-        validate(sortQuery: SortQuery): boolean {
+        validate(sortQuery: SortQuery<string>): boolean {
           return !isEmpty(sortQuery)
             ? Object.keys(sortQuery).every((sortField) =>
                 allowFields.includes(sortField),

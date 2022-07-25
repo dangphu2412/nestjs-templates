@@ -1,4 +1,5 @@
 import { ClientCodeManager } from './client-code';
+import { AxiosError } from 'axios';
 
 interface HandleResponse {
   isClientError: boolean;
@@ -16,6 +17,10 @@ export interface ClientError extends Error {
 }
 
 export function useClientErrorHandler(): ClientErrorHandler {
+  function isNetworkError(error: AxiosError) {
+    return error.code === 'ERR_NETWORK';
+  }
+
   function isClientException(response: any): response is ClientError {
     return (
       !!(response as ClientError).errorCode &&
@@ -25,6 +30,14 @@ export function useClientErrorHandler(): ClientErrorHandler {
 
   return {
     handle: (error: any) => {
+      if (isNetworkError(error)) {
+        return {
+          isClientError: false,
+          isSystemError: true,
+          clientCode: null,
+          message: 'Getting network error'
+        };
+      }
       const isClientError = isClientException(error?.response?.data);
       const errorCode = error?.response?.data?.errorCode;
       return {

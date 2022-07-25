@@ -1,5 +1,5 @@
 import { Transform, TransformFnParams } from 'class-transformer';
-import { SortQuery } from '../entities/sort.dto';
+import { SortQuery } from '../entities/sort.query';
 import { SortDirection } from '../constants/sort-direction.enum';
 
 export function ToSortQuery() {
@@ -9,7 +9,7 @@ export function ToSortQuery() {
     }
     const sorts = (params.value as string).split(',');
 
-    return sorts.reduce((sortQuery: SortQuery, currentSort) => {
+    return sorts.reduce((sortQuery: SortQuery<string>, currentSort) => {
       if (currentSort.startsWith('-')) {
         sortQuery[currentSort.slice(1)] = SortDirection.DESCENDING;
       } else {

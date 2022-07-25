@@ -1,5 +1,5 @@
 import { Transform, TransformFnParams } from 'class-transformer';
-import { DateRange } from '../entities/date-range';
+import { DateRange } from '../entities/date-range.query';
 import { isEmpty } from 'class-validator';
 
 export function ToDateRange() {
