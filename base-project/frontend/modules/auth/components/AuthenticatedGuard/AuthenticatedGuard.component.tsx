@@ -43,8 +43,15 @@ export function AuthenticatedGuard(
       }
     }
     protectPage();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, status, props.publicRoutes, router.pathname, fetchMyProfile]);
+  }, [
+    data,
+    status,
+    props.publicRoutes,
+    router.pathname,
+    fetchMyProfile,
+    props.defaultRoute,
+    router
+  ]);
 
   React.useEffect(() => {
     async function handleError() {
@@ -67,8 +74,7 @@ export function AuthenticatedGuard(
     }
 
     handleError();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [error]);
+  }, [error, errorHandler, fetchMyProfile]);
 
   React.useEffect(() => {
     if (data) {

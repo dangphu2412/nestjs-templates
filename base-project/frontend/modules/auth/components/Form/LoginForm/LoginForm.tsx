@@ -12,10 +12,11 @@ import classes from './LoginForm.module.scss';
 
 type LoginFormProps = {
   doLogin(inputs: FormInputs): void;
+  className?: string;
 };
 
 type FormInputs = {
-  username: string;
+  email: string;
   password: string;
 };
 
@@ -31,59 +32,55 @@ export function LoginForm(props: LoginFormProps): React.ReactElement {
   }
 
   return (
-    <>
-      <div className={classes['form-layout']}>
-        <div className={classes['form-container']}>
-          <Heading size="md" className="text-center mb-3">
-            Login
-          </Heading>
+    <div className={`${classes['form-container']} ${props.className ?? ''}`}>
+      <Heading size="md" className="text-left mb-3" color="primary">
+        Welcome back
+      </Heading>
 
-          <Text fontSize="sm" className="mb-5">
-            Hey, Enter your details to get sign in to your account
-          </Text>
+      <Text fontSize="sm" className="text-left mb-5">
+        Enter your email and password to sign in
+      </Text>
 
-          <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-            <FormControl isInvalid={!!errors?.username?.message} isRequired>
-              <FormLabel htmlFor="username">Username</FormLabel>
-              <Input
-                id="username"
-                type="text"
-                {...register('username', {
-                  minLength: 6,
-                  required: true
-                })}
-              />
-              {errors.username && (
-                <div>Username required longer than 6 character</div>
-              )}
-            </FormControl>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormControl isInvalid={!!errors?.email?.message} isRequired>
+          <FormLabel htmlFor="email">Email</FormLabel>
+          <Input
+            id="email"
+            type="text"
+            placeholder="Email"
+            {...register('email', {
+              minLength: 6,
+              required: true
+            })}
+          />
+          {errors.email && <div>Email required longer than 6 character</div>}
+        </FormControl>
 
-            <FormControl isInvalid={!!errors?.password?.message} isRequired>
-              <FormLabel htmlFor="password">Password</FormLabel>
-              <Input
-                id="password"
-                type="password"
-                {...register('password', {
-                  minLength: 6,
-                  required: true
-                })}
-              />
-              {errors.password && (
-                <div>Password required longer than 6 character</div>
-              )}
-            </FormControl>
+        <FormControl isInvalid={!!errors?.password?.message} isRequired>
+          <FormLabel htmlFor="password">Password</FormLabel>
+          <Input
+            id="password"
+            type="password"
+            placeholder="Password"
+            {...register('password', {
+              minLength: 6,
+              required: true
+            })}
+          />
+          {errors.password && (
+            <div>Password required longer than 6 character</div>
+          )}
+        </FormControl>
 
-            <Button
-              variant="outline"
-              colorScheme="teal"
-              type="submit"
-              className="w-full mt-5"
-            >
-              Submit
-            </Button>
-          </form>
-        </div>
-      </div>
-    </>
+        <Button
+          variant="outline"
+          colorScheme="teal"
+          type="submit"
+          className="w-full mt-5"
+        >
+          Sign In
+        </Button>
+      </form>
+    </div>
   );
 }

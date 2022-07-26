@@ -2,7 +2,7 @@ import { ApiClient } from '../../shared/api/api-client';
 import { BrowserStorage } from '../../shared/services/browser-storage';
 
 export interface LoginRequest {
-  username: string;
+  email: string;
   password: string;
 }
 

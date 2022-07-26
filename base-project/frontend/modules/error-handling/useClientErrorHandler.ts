@@ -1,5 +1,5 @@
-import { ClientCodeManager } from './client-code';
 import { AxiosError } from 'axios';
+import { ClientCodeManager } from './client-code';
 
 interface HandleResponse {
   isClientError: boolean;
