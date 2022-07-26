@@ -3,6 +3,8 @@ import { Grid, GridItem } from '@chakra-ui/react';
 import { Header } from '../../components/Header/Header';
 import { ChildrenPropOnly } from '../../types/react.types';
 import { AuthenticatedGuard } from '../../../auth/components/AuthenticatedGuard/AuthenticatedGuard.component';
+import { SideBar } from '../../components/Menu/SideBar';
+import { Footer } from '../../components/Footer';
 
 type AdminLayoutProps = ChildrenPropOnly;
 
@@ -12,23 +14,14 @@ export function AdminLayout({
   return (
     <>
       <AuthenticatedGuard publicRoutes={['/login']} defaultRoute="/">
-        <Grid
-          h="200px"
-          templateRows="repeat(3, 1fr)"
-          templateColumns="repeat(5, 1fr)"
-          gap={4}
-        >
-          <GridItem rowSpan={3} colSpan={1} bg="tomato">
-            Left Menu
+        <Grid h="100vh" templateColumns="repeat(6, 1fr)" gap={4}>
+          <GridItem colSpan={1}>
+            <SideBar />
           </GridItem>
-          <GridItem colSpan={4} bg="papayawhip">
+          <GridItem colSpan={5} bg="papayawhip">
             <Header />
-          </GridItem>
-          <GridItem colSpan={4} bg="tomato">
             {children}
-          </GridItem>
-          <GridItem colSpan={4} bg="tomato">
-            Footer
+            <Footer />
           </GridItem>
         </Grid>
       </AuthenticatedGuard>
