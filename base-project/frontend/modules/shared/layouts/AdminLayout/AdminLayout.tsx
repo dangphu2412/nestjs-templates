@@ -18,6 +18,7 @@ export function AdminLayout({
           <GridItem colSpan={1}>
             <SideBar />
           </GridItem>
+
           <GridItem colSpan={5} bg="papayawhip">
             <Header />
             {children}
