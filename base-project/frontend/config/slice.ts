@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // eslint-disable-next-line prettier/prettier
-import type { AppState, AppThunk } from './store'
+import type { AppState, AppThunk } from './store';
 
 export interface CounterState {
   value: number;

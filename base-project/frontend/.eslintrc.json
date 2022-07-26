@@ -16,7 +16,8 @@
     "no-multi-assign": "off",
     "no-param-reassign": "off",
     "prefer-destructuring": "off",
-    "quotes": ["error", "single"]
+    "quotes": ["error", "single"],
+    "semi": "error"
   },
   "settings": {
     "import/parsers": {
