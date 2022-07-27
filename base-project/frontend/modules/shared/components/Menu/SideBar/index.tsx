@@ -47,7 +47,7 @@ export function SideBar(): React.ReactElement {
   return (
     <aside className="my-4 ml-4">
       <Box marginX="2rem" marginY="1.5rem">
-        <Text align="center" fontSize="lg">
+        <Text align="left" fontSize="lg">
           Admin Dashboard
         </Text>
       </Box>
@@ -58,7 +58,7 @@ export function SideBar(): React.ReactElement {
         <Accordion allowToggle>
           {menuItems.map(item => {
             return (
-              <AccordionItem>
+              <AccordionItem borderY="none">
                 {({ isExpanded }) => (
                   <>
                     <AccordionButton
@@ -70,7 +70,7 @@ export function SideBar(): React.ReactElement {
                     >
                       <Text
                         m={0}
-                        fontWeight={isExpanded ? 'semi-bold' : 'light'}
+                        fontWeight={isExpanded ? 'semi-bold' : 'medium'}
                         align="center"
                       >
                         {item.name}
@@ -78,21 +78,23 @@ export function SideBar(): React.ReactElement {
                     </AccordionButton>
 
                     {!!item.subMenus && (
-                      <List>
-                        {item.subMenus.map(subMenuItem => {
-                          return (
-                            <AccordionPanel p={0}>
+                      <AccordionPanel p={0}>
+                        <List>
+                          {item.subMenus.map(subMenuItem => {
+                            return (
                               <ListItem
                                 key={subMenuItem.id}
                                 paddingY="0.675rem"
                                 paddingX="1rem"
+                                fontWeight="light"
+                                cursor="pointer"
                               >
                                 {subMenuItem.name}
                               </ListItem>
-                            </AccordionPanel>
-                          );
-                        })}
-                      </List>
+                            );
+                          })}
+                        </List>
+                      </AccordionPanel>
                     )}
                   </>
                 )}
