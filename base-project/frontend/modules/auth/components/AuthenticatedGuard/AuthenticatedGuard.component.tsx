@@ -82,5 +82,5 @@ export function AuthenticatedGuard(
     }
   }, [data, setUser]);
 
-  return <>{isFetching !== undefined && !isFetching && props.children}</>;
+  return <>{status !== 'idle' && !isFetching && props.children}</>;
 }

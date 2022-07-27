@@ -21,7 +21,7 @@ export function AdminLayout({
 
           <GridItem colSpan={5}>
             <Header />
-            {children}
+            <div className="p-6">{children}</div>
             <Footer />
           </GridItem>
         </Grid>
