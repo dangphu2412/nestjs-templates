@@ -58,11 +58,10 @@ export function SideBar(): React.ReactElement {
         <Accordion allowToggle>
           {menuItems.map(item => {
             return (
-              <AccordionItem borderY="none">
+              <AccordionItem borderY="none" key={item.id}>
                 {({ isExpanded }) => (
                   <>
                     <AccordionButton
-                      key={item.id}
                       paddingY="0.675rem"
                       paddingX="1rem"
                       marginBottom="0.375rem"

@@ -3,7 +3,7 @@ import { Grid, GridItem } from '@chakra-ui/react';
 import { Header } from '../../components/Header/Header';
 import { ChildrenPropOnly } from '../../types/react.types';
 import { AuthenticatedGuard } from '../../../auth/components/AuthenticatedGuard/AuthenticatedGuard.component';
-import { SideBar } from '../../components/Menu/SideBar';
+import { SideBar } from '../../../menu/components/SideBar';
 import { Footer } from '../../components/Footer';
 
 type AdminLayoutProps = ChildrenPropOnly;
@@ -19,7 +19,7 @@ export function AdminLayout({
             <SideBar />
           </GridItem>
 
-          <GridItem colSpan={5} bg="papayawhip">
+          <GridItem colSpan={5}>
             <Header />
             {children}
             <Footer />
