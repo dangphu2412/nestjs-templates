@@ -6,7 +6,11 @@ import { faUser, faBell } from '@fortawesome/free-solid-svg-icons';
 export function Header(): React.ReactElement {
   return (
     <>
-      <Flex className="mx-6" justifyContent="space-between" alignItems="center">
+      <Flex
+        className="mx-6 mt-4"
+        justifyContent="space-between"
+        alignItems="center"
+      >
         <div className="py-4 font-bold">Dashboard</div>
 
         <Box p="4">

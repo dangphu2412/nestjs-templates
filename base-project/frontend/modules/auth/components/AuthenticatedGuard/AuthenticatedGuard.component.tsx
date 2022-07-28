@@ -67,7 +67,7 @@ export function AuthenticatedGuard(
           }
         }
         if (clientCode === 'LOGOUT_REQUIRED') {
-          TokenManager.refresh();
+          TokenManager.clean();
           window.location.reload();
         }
       }

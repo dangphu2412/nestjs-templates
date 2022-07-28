@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     extend: {},
     variables: {
-      'header-height': '12rem'
+      'header-height': '12rem',
+      'footer-height': '6rem'
     }
   },
   plugins: []

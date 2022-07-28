@@ -9,46 +9,30 @@ import {
   ListItem,
   Text
 } from '@chakra-ui/react';
-import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { faHome, faCake } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useRouter } from 'next/router';
 import styles from './SideBar.module.scss';
-
-type MenuItem = {
-  id: string;
-  name: string;
-  accessLink: string;
-  icon?: IconDefinition;
-  subMenus?: MenuItem[];
-};
+import { SidebarMenuItem } from '../../clients/sidebar-menu.types';
+import { useQueryMenu } from '../../hooks/useQueryMenu.hook';
+import { convertToSidebarMenu } from '../../converters/convertToSidebarMenu';
 
 export function SideBar(): React.ReactElement {
-  const menuItems: MenuItem[] = [
-    {
-      id: 'user-management',
-      name: 'User management',
-      accessLink: '/users',
-      icon: faHome,
-      subMenus: [
-        {
-          id: 'user-management/administrators',
-          name: 'Administrators',
-          accessLink: '/users/admin'
-        },
-        {
-          id: 'user-management/accessibilities',
-          name: 'Accessibilities',
-          accessLink: '/users/accessibilities'
-        }
-      ]
+  const router = useRouter();
+
+  const { data: menu } = useQueryMenu();
+  const sidebarMenuItems = React.useMemo(
+    () => convertToSidebarMenu(menu),
+    [menu]
+  );
+
+  const handleNavigate = React.useCallback(
+    (item: SidebarMenuItem) => {
+      if (item.accessLink && !item.subMenus) {
+        router.push(item.accessLink);
+      }
     },
-    {
-      id: 'category',
-      name: 'Category',
-      accessLink: '/category',
-      icon: faCake
-    }
-  ];
+    [router]
+  );
 
   return (
     <aside className="my-4 ml-4">
@@ -62,7 +46,7 @@ export function SideBar(): React.ReactElement {
 
       <Box display={{ base: 'none', md: 'block' }}>
         <Accordion allowToggle>
-          {menuItems.map(item => {
+          {sidebarMenuItems?.map(item => {
             return (
               <AccordionItem borderY="none" key={item.id}>
                 {({ isExpanded }) => (
@@ -72,21 +56,38 @@ export function SideBar(): React.ReactElement {
                       paddingX="1rem"
                       marginBottom="0.375rem"
                       className={`${isExpanded && styles['active-menu']}`}
+                      onClick={() => handleNavigate(item)}
                     >
                       {!!item?.icon && (
-                        <FontAwesomeIcon width={24} icon={item.icon} />
+                        <Box
+                          backgroundColor="white"
+                          borderRadius="md"
+                          p="1"
+                          height="8"
+                          width="8"
+                          boxShadow="0 .3125rem .625rem 0 rgba(0,0,0,.12)"
+                          marginRight="1"
+                          className={`${isExpanded && styles['active-icon']}`}
+                        >
+                          <FontAwesomeIcon
+                            width={12}
+                            height={12}
+                            icon={item.icon}
+                            color={isExpanded ? 'white' : 'black'}
+                          />
+                        </Box>
                       )}
                       <Text
                         m={0}
-                        fontWeight={isExpanded ? 'semi-bold' : 'medium'}
+                        fontWeight={isExpanded ? 'semi-bold' : 'normal'}
                         align="center"
-                        paddingLeft={!item.icon ? 7 : 1}
+                        paddingLeft={2}
                       >
                         {item.name}
                       </Text>
                     </AccordionButton>
 
-                    {!!item.subMenus && (
+                    {!!item.subMenus && item.subMenus.length > 0 && (
                       <AccordionPanel p={0}>
                         <List>
                           {item.subMenus.map(subMenuItem => {
@@ -94,9 +95,10 @@ export function SideBar(): React.ReactElement {
                               <ListItem
                                 key={subMenuItem.id}
                                 paddingY="0.675rem"
-                                paddingX="1rem"
+                                paddingLeft={4}
                                 fontWeight="light"
                                 cursor="pointer"
+                                onClick={() => handleNavigate(subMenuItem)}
                               >
                                 {subMenuItem.name}
                               </ListItem>

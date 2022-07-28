@@ -16,9 +16,9 @@ axios.interceptors.request.use(config => {
   return config;
 });
 
-axios.interceptors.response.use(config => {
+axios.interceptors.response.use(async response => {
   // TODO: Do something if rejected
-  return config;
+  return response;
 });
 
 export type ClientRequestConfig<D> = AxiosRequestConfig<D>;

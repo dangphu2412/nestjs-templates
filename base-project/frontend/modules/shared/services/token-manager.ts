@@ -31,7 +31,7 @@ function handlePendingRenewTokenCall() {
 }
 
 export const TokenManager: ITokenManager = {
-  refresh(): void {
+  clean(): void {
     registerBrowserStorage();
     BrowserStorage.remove('accessToken');
     BrowserStorage.remove('refreshToken');
