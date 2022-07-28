@@ -9,12 +9,16 @@ import {
   ListItem,
   Text
 } from '@chakra-ui/react';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { faHome, faCake } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './SideBar.module.scss';
 
 type MenuItem = {
   id: string;
   name: string;
   accessLink: string;
+  icon?: IconDefinition;
   subMenus?: MenuItem[];
 };
 
@@ -24,6 +28,7 @@ export function SideBar(): React.ReactElement {
       id: 'user-management',
       name: 'User management',
       accessLink: '/users',
+      icon: faHome,
       subMenus: [
         {
           id: 'user-management/administrators',
@@ -40,7 +45,8 @@ export function SideBar(): React.ReactElement {
     {
       id: 'category',
       name: 'Category',
-      accessLink: '/category'
+      accessLink: '/category',
+      icon: faCake
     }
   ];
 
@@ -67,10 +73,14 @@ export function SideBar(): React.ReactElement {
                       marginBottom="0.375rem"
                       className={`${isExpanded && styles['active-menu']}`}
                     >
+                      {!!item?.icon && (
+                        <FontAwesomeIcon width={24} icon={item.icon} />
+                      )}
                       <Text
                         m={0}
                         fontWeight={isExpanded ? 'semi-bold' : 'medium'}
                         align="center"
+                        paddingLeft={!item.icon ? 7 : 1}
                       >
                         {item.name}
                       </Text>

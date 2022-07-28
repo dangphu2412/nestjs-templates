@@ -1,27 +1,29 @@
 import React from 'react';
-import { Button, Flex, Input, Box, Spacer } from '@chakra-ui/react';
+import { Flex, Input, Box } from '@chakra-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faBell } from '@fortawesome/free-solid-svg-icons';
 
 export function Header(): React.ReactElement {
   return (
     <>
-      <Flex className="mx-6">
-        <Box p="4">Dashboard</Box>
-        <Spacer />
+      <Flex className="mx-6" justifyContent="space-between" alignItems="center">
+        <div className="py-4 font-bold">Dashboard</div>
 
         <Box p="4">
           <Flex
             justifyContent="center"
             alignItems="center"
             className="space-x-4"
+            flexDirection="row"
           >
             <Input placeholder="Type here" />
-            <Button className="px-4">
+            <div className="cursor-pointer">
               <FontAwesomeIcon icon={faUser} className="mr-2" />
-              Sign In
-            </Button>
-            <FontAwesomeIcon icon={faBell} />
+            </div>
+
+            <div>
+              <FontAwesomeIcon icon={faBell} />
+            </div>
           </Flex>
         </Box>
       </Flex>
