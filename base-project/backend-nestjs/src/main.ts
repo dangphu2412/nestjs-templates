@@ -6,6 +6,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import {
   initializeTransactionalContext,
   patchTypeORMRepositoryWithBaseRepository,
+  patchTypeORMTreeRepositoryWithBaseTreeRepository,
 } from 'typeorm-transactional-cls-hooked';
 import { ClientExceptionFilter } from './exception/exception.filter';
 import {
@@ -20,6 +21,7 @@ import { registerPaginationConfig } from './shared/query-shape/pagination/config
 async function bootstrap() {
   initializeTransactionalContext();
   patchTypeORMRepositoryWithBaseRepository();
+  patchTypeORMTreeRepositoryWithBaseTreeRepository();
   registerPaginationConfig();
 
   const app = await NestFactory.create<NestFastifyApplication>(

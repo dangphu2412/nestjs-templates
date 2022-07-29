@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm/dist/interfaces/typeorm-options.interface';
 import { User } from '../../user/entities/user.entity';
 import { Role } from '../../authorization/entities/role.entity';
+import { Menu } from '../../menu/entities/menu.entity';
 
 dotenv.config();
 
@@ -14,7 +15,7 @@ export const connectionConfig: TypeOrmModuleOptions = {
   password: process.env.DB_PASSWORD,
   port: parseInt(process.env.DB_PORT),
   database: process.env.DB_DATABASE,
-  entities: [User, Role],
+  entities: [User, Role, Menu],
   synchronize: isNotProd,
   logging: isNotProd,
   migrationsRun: false,
