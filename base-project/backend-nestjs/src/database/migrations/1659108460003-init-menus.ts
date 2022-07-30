@@ -40,18 +40,29 @@ export class InitMenus1659108460003 implements MigrationInterface {
         .map((menu) => menuRepository.create(menu)),
     );
 
-    const parentKeyById = keyBy(createdParent, 'name');
-
-    await menuRepository.insert(
+    const childMenu = await menuRepository.save(
       menus
         .map((menu) => {
-          return menu.subMenus.map((subMenu) => {
-            const menuEntity = menuRepository.create(subMenu);
-            menuEntity.parent = parentKeyById[menu.name];
-            return menuEntity;
-          });
+          return menu.subMenus
+            ? menu.subMenus.map((subMenu) => menuRepository.create(subMenu))
+            : [];
         })
         .flat(),
+    );
+
+    const parentKeyByCode = keyBy(createdParent, 'code');
+    const childMenuKeyByCode = keyBy(childMenu, 'code');
+
+    await menuRepository.save(
+      menus.map((menu) => {
+        const menuEntity = parentKeyByCode[menu.code];
+        if (menu.subMenus) {
+          menuEntity.subMenus = menu.subMenus.map((subMenu) => {
+            return childMenuKeyByCode[subMenu.code];
+          });
+        }
+        return menuEntity;
+      }),
     );
   }
 
@@ -65,6 +76,6 @@ export class InitMenus1659108460003 implements MigrationInterface {
   private static excludeSubMenus(
     menu: InsertMenu,
   ): Omit<InsertMenu, 'subMenus'> {
-    return !menu.subMenus ? omit(menu) : { ...menu };
+    return menu.subMenus ? omit(menu, 'subMenus') : { ...menu };
   }
 }

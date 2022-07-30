@@ -10,7 +10,7 @@ import {
 @Entity({
   name: 'menus',
 })
-@Tree('nested-set')
+@Tree('materialized-path')
 export class Menu {
   @PrimaryGeneratedColumn('increment')
   id: string;
