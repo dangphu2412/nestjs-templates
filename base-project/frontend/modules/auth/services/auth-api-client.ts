@@ -1,8 +1,11 @@
 import { ApiClient } from '../../shared/api/api-client';
-import { BrowserStorage } from '../../shared/services/browser-storage';
+import {
+  BrowserStorage,
+  registerBrowserStorage
+} from '../../shared/services/browser-storage';
 
 export interface LoginRequest {
-  email: string;
+  username: string;
   password: string;
 }
 
@@ -19,6 +22,7 @@ export const AuthApiClient = {
     return ApiClient.post<Tokens, LoginRequest>('/auth/login', body);
   },
   renewTokens() {
+    registerBrowserStorage();
     const refreshToken = BrowserStorage.get('refreshToken') ?? '';
     return ApiClient.post<Tokens, RenewTokensRequest>('/auth/tokens/renew', {
       refreshToken

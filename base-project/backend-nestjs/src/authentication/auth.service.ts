@@ -125,7 +125,7 @@ export class AuthServiceImpl implements AuthService {
         sub: userId,
       } as JwtPayload,
       {
-        expiresIn: '15m',
+        expiresIn: '1m',
       },
     );
     let refreshToken = providedRefreshToken;

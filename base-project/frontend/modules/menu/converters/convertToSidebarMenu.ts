@@ -5,7 +5,7 @@ import { SidebarMenu } from '../clients/sidebar-menu.types';
 
 const IconKeyByCode: Record<string, IconDefinition> = {
   USER_MANAGEMENT_ICON: faCake,
-  CATEGORY: faHome
+  CATEGORY_ICON: faHome
 };
 
 export function convertToSidebarMenu(

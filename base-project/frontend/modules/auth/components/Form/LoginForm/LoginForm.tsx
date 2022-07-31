@@ -16,7 +16,7 @@ type LoginFormProps = {
 };
 
 type FormInputs = {
-  email: string;
+  username: string;
   password: string;
 };
 
@@ -38,22 +38,24 @@ export function LoginForm(props: LoginFormProps): React.ReactElement {
       </Heading>
 
       <Text fontSize="sm" className="text-left mb-5">
-        Enter your email and password to sign in
+        Enter your username and password to sign in
       </Text>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormControl isInvalid={!!errors?.email?.message} isRequired>
-          <FormLabel htmlFor="email">Email</FormLabel>
+        <FormControl isInvalid={!!errors?.username?.message} isRequired>
+          <FormLabel htmlFor="username">Username</FormLabel>
           <Input
-            id="email"
+            id="username"
             type="text"
-            placeholder="Email"
-            {...register('email', {
-              minLength: 6,
+            placeholder="Username"
+            {...register('username', {
+              minLength: 4,
               required: true
             })}
           />
-          {errors.email && <div>Email required longer than 6 character</div>}
+          {errors.username && (
+            <div>Username required longer than 6 character</div>
+          )}
         </FormControl>
 
         <FormControl isInvalid={!!errors?.password?.message} isRequired>

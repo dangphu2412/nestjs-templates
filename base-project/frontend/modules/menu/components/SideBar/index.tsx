@@ -11,6 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
+import isEmpty from 'lodash.isempty';
 import styles from './SideBar.module.scss';
 import { SidebarMenuItem } from '../../clients/sidebar-menu.types';
 import { useQueryMenu } from '../../hooks/useQueryMenu.hook';
@@ -27,7 +28,7 @@ export function SideBar(): React.ReactElement {
 
   const handleNavigate = React.useCallback(
     (item: SidebarMenuItem) => {
-      if (item.accessLink && !item.subMenus) {
+      if (item.accessLink && isEmpty(item.subMenus)) {
         router.push(item.accessLink);
       }
     },
