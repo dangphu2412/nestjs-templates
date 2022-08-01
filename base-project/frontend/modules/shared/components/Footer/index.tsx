@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex } from '@chakra-ui/react';
 import Link from 'next/link';
 
-export function Footer(): React.ReactElement {
+export const Footer = React.forwardRef((): React.ReactElement => {
   return (
     <Flex justifyContent="space-between" alignItems="center" className="m-6">
       <p>© 2022, made with by Phu Dang for a better web.</p>
@@ -14,4 +14,4 @@ export function Footer(): React.ReactElement {
       </p>
     </Flex>
   );
-}
+});

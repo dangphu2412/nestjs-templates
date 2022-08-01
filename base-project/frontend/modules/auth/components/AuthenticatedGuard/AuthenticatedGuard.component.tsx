@@ -28,6 +28,8 @@ export function AuthenticatedGuard(
     isFetching
   } = useQueryMyProfile();
 
+  const canAccess = status !== 'idle' && !isFetching && !error;
+
   React.useEffect(() => {
     async function protectPage() {
       if (
@@ -37,19 +39,21 @@ export function AuthenticatedGuard(
         })
       ) {
         await router.push(props.defaultRoute);
+        return;
       }
       if (!data && status === 'idle') {
         await fetchMyProfile();
       }
     }
+
     protectPage();
   }, [
     data,
     status,
-    props.publicRoutes,
-    router.pathname,
     fetchMyProfile,
+    props.publicRoutes,
     props.defaultRoute,
+    router.pathname,
     router
   ]);
 
@@ -57,24 +61,27 @@ export function AuthenticatedGuard(
     async function handleError() {
       if (error) {
         const { clientCode } = errorHandler.handle(error);
+
         if (clientCode === ClientErrorCode.UNAUTHORIZED) {
           try {
             await TokenManager.renew();
-            await fetchMyProfile();
-          } catch (e) {
-            // TODO: Handle if renew failed
-            console.log(e);
+          } catch (renewTokenError) {
+            const { clientCode: renewClientCode } =
+              errorHandler.handle(renewTokenError);
+
+            if (renewClientCode === ClientErrorCode.LOGOUT_REQUIRED) {
+              await router.push('/logout');
+              return;
+            }
           }
-        }
-        if (clientCode === 'LOGOUT_REQUIRED') {
-          TokenManager.clean();
-          window.location.reload();
+
+          await fetchMyProfile();
         }
       }
     }
 
     handleError();
-  }, [error, errorHandler, fetchMyProfile]);
+  }, [error, errorHandler, fetchMyProfile, router]);
 
   React.useEffect(() => {
     if (data) {
@@ -82,5 +89,5 @@ export function AuthenticatedGuard(
     }
   }, [data, setUser]);
 
-  return <>{status !== 'idle' && !isFetching && props.children}</>;
+  return <>{canAccess && props.children}</>;
 }

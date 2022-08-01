@@ -11,18 +11,23 @@ type AdminLayoutProps = ChildrenPropOnly;
 export function AdminLayout({
   children
 }: AdminLayoutProps): React.ReactElement {
+  const headerRef = React.useRef(null);
+  const footerRef = React.useRef(null);
+
   return (
     <>
-      <AuthenticatedGuard publicRoutes={['/login']} defaultRoute="/">
+      <AuthenticatedGuard publicRoutes={['/login']} defaultRoute="/login">
         <Grid h="100vh" templateColumns="repeat(6, 1fr)" gap={4}>
           <GridItem colSpan={1}>
             <SideBar />
           </GridItem>
 
           <GridItem colSpan={5}>
-            <Header />
+            <Header ref={headerRef} />
+
             <div className="p-6 h-screen">{children}</div>
-            <Footer />
+
+            <Footer ref={footerRef} />
           </GridItem>
         </Grid>
       </AuthenticatedGuard>

@@ -5,6 +5,7 @@ import { LoginForm } from '../modules/auth/components/Form/LoginForm/LoginForm';
 import { FullLoader } from '../modules/shared/components/Loader/Full/FullLoader';
 import { useLoginMutation } from '../modules/auth/hooks/useLoginMutation';
 import { NextPageWithLayout } from './_app';
+import { NoLayout } from '../modules/shared/components/NoLayout';
 
 const LoginPage: NextPageWithLayout = () => {
   const { isLoading, mutate: doLogin } = useLoginMutation();
@@ -38,10 +39,6 @@ const LoginPage: NextPageWithLayout = () => {
   );
 };
 
-/**
- * Way to disable default admin layout
- * Consider to create a common render function if we also need page like this
- */
-LoginPage.getLayout = (page: React.ReactElement) => <>{page}</>;
+LoginPage.getLayout = NoLayout;
 
 export default LoginPage;
