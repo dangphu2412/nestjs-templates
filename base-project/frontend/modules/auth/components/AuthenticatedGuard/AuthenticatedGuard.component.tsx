@@ -20,15 +20,7 @@ export function AuthenticatedGuard(
 
   const { dispatch: setUser } = React.useContext(UserContext);
 
-  const {
-    refetch: fetchMyProfile,
-    data,
-    error,
-    status,
-    isFetching
-  } = useQueryMyProfile();
-
-  const canAccess = status !== 'idle' && !isFetching && !error;
+  const { refetch: fetchMyProfile, data, error, status } = useQueryMyProfile();
 
   React.useEffect(() => {
     async function protectPage() {
@@ -89,5 +81,5 @@ export function AuthenticatedGuard(
     }
   }, [data, setUser]);
 
-  return <>{canAccess && props.children}</>;
+  return <>{status === 'success' && props.children}</>;
 }

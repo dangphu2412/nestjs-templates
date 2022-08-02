@@ -8,7 +8,7 @@ const LogOutPage: NextPageWithLayout = () => {
   const router = useRouter();
   React.useEffect(() => {
     TokenManager.clean();
-    router.push('/login');
+    router.replace('/login');
   }, [router]);
 
   return <></>;
