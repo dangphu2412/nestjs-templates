@@ -1,8 +1,5 @@
 import { AuthService } from './client/auth.service';
-import {
-  FinishLoginResponseDto,
-  TokenDto,
-} from './entities/dtos/finish-login-response.dto';
+import { FinishLoginResponseDto } from './entities/dtos/finish-login-response.dto';
 import { BasicRegisterRequestDto } from './entities/dtos/basic-register-request.dto';
 import { BasicLoginRequestDto } from './entities/dtos/basic-login-request.dto';
 import { UserService, UserServiceToken } from '../user/client/user.service';
@@ -19,12 +16,12 @@ import {
   RoleServiceToken,
 } from '../authorization/client/role.service';
 import { BcryptService } from '../shared/bcrypt.service';
-import { JwtPayload } from './entities/jwt-payload';
 import {
   RoleStorage,
   RoleStorageToken,
 } from '../authorization/client/role-storage';
 import { Role } from '../authorization/entities/role.entity';
+import { TokenGenerator, TokenGeneratorToken } from './client/token-generator';
 
 export class AuthServiceImpl implements AuthService {
   constructor(
@@ -36,7 +33,16 @@ export class AuthServiceImpl implements AuthService {
     private readonly bcryptService: BcryptService,
     @Inject(RoleStorageToken)
     private readonly roleStorage: RoleStorage,
+    @Inject(TokenGeneratorToken)
+    private readonly tokenGenerator: TokenGenerator,
   ) {}
+
+  private static toRoleKeys(roles: Role[]): Record<string, boolean> {
+    return roles.reduce((roles: Record<string, boolean>, currentRole) => {
+      roles[currentRole.key] = true;
+      return roles;
+    }, {});
+  }
 
   @Transactional()
   async register(
@@ -65,10 +71,10 @@ export class AuthServiceImpl implements AuthService {
     ]);
 
     await this.userService.updateRolesForUser(createdUser, roles);
-    const roleKeys = this.toRoleKeys(roles);
+    const roleKeys = AuthServiceImpl.toRoleKeys(roles);
 
     const [tokens] = await Promise.all([
-      this.generateTokens(createdUser.id),
+      this.tokenGenerator.generate(createdUser.id),
       this.roleStorage.set(createdUser.id, roleKeys),
     ]);
 
@@ -96,63 +102,16 @@ export class AuthServiceImpl implements AuthService {
         AuthExceptionClientCode.INCORRECT_USERNAME_OR_PASSWORD,
       );
     }
-    const roleKeys = this.toRoleKeys(user.roles);
+    const roleKeys = AuthServiceImpl.toRoleKeys(user.roles);
 
     const [tokens] = await Promise.all([
-      this.generateTokens(user.id),
+      this.tokenGenerator.generate(user.id),
       this.roleStorage.set(user.id, roleKeys),
     ]);
 
     return {
       tokens,
     };
-  }
-
-  private toRoleKeys(roles: Role[]): Record<string, boolean> {
-    return roles.reduce((roles: Record<string, boolean>, currentRole) => {
-      roles[currentRole.key] = true;
-      return roles;
-    }, {});
-  }
-
-  // TODO: Separate into new service to handle token for Single responsibility
-  private async generateTokens(
-    userId: string,
-    providedRefreshToken?: string,
-  ): Promise<TokenDto[]> {
-    const accessToken = await this.jwtService.signAsync(
-      {
-        sub: userId,
-      } as JwtPayload,
-      {
-        expiresIn: '1m',
-      },
-    );
-    let refreshToken = providedRefreshToken;
-
-    if (!providedRefreshToken) {
-      refreshToken = await this.jwtService.signAsync(
-        {
-          sub: userId,
-        } as JwtPayload,
-        {
-          expiresIn: '1h',
-        },
-      );
-    }
-
-    return [
-      {
-        name: 'accessToken',
-        type: 'Bearer ',
-        value: accessToken,
-      },
-      {
-        name: 'refreshToken',
-        type: 'Bearer ',
-        value: refreshToken,
-      },
-    ];
   }
 
   async renewTokens(refreshToken: string): Promise<FinishLoginResponseDto> {
@@ -162,7 +121,7 @@ export class AuthServiceImpl implements AuthService {
       }>(refreshToken);
 
       return {
-        tokens: await this.generateTokens(sub, refreshToken),
+        tokens: await this.tokenGenerator.generate(sub, refreshToken),
       };
     } catch (e) {
       throw new UnauthorizedException(AuthExceptionClientCode.LOGOUT_REQUIRED);

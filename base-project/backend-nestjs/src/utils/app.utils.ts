@@ -16,7 +16,6 @@ export function logAppScaffold(app: INestApplication) {
   const port = configService.get('PORT', 3000);
   const origins = extractOrigins(configService.get('CORS_ORIGINS'));
   const env = configService.get('NODE_ENV');
-  const graphRoute = configService.get('GRAPHQL_ROUTE', '/graphql');
   const memUsage = Math.floor(process.memoryUsage().heapUsed / 1024 / 1024);
 
   logger.log(
@@ -24,7 +23,6 @@ export function logAppScaffold(app: INestApplication) {
   );
   logger.log(`Application is running on port ${port}`);
   logger.log(`Application is running in ${env} mode`);
-  logger.log(`Graphql is running on route ${graphRoute}`);
   logger.log(
     `Memory usage: ${memUsage} MB -` +
       'CPU usage: ' +

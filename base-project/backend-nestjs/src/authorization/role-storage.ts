@@ -1,11 +1,13 @@
 import { RoleStorage } from './client/role-storage';
 import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import type { Cache } from 'cache-manager';
+import { ConfigService } from '@nestjs/config';
+import * as ms from 'ms';
 
 @Injectable()
 export class RoleStorageImpl implements RoleStorage {
   private static readonly ROLE_CACHE_KEY = 'RK';
-  private static readonly TTL = 3600;
+  private readonly ttl: number;
 
   private static generateCacheKey(userId: string): string {
     return `${RoleStorageImpl.ROLE_CACHE_KEY}-${userId}`;
@@ -14,7 +16,14 @@ export class RoleStorageImpl implements RoleStorage {
   constructor(
     @Inject(CACHE_MANAGER)
     private readonly cacheManager: Cache,
-  ) {}
+    configService: ConfigService,
+  ) {
+    const refreshTokenExpiration = configService.get<string>(
+      'REFRESH_TOKEN_EXPIRATION',
+      '1h',
+    );
+    this.ttl = ms(refreshTokenExpiration);
+  }
 
   get(userId: string): Promise<Record<string, boolean>> {
     return this.cacheManager.get(RoleStorageImpl.generateCacheKey(userId));
@@ -24,7 +33,7 @@ export class RoleStorageImpl implements RoleStorage {
     await this.cacheManager.set(
       RoleStorageImpl.generateCacheKey(userId),
       roles,
-      RoleStorageImpl.TTL,
+      this.ttl,
     );
   }
 }
