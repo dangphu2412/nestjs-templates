@@ -1,19 +1,30 @@
-FROM node:16-alpine
+FROM node:16-alpine AS development
 
 WORKDIR /usr/backend
 
-COPY package.json yarn.lock /usr/backend/
+COPY package.json yarn.lock ./
 
 RUN yarn install --frozen-lockfile
 
-COPY . /usr/app
+COPY . .
 
 RUN yarn build
-RUN rm -rf node_modules
-RUN yarn cache clean
+
+FROM node:16-alpine AS production
+
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
+
+WORKDIR /usr/backend
+
+COPY package.json yarn.lock ./
 
 RUN yarn install --production
 
+COPY . .
+
+COPY --from=development /usr/backend/dist ./dist
+
 EXPOSE 3000
 
-CMD ["yarn", "start"]
+CMD ["npm", "run", "start"]
