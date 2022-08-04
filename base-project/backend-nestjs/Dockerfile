@@ -1,17 +1,19 @@
-FROM node:14-alpine
+FROM node:16-alpine
 
-WORKDIR /usr/app
+WORKDIR /usr/backend
 
-COPY package*.json /usr/app/
+COPY package.json yarn.lock /usr/backend/
 
-RUN npm install
+RUN yarn install --frozen-lockfile
 
 COPY . /usr/app
 
-RUN npm run build
+RUN yarn build
+RUN rm -rf node_modules
+RUN yarn cache clean
 
-RUN npm prune --production
+RUN yarn install --production
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+CMD ["yarn", "start"]
