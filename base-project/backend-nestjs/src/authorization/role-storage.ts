@@ -36,4 +36,8 @@ export class RoleStorageImpl implements RoleStorage {
       this.ttl,
     );
   }
+
+  async clean(userId: string): Promise<void> {
+    await this.cacheManager.del(RoleStorageImpl.generateCacheKey(userId));
+  }
 }

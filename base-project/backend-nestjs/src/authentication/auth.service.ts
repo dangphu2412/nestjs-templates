@@ -22,6 +22,7 @@ import {
 } from '../authorization/client/role-storage';
 import { Role } from '../authorization/entities/role.entity';
 import { TokenGenerator, TokenGeneratorToken } from './client/token-generator';
+import { JwtPayload } from './entities/jwt-payload';
 
 export class AuthServiceImpl implements AuthService {
   constructor(
@@ -115,15 +116,15 @@ export class AuthServiceImpl implements AuthService {
   }
 
   async renewTokens(refreshToken: string): Promise<FinishLoginResponseDto> {
+    const { sub } = this.jwtService.decode(refreshToken);
     try {
-      const { sub } = await this.jwtService.verifyAsync<{
-        sub: string;
-      }>(refreshToken);
+      await this.jwtService.verifyAsync<JwtPayload>(refreshToken);
 
       return {
         tokens: await this.tokenGenerator.generate(sub, refreshToken),
       };
     } catch (e) {
+      await this.roleStorage.clean(sub);
       throw new UnauthorizedException(AuthExceptionClientCode.LOGOUT_REQUIRED);
     }
   }

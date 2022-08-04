@@ -27,5 +27,8 @@ export const AuthApiClient = {
     return ApiClient.post<Tokens, RenewTokensRequest>('/auth/tokens/renew', {
       refreshToken
     });
+  },
+  logout() {
+    return ApiClient.delete('/auth/logout');
   }
 };
