@@ -11,11 +11,8 @@ COPY . .
 
 RUN yarn build
 
-# Runner
-FROM node:16-alpine AS runner
-
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+# Builder
+FROM node:16-alpine AS prod
 
 WORKDIR /usr/backend
 
@@ -23,8 +20,12 @@ COPY package.json yarn.lock ./
 
 RUN yarn install --frozen-lockfile --production
 
-COPY . .
+# Runner
+FROM node:16-alpine AS runner
 
+WORKDIR /usr/backend
+
+COPY --from=prod /usr/backend/node_modules  ./node_modules
 COPY --from=builder /usr/backend/dist ./dist
 
 EXPOSE 3000
