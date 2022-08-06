@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Inject, Post } from '@nestjs/common';
 import { AuthService, AuthServiceToken } from './client/auth.service';
 import { BasicRegisterRequestDto } from './entities/dtos/basic-register-request.dto';
 import { BasicLoginRequestDto } from './entities/dtos/basic-login-request.dto';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiNoContentResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RenewTokensRequestDto } from './entities/dtos/renew-tokens-request.dto';
 import { Identified } from './decorators/identified.decorator';
 import { CurrentUser } from './decorators/user.decorator';
@@ -53,6 +53,7 @@ export class AuthController {
 
   @Identified
   @Delete()
+  @ApiNoContentResponse()
   public logout(@CurrentUser('sub') userId: string) {
     return this.roleStorage.clean(userId);
   }
