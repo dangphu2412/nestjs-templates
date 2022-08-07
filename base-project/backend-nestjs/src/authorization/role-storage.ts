@@ -25,8 +25,10 @@ export class RoleStorageImpl implements RoleStorage {
     this.ttl = ms(refreshTokenExpiration);
   }
 
-  get(userId: string): Promise<Record<string, boolean>> {
-    return this.cacheManager.get(RoleStorageImpl.generateCacheKey(userId));
+  get(userId: string): Promise<Record<string, boolean> | undefined> {
+    return this.cacheManager.get<Record<string, boolean>>(
+      RoleStorageImpl.generateCacheKey(userId),
+    );
   }
 
   async set(userId: string, roles: Record<string, boolean>): Promise<void> {

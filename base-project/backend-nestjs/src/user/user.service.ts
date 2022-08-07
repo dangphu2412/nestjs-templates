@@ -42,6 +42,7 @@ export class UserServiceImpl implements UserService {
     entity.username = dto.username;
     entity.email = '';
     entity.password = dto.password;
+    entity.isActive = false;
 
     return this.userRepository.save(entity);
   }
@@ -49,5 +50,11 @@ export class UserServiceImpl implements UserService {
   async updateRolesForUser(user: User, roles: Role[]) {
     user.roles = roles;
     await this.userRepository.save(user, { reload: false });
+  }
+
+  async toggleUserIsActive(id: string): Promise<void> {
+    await this.userRepository.update(id, {
+      isActive: () => 'NOT "isActive"',
+    });
   }
 }

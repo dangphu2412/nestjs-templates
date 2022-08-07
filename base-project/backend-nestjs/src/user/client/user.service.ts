@@ -16,4 +16,5 @@ export interface UserService {
 
   create(dto: CreateUserDto): Promise<User>;
   updateRolesForUser(user: User, roles: Role[]): Promise<void>;
+  toggleUserIsActive(id: string): Promise<void>;
 }

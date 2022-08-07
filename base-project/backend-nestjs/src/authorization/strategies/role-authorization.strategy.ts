@@ -20,6 +20,9 @@ export class RoleAuthorizationStrategy
     requiredRoles: string[],
   ): Promise<boolean> {
     const userRoles = await this.roleStorage.get(providedData.sub);
+    if (!userRoles) {
+      return false;
+    }
     return requiredRoles.some((role) => userRoles[role]);
   }
 }

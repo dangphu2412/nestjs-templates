@@ -34,6 +34,13 @@ export class User {
   })
   password: string;
 
+  @Column({
+    name: 'isActive',
+    type: 'boolean',
+    default: false,
+  })
+  isActive: boolean;
+
   @ManyToMany(() => Role)
   @JoinTable()
   roles: Role[];
