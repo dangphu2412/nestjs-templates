@@ -4,12 +4,12 @@ import { BasicRegisterRequestDto } from './entities/dtos/basic-register-request.
 import { BasicLoginRequestDto } from './entities/dtos/basic-login-request.dto';
 import { ApiNoContentResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RenewTokensRequestDto } from './entities/dtos/renew-tokens-request.dto';
-import { Identified } from './decorators/identified.decorator';
 import { CurrentUser } from './decorators/user.decorator';
 import {
   RoleStorage,
   RoleStorageToken,
 } from '../authorization/client/role-storage';
+import { extractJwtPayload } from './utils/jwt.utils';
 
 @ApiTags('auth')
 @Controller({
@@ -51,10 +51,13 @@ export class AuthController {
     return this.authService.renewTokens(renewTokensRequestDto.refreshToken);
   }
 
-  @Identified
-  @Delete()
   @ApiNoContentResponse()
-  public logout(@CurrentUser('sub') userId: string) {
-    return this.roleStorage.clean(userId);
+  @Delete('logout')
+  public logout(@Body() renewTokensRequestDto: RenewTokensRequestDto) {
+    const jwtPayload = extractJwtPayload(renewTokensRequestDto.refreshToken);
+    if (!jwtPayload) {
+      return;
+    }
+    return this.roleStorage.clean(jwtPayload.sub);
   }
 }

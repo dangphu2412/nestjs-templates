@@ -57,17 +57,20 @@ export function AuthenticatedGuard(
         if (clientCode === ClientErrorCode.UNAUTHORIZED) {
           try {
             await TokenManager.renew();
+            await fetchMyProfile();
           } catch (renewTokenError) {
             const { clientCode: renewClientCode } =
               errorHandler.handle(renewTokenError);
 
-            if (renewClientCode === ClientErrorCode.LOGOUT_REQUIRED) {
+            if (
+              [
+                ClientErrorCode.INVALID_TOKEN_FORMAT,
+                ClientErrorCode.LOGOUT_REQUIRED
+              ].includes(renewClientCode)
+            ) {
               await router.push('/logout');
-              return;
             }
           }
-
-          await fetchMyProfile();
         }
       }
     }

@@ -9,8 +9,8 @@ const LogOutPage: NextPageWithLayout = () => {
   const router = useRouter();
   React.useEffect(() => {
     async function doLogout() {
-      TokenManager.clean();
       await AuthApiClient.logout();
+      TokenManager.clean();
       await router.replace('/login');
     }
 

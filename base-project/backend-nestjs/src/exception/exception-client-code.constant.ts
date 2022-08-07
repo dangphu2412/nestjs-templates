@@ -11,6 +11,7 @@ export const AuthExceptionClientCode = {
   }),
   LOGOUT_REQUIRED: generateClientException('LOGOUT_REQUIRED'),
   FORBIDDEN: generateClientException('FORBIDDEN'),
+  INVALID_TOKEN_FORMAT: generateClientException('INVALID_TOKEN_FORMAT'),
 };
 
 export const SystemExceptionClientCode = {

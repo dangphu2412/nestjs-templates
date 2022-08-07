@@ -14,6 +14,7 @@ export function useLoginMutation() {
   const router = useRouter();
 
   return useMutation(AuthApiClient.login, {
+    mutationKey: 'POST_LOGIN',
     onSuccess: async data => {
       registerBrowserStorage();
       data.tokens.forEach(token => {

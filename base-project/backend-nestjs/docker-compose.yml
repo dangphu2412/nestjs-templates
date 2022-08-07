@@ -30,7 +30,7 @@ services:
       - redis
     ports:
       - "3000:${PORT}"
-   networks:
+    networks:
       - node-network
 
   redis:

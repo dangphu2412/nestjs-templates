@@ -29,6 +29,12 @@ export const AuthApiClient = {
     });
   },
   logout() {
-    return ApiClient.delete('/auth/logout');
+    registerBrowserStorage();
+    const refreshToken = BrowserStorage.get('refreshToken') ?? '';
+    return ApiClient.delete<void, RenewTokensRequest>('/auth/logout', {
+      data: {
+        refreshToken
+      }
+    });
   }
 };

@@ -4,6 +4,7 @@ import { BasicRegisterRequestDto } from './entities/dtos/basic-register-request.
 import { BasicLoginRequestDto } from './entities/dtos/basic-login-request.dto';
 import { UserService, UserServiceToken } from '../user/client/user.service';
 import {
+  BadRequestException,
   Inject,
   UnauthorizedException,
   UnprocessableEntityException,
@@ -23,6 +24,7 @@ import {
 import { Role } from '../authorization/entities/role.entity';
 import { TokenGenerator, TokenGeneratorToken } from './client/token-generator';
 import { JwtPayload } from './entities/jwt-payload';
+import { extractJwtPayload } from './utils/jwt.utils';
 
 export class AuthServiceImpl implements AuthService {
   constructor(
@@ -116,15 +118,22 @@ export class AuthServiceImpl implements AuthService {
   }
 
   async renewTokens(refreshToken: string): Promise<FinishLoginResponseDto> {
-    const { sub } = this.jwtService.decode(refreshToken);
     try {
-      await this.jwtService.verifyAsync<JwtPayload>(refreshToken);
+      const { sub } = await this.jwtService.verifyAsync<JwtPayload>(
+        refreshToken,
+      );
 
       return {
         tokens: await this.tokenGenerator.generate(sub, refreshToken),
       };
-    } catch (e) {
-      await this.roleStorage.clean(sub);
+    } catch {
+      const jwtPayload = extractJwtPayload(refreshToken);
+      if (!jwtPayload) {
+        throw new BadRequestException(
+          AuthExceptionClientCode.INVALID_TOKEN_FORMAT,
+        );
+      }
+      await this.roleStorage.clean(jwtPayload.sub);
       throw new UnauthorizedException(AuthExceptionClientCode.LOGOUT_REQUIRED);
     }
   }
