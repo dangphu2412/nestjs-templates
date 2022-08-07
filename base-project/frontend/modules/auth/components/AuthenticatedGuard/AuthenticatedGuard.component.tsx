@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react';
 import { useRouter } from 'next/router';
 import { UserContext } from '../../../user/contexts/user.context';
-import { useQueryMyProfile } from '../../../user/hooks/useQueryMyProfile';
+import { useQueryMyProfile } from '../../../user/hooks/data/useQueryMyProfile';
 import { useClientErrorHandler } from '../../../error-handling/useClientErrorHandler';
 import { TokenManager } from '../../../shared/services/token-manager';
 import { ClientErrorCode } from '../../../error-handling/client-code';

@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { UserApiClient } from '../services/user-api-client';
+import { UserApiClient } from '../../services/user-api-client';
 
 export function useQueryMyProfile() {
   return useQuery('QUERY_MY_PROFILE', {
