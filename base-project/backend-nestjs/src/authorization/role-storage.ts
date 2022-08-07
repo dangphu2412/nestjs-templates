@@ -2,7 +2,7 @@ import { RoleStorage } from './client/role-storage';
 import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import type { Cache } from 'cache-manager';
 import { ConfigService } from '@nestjs/config';
-import * as ms from 'ms';
+import ms from 'ms';
 
 @Injectable()
 export class RoleStorageImpl implements RoleStorage {
