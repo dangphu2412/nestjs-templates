@@ -6,6 +6,11 @@ import {
   RoleStorageToken,
 } from '../../authorization/client/role-storage';
 import { FinishLoginResponseDto } from '../entities/dtos/finish-login-response.dto';
+import { extractJwtPayload } from '../utils/jwt.utils';
+
+jest.mock('../utils/jwt.utils', () => ({
+  extractJwtPayload: jest.fn(),
+}));
 
 describe('AuthController', () => {
   let authController: AuthController;
@@ -92,11 +97,22 @@ describe('AuthController', () => {
   describe('logout', () => {
     it('should success', async () => {
       jest.spyOn(roleStorage, 'clean').mockResolvedValue();
+      (extractJwtPayload as jest.Mock).mockReturnValue({});
 
       expect(
         await authController.logout({ refreshToken: 'refreshToken' }),
       ).toBe(undefined);
       expect(roleStorage.clean).toBeCalledTimes(1);
+    });
+
+    it('should success without clean storage', async () => {
+      jest.spyOn(roleStorage, 'clean').mockResolvedValue();
+      (extractJwtPayload as jest.Mock).mockReturnValue(null);
+
+      expect(
+        await authController.logout({ refreshToken: 'refreshToken' }),
+      ).toBe(undefined);
+      expect(roleStorage.clean).toBeCalledTimes(0);
     });
   });
 });
