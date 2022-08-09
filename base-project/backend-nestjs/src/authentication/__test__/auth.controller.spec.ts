@@ -93,7 +93,9 @@ describe('AuthController', () => {
     it('should success', async () => {
       jest.spyOn(roleStorage, 'clean').mockResolvedValue();
 
-      expect(await authController.logout('userId')).toBe(undefined);
+      expect(
+        await authController.logout({ refreshToken: 'refreshToken' }),
+      ).toBe(undefined);
       expect(roleStorage.clean).toBeCalledTimes(1);
     });
   });

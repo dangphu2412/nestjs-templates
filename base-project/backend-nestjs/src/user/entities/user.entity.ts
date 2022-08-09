@@ -1,11 +1,15 @@
 import {
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Role } from '../../authorization/entities/role.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity({
   name: 'users',
@@ -32,16 +36,25 @@ export class User {
     type: 'varchar',
     nullable: true,
   })
+  @Exclude({ toPlainOnly: true })
   password: string;
-
-  @Column({
-    name: 'isActive',
-    type: 'boolean',
-    default: false,
-  })
-  isActive: boolean;
 
   @ManyToMany(() => Role)
   @JoinTable()
   roles: Role[];
+
+  @CreateDateColumn({
+    name: 'created_at',
+  })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    name: 'updated_at',
+  })
+  updatedAt: Date;
+
+  @DeleteDateColumn({
+    name: 'deleted_at',
+  })
+  deletedAt: Date;
 }
