@@ -14,6 +14,13 @@ export const AuthExceptionClientCode = {
   INVALID_TOKEN_FORMAT: generateClientException('INVALID_TOKEN_FORMAT'),
 };
 
+export const UserClientCode = {
+  NOT_FOUND_USER: generateClientException({
+    errorCode: 'USER__NOT_FOUND',
+    message: 'No user(s) found',
+  }),
+};
+
 export const SystemExceptionClientCode = {
   MAINTENANCE: generateSystemException('MAINTENANCE'),
   GOT_ISSUE: generateSystemException('GOT_ISSUE'),

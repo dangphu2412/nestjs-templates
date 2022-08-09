@@ -3,11 +3,12 @@ import { CreateUserDto } from '../entities/dtos/create-user.dto';
 import { Role } from '../../authorization/entities/role.entity';
 import { MyProfile } from '../../authentication/entities/my-profile';
 import { GetUserQueryDto } from '../entities/dtos/get-user-query.dto';
+import { UserSummary } from '../entities/dtos/user-summary.response';
 
 export const UserServiceToken = 'UserServiceToken';
 
 export interface UserService {
-  find(query: GetUserQueryDto): Promise<User[]>;
+  find(query: GetUserQueryDto): Promise<UserSummary[]>;
 
   findByUsername(username: string): Promise<User>;
   findByUsername(username: string, relations: string[]): Promise<User>;
