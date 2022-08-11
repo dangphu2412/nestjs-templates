@@ -19,7 +19,18 @@ import {
 } from '../entities/dtos/finish-login-response.dto';
 import { User } from '../../user/entities/user.entity';
 import { Role } from '../../authorization/entities/role.entity';
+import { UnprocessableEntityException } from '@nestjs/common';
 
+jest.mock('typeorm-transactional-cls-hooked', () => ({
+  Transactional: () => () => ({}),
+  initializeTransactionalContext: () => ({}),
+  patchTypeORMRepositoryWithBaseRepository: () => ({}),
+  BaseRepository: class {},
+  IsolationLevel: {
+    SERIALIZABLE: 'SERIALIZABLE',
+    READ_COMMITTED: 'READ_COMMITTED',
+  },
+}));
 describe('AuthService', () => {
   let authService: AuthService;
   let userService: UserService;
@@ -66,7 +77,7 @@ describe('AuthService', () => {
         {
           provide: JwtService,
           useValue: {
-            hash: jest.fn(),
+            verifyAsync: jest.fn(),
           },
         },
         {
@@ -138,6 +149,32 @@ describe('AuthService', () => {
         mockRoles,
       );
       expect(roleStorage.set).toBeCalledWith('1', { key: true });
+    });
+
+    it('should register failed because of non existing user', async () => {
+      const mockUser: User = {
+        id: '1',
+        username: 'username',
+        password: '',
+        email: '',
+        roles: [],
+        createdAt: date,
+        updatedAt: date,
+        deletedAt: date,
+      };
+      jest.spyOn(userService, 'findByUsername').mockResolvedValue(mockUser);
+
+      await expect(
+        authService.register({
+          username: 'username',
+          password: 'password',
+        }),
+      ).rejects.toThrow(
+        new UnprocessableEntityException({
+          errorCode: 'AUTH__DUPLICATED_USERNAME',
+          message: 'There is an error',
+        }),
+      );
     });
   });
 });

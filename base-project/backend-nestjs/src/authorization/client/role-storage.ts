@@ -1,4 +1,4 @@
-export const RoleStorageToken = 'RoleServiceToken';
+export const RoleStorageToken = 'RoleStorageToken';
 
 export interface RoleStorage {
   set(userId: string, roles: Record<string, boolean>): Promise<void>;

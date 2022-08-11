@@ -5,7 +5,7 @@ import { BasicLoginRequestDto } from './entities/dtos/basic-login-request.dto';
 import { UserService, UserServiceToken } from '../user/client/user.service';
 import {
   BadRequestException,
-  Inject,
+  Inject, Injectable,
   UnauthorizedException,
   UnprocessableEntityException,
 } from '@nestjs/common';
@@ -26,18 +26,19 @@ import { TokenGenerator, TokenGeneratorToken } from './client/token-generator';
 import { JwtPayload } from './entities/jwt-payload';
 import { extractJwtPayload } from './utils/jwt.utils';
 
+@Injectable()
 export class AuthServiceImpl implements AuthService {
   constructor(
     @Inject(UserServiceToken)
     private readonly userService: UserService,
     @Inject(RoleServiceToken)
     private readonly roleService: RoleService,
-    private readonly jwtService: JwtService,
-    private readonly bcryptService: BcryptService,
     @Inject(RoleStorageToken)
     private readonly roleStorage: RoleStorage,
     @Inject(TokenGeneratorToken)
     private readonly tokenGenerator: TokenGenerator,
+    private readonly jwtService: JwtService,
+    private readonly bcryptService: BcryptService,
   ) {}
 
   private static toRoleKeys(roles: Role[]): Record<string, boolean> {
