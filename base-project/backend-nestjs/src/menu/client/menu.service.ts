@@ -1,6 +1,7 @@
+import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
 import { Menu } from '../entities/menu.entity';
 
-export const MenuServiceToken = 'MenuServiceToken';
+export const MenuServiceToken = randomStringGenerator();
 
 export interface MenuService {
   find(): Promise<Menu[]>;

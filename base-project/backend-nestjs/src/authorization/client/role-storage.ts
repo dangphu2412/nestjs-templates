@@ -1,4 +1,6 @@
-export const RoleStorageToken = 'RoleStorageToken';
+import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
+
+export const RoleStorageToken = randomStringGenerator();
 
 export interface RoleStorage {
   set(userId: string, roles: Record<string, boolean>): Promise<void>;
