@@ -19,24 +19,28 @@ export class Menu {
     name: 'name',
     nullable: false,
     unique: true,
+    type: 'varchar',
   })
   name: string;
 
   @Column({
     name: 'code',
     nullable: false,
+    type: 'varchar',
   })
   code: string;
 
   @Column({
     name: 'icon_code',
     nullable: true,
+    type: 'varchar',
   })
   iconCode?: string;
 
   @Column({
     name: 'access_link',
     nullable: true,
+    type: 'varchar',
   })
   accessLink?: string;
 

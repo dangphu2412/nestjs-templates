@@ -19,7 +19,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "typeorm": "ts-node -r tsconfig-paths/register node_modules\\typeorm\\cli.js --config src\\database\\config\\migration.config.ts",
+    "typeorm": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js --config src/database/config/migration.config.ts",
     "migrate:create": "npm run typeorm migration:create -- -n",
     "migrate:generate": "npm run typeorm migration:generate -- -n",
     "migrate:latest": "npm run typeorm migration:run",
@@ -50,6 +50,7 @@
     "qs": "^6.11.0",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.2.0",
+    "slugify": "^1.6.5",
     "swagger-ui-express": "^4.4.0",
     "typeorm": "0.2.41",
     "typeorm-transactional-cls-hooked": "^0.1.21"

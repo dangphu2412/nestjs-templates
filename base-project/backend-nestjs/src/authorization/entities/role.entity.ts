@@ -10,6 +10,7 @@ export class Role {
 
   @Column({
     name: 'key',
+    type: 'varchar',
     nullable: false,
   })
   key: string;
