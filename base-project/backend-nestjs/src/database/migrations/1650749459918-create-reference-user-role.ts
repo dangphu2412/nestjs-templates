@@ -5,7 +5,7 @@ import {
   TableForeignKey,
 } from 'typeorm';
 
-export class CreateReferenceUserRole1660749459918
+export class CreateReferenceUserRole1650749459918
   implements MigrationInterface
 {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -15,8 +15,9 @@ export class CreateReferenceUserRole1660749459918
         columns: [
           {
             name: 'id',
-            type: 'increment',
-            isPrimary: true,
+            type: 'int',
+            generationStrategy: 'increment',
+            isGenerated: true,
           },
           {
             name: 'user_id',
@@ -24,7 +25,7 @@ export class CreateReferenceUserRole1660749459918
           },
           {
             name: 'role_id',
-            type: 'increment',
+            type: 'int',
           },
         ],
       }),
@@ -36,14 +37,12 @@ export class CreateReferenceUserRole1660749459918
         referencedColumnNames: ['id'],
         referencedTableName: 'users',
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
       }),
       new TableForeignKey({
         columnNames: ['role_id'],
         referencedColumnNames: ['id'],
         referencedTableName: 'roles',
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
       }),
     ]);
   }

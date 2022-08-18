@@ -40,7 +40,17 @@ export class User {
   password: string;
 
   @ManyToMany(() => Role)
-  @JoinTable()
+  @JoinTable({
+    name: 'users_roles',
+    joinColumn: {
+      name: 'user_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'role_id',
+      referencedColumnName: 'id',
+    },
+  })
   roles: Role[];
 
   @CreateDateColumn({

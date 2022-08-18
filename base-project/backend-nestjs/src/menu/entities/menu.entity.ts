@@ -1,10 +1,11 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   PrimaryGeneratedColumn,
+  Tree,
   TreeChildren,
   TreeParent,
-  Tree,
 } from 'typeorm';
 
 @Entity({
@@ -13,7 +14,7 @@ import {
 @Tree('materialized-path')
 export class Menu {
   @PrimaryGeneratedColumn('increment')
-  id: string;
+  id: number;
 
   @Column({
     name: 'name',
@@ -48,5 +49,9 @@ export class Menu {
   subMenus: Menu[];
 
   @TreeParent()
+  @JoinColumn({
+    name: 'parent_id',
+    referencedColumnName: 'id',
+  })
   parent: Menu;
 }

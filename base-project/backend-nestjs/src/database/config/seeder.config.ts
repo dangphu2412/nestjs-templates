@@ -5,10 +5,10 @@ const ROOT_DATABASE_MODULE_DIR = 'src/database';
 
 export default {
   ...connectionConfig,
-  migrations: [`${ROOT_DATABASE_MODULE_DIR}/migrations/*.ts`],
+  migrations: [`${ROOT_DATABASE_MODULE_DIR}/seeders/*.ts`],
   cli: {
-    migrationsDir: `${ROOT_DATABASE_MODULE_DIR}/migrations`,
+    migrationsDir: `${ROOT_DATABASE_MODULE_DIR}/seeders`,
     subscribersDir: `${ROOT_DATABASE_MODULE_DIR}/subscribers`,
   },
-  migrationsTableName: 'migrations',
+  migrationsTableName: 'seeder',
 } as TypeOrmModuleOptions;

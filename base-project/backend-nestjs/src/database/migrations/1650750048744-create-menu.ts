@@ -1,6 +1,11 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from 'typeorm';
 
-export class CreateMenu1660750048744 implements MigrationInterface {
+export class CreateMenu1650750048744 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -34,12 +39,34 @@ export class CreateMenu1660750048744 implements MigrationInterface {
             type: 'varchar',
             isNullable: true,
           },
+          {
+            name: 'mpath',
+            type: 'varchar',
+            default: "''",
+            isNullable: false,
+          },
+          {
+            name: 'parent_id',
+            type: 'int',
+            isNullable: true,
+          },
         ],
+      }),
+    );
+
+    await queryRunner.createForeignKey(
+      'menus',
+      new TableForeignKey({
+        name: 'FK_parent_key',
+        columnNames: ['parent_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'menus',
       }),
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropForeignKey('menus', 'FK_parent_key');
     await queryRunner.dropTable('menus');
   }
 }
