@@ -51,7 +51,6 @@ export class Menu {
   @TreeParent()
   @JoinColumn({
     name: 'parent_id',
-    referencedColumnName: 'id',
   })
   parent: Menu;
 }

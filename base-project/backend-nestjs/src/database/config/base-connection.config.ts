@@ -17,6 +17,6 @@ export const connectionConfig: TypeOrmModuleOptions = {
   database: process.env.DB_DATABASE,
   entities: [User, Role, Menu],
   synchronize: isNotProd,
-  logging: isNotProd,
+  logging: true,
   migrationsRun: false,
 };
