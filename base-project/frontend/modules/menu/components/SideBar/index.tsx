@@ -16,6 +16,7 @@ import styles from './SideBar.module.scss';
 import { SidebarMenuItem } from '../../clients/sidebar-menu.types';
 import { useQueryMenu } from '../../hooks/useQueryMenu.hook';
 import { convertToSidebarMenu } from '../../converters/convertToSidebarMenu';
+import { ToggleMenuButton } from "../../../shared/components/Header/ToggleMenuButton/ToggleMenuButton";
 
 export function SideBar(): React.ReactElement {
   const router = useRouter();
@@ -37,9 +38,10 @@ export function SideBar(): React.ReactElement {
 
   return (
     <aside className="my-4 ml-4">
-      <Box marginX="2rem" marginY="1.5rem">
+      <Box marginLeft="1rem" marginY="1.5rem">
         <Text align="left" fontSize="lg">
           Admin Dashboard
+          <ToggleMenuButton className="ml-2" />
         </Text>
       </Box>
 
