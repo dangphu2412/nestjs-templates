@@ -15,6 +15,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faStore, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
 
+type Props = {
+  isMenuHidden: boolean;
+};
+
 type UserActionItem = {
   text: React.ReactNode;
   link: string;
@@ -22,9 +26,9 @@ type UserActionItem = {
 
 // If update css pls remember to change this
 // TODO: Update handle of hook to track on element top position
-const HEADER_TOP_SPACE = 8;
+const HEADER_TOP_SPACE = 24;
 
-export const Header = React.forwardRef((): React.ReactElement => {
+export function Header({ isMenuHidden }: Props): React.ReactElement {
   const router = useRouter();
   const headerRef = React.useRef<HTMLDivElement>(null);
 
@@ -75,7 +79,7 @@ export const Header = React.forwardRef((): React.ReactElement => {
   return (
     <Flex
       ref={headerRef}
-      className="mx-6 pt-4 sticky top-2"
+      className="mx-6 pt-4 sticky top-0"
       justifyContent="space-between"
       alignItems="center"
       backgroundColor={isHeaderLeftTop ? 'white' : undefined}
@@ -84,7 +88,11 @@ export const Header = React.forwardRef((): React.ReactElement => {
       borderRadius="lg"
     >
       <div>
-        <Breadcrumb fontWeight="medium" fontSize="sm">
+        <Breadcrumb
+          fontWeight="medium"
+          fontSize="sm"
+          marginLeft={isMenuHidden ? '2rem' : 0}
+        >
           <BreadcrumbItem>
             <BreadcrumbLink href="#">
               <FontAwesomeIcon icon={faStore} />
@@ -142,4 +150,4 @@ export const Header = React.forwardRef((): React.ReactElement => {
       </Box>
     </Flex>
   );
-});
+}

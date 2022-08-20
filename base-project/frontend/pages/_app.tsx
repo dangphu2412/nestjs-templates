@@ -1,4 +1,4 @@
-import '../styles/globals.css';
+import '../styles/globals.scss';
 import '../styles/typography.module.scss';
 // eslint-disable-next-line prettier/prettier
 import type { AppProps } from 'next/app';

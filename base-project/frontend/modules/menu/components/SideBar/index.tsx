@@ -12,13 +12,25 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
 import isEmpty from 'lodash.isempty';
+import classNames from 'classnames';
 import styles from './SideBar.module.scss';
 import { SidebarMenuItem } from '../../clients/sidebar-menu.types';
 import { useQueryMenu } from '../../hooks/useQueryMenu.hook';
 import { convertToSidebarMenu } from '../../converters/convertToSidebarMenu';
-import { ToggleMenuButton } from "../../../shared/components/Header/ToggleMenuButton/ToggleMenuButton";
 
-export function SideBar(): React.ReactElement {
+type Props = Omit<
+  React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>,
+  'className'
+> & {
+  isSideBarHidden: boolean;
+  isHovering: boolean;
+};
+
+export function SideBar({
+  isSideBarHidden,
+  isHovering,
+  ...rest
+}: Props): React.ReactElement {
   const router = useRouter();
 
   const { data: menu } = useQueryMenu();
@@ -37,11 +49,17 @@ export function SideBar(): React.ReactElement {
   );
 
   return (
-    <aside className="my-4 ml-4">
-      <Box marginLeft="1rem" marginY="1.5rem">
+    <aside
+      className={classNames(
+        styles['sidebar-wrapper'],
+        isSideBarHidden && styles['sidebar-dynamic-display'],
+        isSideBarHidden && isHovering && styles['sidebar-bloat']
+      )}
+      {...rest}
+    >
+      <Box marginLeft="1rem" marginTop="0.5rem" marginBottom="1.5rem">
         <Text align="left" fontSize="lg">
           Admin Dashboard
-          <ToggleMenuButton className="ml-2" />
         </Text>
       </Box>
 
@@ -84,7 +102,7 @@ export function SideBar(): React.ReactElement {
                         m={0}
                         fontWeight={isExpanded ? 'semi-bold' : 'normal'}
                         align="center"
-                        paddingLeft={2}
+                        paddingLeft={1}
                       >
                         {item.name}
                       </Text>
