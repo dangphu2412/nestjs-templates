@@ -53,7 +53,7 @@ export const ApiClient = {
   },
   async patch<T = any, D = any>(
     url: string,
-    body: D,
+    body?: D,
     config?: ClientRequestConfig<D>
   ): Promise<T> {
     const response = await axios.patch<T, AxiosResponse<T>, D>(

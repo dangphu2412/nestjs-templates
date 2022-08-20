@@ -14,6 +14,8 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBell, faStore, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
+import classNames from 'classnames';
+import styles from './Header.module.scss';
 
 type Props = {
   isMenuHidden: boolean;
@@ -49,43 +51,47 @@ export function Header({ isMenuHidden }: Props): React.ReactElement {
 
   const [isHeaderLeftTop, setIsHeaderLeftTop] = React.useState(false);
 
-  React.useEffect(() => {
-    function handleDisplayHeader() {
-      if (!headerRef.current) {
-        return;
+  React.useEffect(
+    function watchOffsetScroll() {
+      function handleDisplayHeader() {
+        if (!headerRef.current) {
+          return;
+        }
+
+        const isHeaderLeaving =
+          headerRef.current.offsetTop > HEADER_TOP_SPACE && !isHeaderLeftTop;
+
+        if (isHeaderLeaving) {
+          setIsHeaderLeftTop(true);
+          return;
+        }
+
+        const isHeaderBackToTop =
+          headerRef.current.offsetTop === HEADER_TOP_SPACE && isHeaderLeftTop;
+        if (isHeaderBackToTop) {
+          setIsHeaderLeftTop(false);
+        }
       }
 
-      const isHeaderLeaving =
-        headerRef.current.offsetTop > HEADER_TOP_SPACE && !isHeaderLeftTop;
+      handleDisplayHeader();
 
-      if (isHeaderLeaving) {
-        setIsHeaderLeftTop(true);
-        return;
-      }
-
-      const isHeaderBackToTop =
-        headerRef.current.offsetTop === HEADER_TOP_SPACE && isHeaderLeftTop;
-      if (isHeaderBackToTop) {
-        setIsHeaderLeftTop(false);
-      }
-    }
-
-    handleDisplayHeader();
-
-    window.addEventListener('scroll', handleDisplayHeader);
-    return () => window.removeEventListener('scroll', handleDisplayHeader);
-  }, [isHeaderLeftTop]);
+      window.addEventListener('scroll', handleDisplayHeader);
+      return () => window.removeEventListener('scroll', handleDisplayHeader);
+    },
+    [isHeaderLeftTop]
+  );
 
   return (
     <Flex
       ref={headerRef}
-      className="mx-6 pt-4 sticky top-0"
+      className={classNames(
+        styles['header-wrapper'],
+        isHeaderLeftTop && styles.blur
+      )}
       justifyContent="space-between"
       alignItems="center"
-      backgroundColor={isHeaderLeftTop ? 'white' : undefined}
       paddingX="1rem"
       paddingY="0.5rem"
-      borderRadius="lg"
     >
       <div>
         <Breadcrumb

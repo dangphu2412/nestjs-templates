@@ -17,6 +17,7 @@
 }
 
 .active-icon {
-  background-color: #cb0c9f !important;
+  @apply bg-primary #{!important};
 }
+
 

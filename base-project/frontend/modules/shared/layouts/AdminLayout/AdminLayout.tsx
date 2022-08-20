@@ -3,7 +3,7 @@ import { Flex, Box } from '@chakra-ui/react';
 import { Header } from '../../components/Header/Header';
 import { ChildrenPropOnly } from '../../types/react.types';
 import { AuthenticatedGuard } from '../../../auth/components/AuthenticatedGuard/AuthenticatedGuard.component';
-import { SideBar } from '../../../menu/components/SideBar';
+import { SideBar } from '../../../menu/components/SideBar/SideBar';
 import { Footer } from '../../components/Footer';
 import { ToggleMenuButton } from '../../../menu/components/ToggleMenuButton/ToggleMenuButton';
 

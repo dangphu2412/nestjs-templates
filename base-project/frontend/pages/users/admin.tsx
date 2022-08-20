@@ -14,6 +14,7 @@ import { useTable } from 'react-table';
 import { Box } from '../../modules/shared/components/Box';
 import { useQueryUsers } from '../../modules/user/hooks/data/useQueryUsers';
 import { useAdminColumns } from '../../modules/user/hooks/table/useAdminColumns.hook';
+import { PaginationContainer } from '../../modules/user/components/AdminTable/PaginationContainer/PaginationContainer';
 
 export default function AdministratorPage(): React.ReactElement {
   const { data } = useQueryUsers();
@@ -27,6 +28,7 @@ export default function AdministratorPage(): React.ReactElement {
       <Text fontSize="lg" fontWeight="semibold" padding="1rem">
         Administrator management
       </Text>
+      <PaginationContainer />
 
       <TableContainer>
         <Table variant="simple" {...getTableProps()}>

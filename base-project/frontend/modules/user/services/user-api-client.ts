@@ -6,13 +6,14 @@ export const UserApiClient = {
     return ApiClient.get<User, unknown>('/users/me');
   },
   getMany(): Promise<User[]> {
-    return Promise.resolve([
-      {
-        id: '1',
-        username: 'fus dep trai',
-        email: 'email@gmail.com',
-        status: 'DED'
+    return ApiClient.get<User[], unknown>('/users', {
+      params: {
+        page: 1,
+        size: 10
       }
-    ]);
+    });
+  },
+  toggleActive(userId: string): Promise<void> {
+    return ApiClient.patch<void, unknown>(`/users/${userId}/active`);
   }
 };
