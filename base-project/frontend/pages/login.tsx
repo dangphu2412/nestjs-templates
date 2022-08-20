@@ -7,7 +7,7 @@ import { FullLoader } from '../modules/shared/components/Loader/Full/FullLoader'
 import { useLoginMutation } from '../modules/auth/hooks/useLoginMutation';
 import { NextPageWithLayout } from './_app';
 import { NoLayout } from '../modules/shared/components/NoLayout';
-import { ProtectPublicPageGuard } from '../modules/auth/guards/protectPublicPage.guard';
+import { ProtectPrivateGuard } from '../modules/auth/guards/protect-private.guard';
 
 const LoginPage: NextPageWithLayout = () => {
   const { isLoading, mutate: doLogin } = useLoginMutation();
@@ -15,7 +15,7 @@ const LoginPage: NextPageWithLayout = () => {
 
   React.useEffect(() => {
     if (
-      !ProtectPublicPageGuard.canAccess({
+      ProtectPrivateGuard.canAccess({
         accessPathName: router.pathname,
         publicRoutes: ['login']
       })

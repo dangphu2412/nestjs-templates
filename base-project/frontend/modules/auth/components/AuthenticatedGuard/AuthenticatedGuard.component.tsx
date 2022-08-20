@@ -5,7 +5,7 @@ import { useQueryMyProfile } from '../../../user/hooks/data/useQueryMyProfile';
 import { useClientErrorHandler } from '../../../error-handling/useClientErrorHandler';
 import { TokenManager } from '../../../shared/services/token-manager';
 import { ClientErrorCode } from '../../../error-handling/client-code';
-import { ProtectPublicPageGuard } from '../../guards/protectPublicPage.guard';
+import { ProtectPrivateGuard } from '../../guards/protect-private.guard';
 
 type AuthenticatedGuardProps = PropsWithChildren<{
   publicRoutes: string[];
@@ -25,7 +25,7 @@ export function AuthenticatedGuard(
   React.useEffect(() => {
     async function protectPage() {
       if (
-        !ProtectPublicPageGuard.canAccess({
+        !ProtectPrivateGuard.canAccess({
           publicRoutes: props.publicRoutes,
           accessPathName: router.pathname
         })
