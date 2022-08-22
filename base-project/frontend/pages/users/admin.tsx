@@ -5,7 +5,6 @@ import {
   TableContainer,
   Tbody,
   Td,
-  Text,
   Th,
   Thead,
   Tr
@@ -15,6 +14,7 @@ import { Box } from '../../modules/shared/components/Box';
 import { useQueryUsers } from '../../modules/user/hooks/data/useQueryUsers';
 import { useAdminColumns } from '../../modules/user/hooks/table/useAdminColumns.hook';
 import { PaginationContainer } from '../../modules/user/components/AdminTable/PaginationContainer/PaginationContainer';
+import { TableHeaderContainer } from '../../modules/user/components/AdminTable/TableHeader/TableHeaderContainer';
 
 export default function AdministratorPage(): React.ReactElement {
   const { data } = useQueryUsers();
@@ -25,9 +25,7 @@ export default function AdministratorPage(): React.ReactElement {
 
   return (
     <Box>
-      <Text fontSize="lg" fontWeight="semibold" padding="1rem">
-        Administrator management
-      </Text>
+      <TableHeaderContainer />
       <PaginationContainer />
 
       <TableContainer>
