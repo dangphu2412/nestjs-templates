@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { BrowserStorage } from '../services/browser-storage';
+import { BrowserStorage } from './browser-storage';
 
 const API_URL = process.env.NEXT_PUBLIC_API_ENDPOINT ?? 'http://localhost:8080';
 

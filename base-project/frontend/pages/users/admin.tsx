@@ -10,11 +10,12 @@ import {
   Tr
 } from '@chakra-ui/react';
 import { useTable } from 'react-table';
-import { Box } from '../../modules/shared/components/Box';
 import { useQueryUsers } from '../../modules/user/hooks/data/useQueryUsers';
 import { useAdminColumns } from '../../modules/user/hooks/table/useAdminColumns.hook';
 import { PaginationContainer } from '../../modules/user/components/AdminTable/PaginationContainer/PaginationContainer';
 import { TableHeaderContainer } from '../../modules/user/components/AdminTable/TableHeader/TableHeaderContainer';
+import { AdminContainer } from '../../modules/user/containers/AdminContainer/AdminContainer';
+import { FilterBar } from '../../modules/user/components/AdminTable/FilterBar/FilterBar';
 
 export default function AdministratorPage(): React.ReactElement {
   const { data } = useQueryUsers();
@@ -24,9 +25,12 @@ export default function AdministratorPage(): React.ReactElement {
     useTable({ columns, data: data ?? [] });
 
   return (
-    <Box>
-      <TableHeaderContainer />
-      <PaginationContainer />
+    <AdminContainer>
+      <div className="px-6">
+        <TableHeaderContainer />
+        <FilterBar />
+        <PaginationContainer />
+      </div>
 
       <TableContainer>
         <Table variant="simple" {...getTableProps()}>
@@ -58,6 +62,6 @@ export default function AdministratorPage(): React.ReactElement {
           </Tbody>
         </Table>
       </TableContainer>
-    </Box>
+    </AdminContainer>
   );
 }

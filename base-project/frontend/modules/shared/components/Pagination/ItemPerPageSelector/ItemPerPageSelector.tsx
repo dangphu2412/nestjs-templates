@@ -1,13 +1,26 @@
 import React from 'react';
 
-type Props = React.ComponentProps<'select'>;
+type Props = React.ComponentProps<'select'> & {
+  pageSizeItems: number[];
+  pageSize: number;
+  setPageSize: (pageSize: number) => void;
+};
 
-export function ItemPerPageSelector(props: Props): React.ReactElement {
+export function ItemPerPageSelector({
+  pageSizeItems,
+  pageSize,
+  setPageSize,
+  ...rest
+}: Props): React.ReactElement {
+  function handleSelection(e: React.ChangeEvent<HTMLSelectElement>) {
+    setPageSize(parseInt(e.target.value, 10));
+  }
+
   return (
-    <select placeholder="Select page size" {...props}>
-      <option value="option1">10</option>
-      <option value="option2">20</option>
-      <option value="option3">30</option>
+    <select onChange={handleSelection} {...rest} value={pageSize}>
+      {pageSizeItems.map(item => {
+        return <option key={item}>{item}</option>;
+      })}
     </select>
   );
 }

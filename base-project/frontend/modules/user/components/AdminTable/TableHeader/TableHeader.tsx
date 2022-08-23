@@ -26,7 +26,7 @@ export function TableHeader({ onAddNewUser }: Props): React.ReactElement {
   const btnRef = React.useRef<HTMLButtonElement>(null);
 
   return (
-    <Flex justifyContent="space-between" className="p-6">
+    <Flex justifyContent="space-between" className="pt-6 pb-2">
       <div>
         <Text fontSize="lg" fontWeight="semibold">
           Administrator management

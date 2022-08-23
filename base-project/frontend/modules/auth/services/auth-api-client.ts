@@ -1,4 +1,4 @@
-import { ApiClient } from '../../shared/api/api-client';
+import { ApiClient } from '../../shared/services/api-client';
 import {
   BrowserStorage,
   registerBrowserStorage

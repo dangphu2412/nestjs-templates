@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { ApiClient } from '../modules/shared/api/api-client';
+import { ApiClient } from '../modules/shared/services/api-client';
 
 function fetchRoles() {
   return ApiClient.get<Roles, unknown>('/roles');
