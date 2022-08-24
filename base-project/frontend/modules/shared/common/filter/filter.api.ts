@@ -5,17 +5,24 @@ type Range<T> = {
   to: T;
 };
 
+type EnumFilter<T> = {
+  enumerable: T;
+  value: string;
+};
+
 type FilterKeeper<K extends FilterKey, V> = {
   type: K;
   value: V;
 };
 
-export type Filter<T extends FilterKey> = T extends FilterKey.EXACT
+export type Filter<T extends FilterKey, V = string> = T extends FilterKey.EXACT
   ? FilterKeeper<T, string>
   : T extends FilterKey.RANGE
   ? FilterKeeper<T, Range<string>>
   : T extends FilterKey.BOOLEAN
   ? FilterKeeper<T, boolean>
+  : T extends FilterKey.ENUMERABLE
+  ? FilterKeeper<T, EnumFilter<V>>
   : FilterKeeper<T, string>;
 
 export type SearchFilter = {
