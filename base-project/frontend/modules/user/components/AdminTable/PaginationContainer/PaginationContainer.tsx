@@ -1,6 +1,6 @@
 import React from 'react';
 import { Paginator } from '../../../../shared/components/Pagination/Paginator';
-import { usePagination } from '../../../../shared/providers/pagination/pagination.hook';
+import { usePagination } from '../../../../shared/common/pagination/pagination.hook';
 
 export function PaginationContainer(): React.ReactElement {
   const { setPagination } = usePagination();

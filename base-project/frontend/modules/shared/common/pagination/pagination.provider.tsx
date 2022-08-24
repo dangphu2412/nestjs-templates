@@ -4,7 +4,7 @@ import {
   paginationReducer
 } from './pagination.reducer';
 import { PaginationAction, PaginationState } from './pagination.api';
-import { ContextWithDispatcher } from '../../api/context.api';
+import { ContextWithDispatcher } from '../../clients/context.api';
 import { noop } from '../../utils/noop';
 import { ChildrenPropOnly } from '../../types/react.types';
 

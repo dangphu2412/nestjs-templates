@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react';
-import { initialUserCtxState, UserContext } from '../contexts/user.context';
-import { User } from '../models/user.type';
+import { initialUserCtxState, UserContext } from './user.context';
+import { User } from '../../models/user.type';
 
 type UserProviderProps = PropsWithChildren<{}>;
 

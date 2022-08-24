@@ -1,20 +1,16 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { userReducer } from '../modules/user/store/user.slice';
 
-import counterReducer from './slice';
+const rootReducer = combineReducers({
+  user: userReducer
+});
 
 export function makeStore() {
   return configureStore({
-    reducer: { counter: counterReducer }
+    reducer: rootReducer
   });
 }
 
 export const store = makeStore();
 
 export type AppState = ReturnType<typeof store.getState>;
-
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  AppState,
-  unknown,
-  Action<string>
->;

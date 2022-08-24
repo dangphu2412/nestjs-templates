@@ -1,4 +1,4 @@
-import { Guard } from '../../shared/clients/guard.interface';
+import { Guard } from '../../shared/clients/guard.api';
 import {
   BrowserStorage,
   registerBrowserStorage

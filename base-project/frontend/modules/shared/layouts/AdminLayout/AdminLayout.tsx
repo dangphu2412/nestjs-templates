@@ -37,32 +37,30 @@ export function AdminLayout({
   }
 
   return (
-    <>
-      <AuthenticatedGuard publicRoutes={['/login']} defaultRoute="/login">
-        <ToggleMenuButton
-          isMenuHidden={isSideBarHidden}
-          onClick={handleClickToggleBtn}
+    <AuthenticatedGuard publicRoutes={['/login']} defaultRoute="/login">
+      <ToggleMenuButton
+        isMenuHidden={isSideBarHidden}
+        onClick={handleClickToggleBtn}
+        onMouseOver={handleHoverToggleItem}
+        onMouseLeave={handleMouseLeaveToggleItem}
+      />
+
+      <Flex h="100vh" gap={4} paddingY="1.5rem">
+        <SideBar
+          isSideBarHidden={isSideBarHidden}
+          isHovering={isSideBarHovering}
           onMouseOver={handleHoverToggleItem}
           onMouseLeave={handleMouseLeaveToggleItem}
         />
 
-        <Flex h="100vh" gap={4} paddingY="1.5rem">
-          <SideBar
-            isSideBarHidden={isSideBarHidden}
-            isHovering={isSideBarHovering}
-            onMouseOver={handleHoverToggleItem}
-            onMouseLeave={handleMouseLeaveToggleItem}
-          />
+        <Box flex={1}>
+          <Header isMenuHidden={isSideBarHidden} />
 
-          <Box flex={1}>
-            <Header isMenuHidden={isSideBarHidden} />
+          <div className="p-6 h-screen">{children}</div>
 
-            <div className="p-6 h-screen">{children}</div>
-
-            <Footer ref={footerRef} />
-          </Box>
-        </Flex>
-      </AuthenticatedGuard>
-    </>
+          <Footer ref={footerRef} />
+        </Box>
+      </Flex>
+    </AuthenticatedGuard>
   );
 }

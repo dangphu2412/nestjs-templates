@@ -4,10 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import styles from './FilterBar.module.scss';
 import { FilterDialog } from './FilterDialog/FilterDialog';
+import { useOnClickOutside } from '../../../../shared/hooks/useOnClickOutside.hook';
 
 export function FilterBar(): React.ReactElement {
   const [isFilterOpened, setIsFilterOpened] = React.useState(false);
   const [currentSearch, setCurrentSearch] = React.useState('');
+
+  const filterButtonRef = React.useRef<HTMLButtonElement>(null);
 
   function onSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
     setCurrentSearch(e.target.value);
@@ -23,6 +26,10 @@ export function FilterBar(): React.ReactElement {
     setIsFilterOpened(preState => !preState);
   }
 
+  useOnClickOutside(filterButtonRef, () => {
+    setIsFilterOpened(false);
+  });
+
   return (
     <Flex className="pb-2 space-x-2" justifyContent="space-between">
       <Input
@@ -33,11 +40,15 @@ export function FilterBar(): React.ReactElement {
         onKeyDown={onSearchPress}
       />
 
-      <Button onClick={toggleFilterDialog}>
+      <Button
+        className="relative"
+        ref={filterButtonRef}
+        onClick={toggleFilterDialog}
+      >
         <FontAwesomeIcon className="pr-2" icon={faFilter} />
         Filter
       </Button>
-      {isFilterOpened && <FilterDialog />}
+      {isFilterOpened && <FilterDialog filterButtonRef={filterButtonRef} />}
 
       <Button>Search</Button>
     </Flex>

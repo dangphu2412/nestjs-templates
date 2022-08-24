@@ -1,4 +1,4 @@
-import { Action } from '../../api/context.api';
+import { Action } from '../../clients/context.api';
 
 export type PaginationState = {
   page: number;
