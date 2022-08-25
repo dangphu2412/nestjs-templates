@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Button,
   Flex,
-  Input,
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -10,32 +9,22 @@ import {
 } from '@chakra-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
-import styles from './FilterBar.module.scss';
+import { useDispatch } from 'react-redux';
+import { userActions } from '@modules/user/store/user.slice';
+import { SearchInput } from '@modules/user/components/AdminTable/FilterBar/SearchInput/SearchInput';
 import { FilterDialog } from './FilterDialog/FilterDialog';
 
 export function FilterBar(): React.ReactElement {
-  const [currentSearch, setCurrentSearch] = React.useState('');
+  const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  function onSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setCurrentSearch(e.target.value);
-  }
-
-  function onSearchPress(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === 'Enter') {
-      setCurrentSearch('');
-    }
+  function handleSubmitFilter() {
+    dispatch(userActions.setIsSubmitted(true));
   }
 
   return (
     <Flex className="pb-2 space-x-2" justifyContent="space-between">
-      <Input
-        placeholder="Search by username"
-        value={currentSearch}
-        className={styles['search-input']}
-        onChange={onSearchChange}
-        onKeyDown={onSearchPress}
-      />
+      <SearchInput />
 
       <Popover
         placement="bottom-start"
@@ -55,7 +44,7 @@ export function FilterBar(): React.ReactElement {
         </PopoverContent>
       </Popover>
 
-      <Button>Search</Button>
+      <Button onClick={handleSubmitFilter}>Search</Button>
     </Flex>
   );
 }

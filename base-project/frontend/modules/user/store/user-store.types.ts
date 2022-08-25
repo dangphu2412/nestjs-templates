@@ -12,4 +12,5 @@ export type AdminFilter = CombineSearchFilter<{
 export type AdminState = {
   pagination: Pagination;
   filters: AdminFilter;
+  isSubmitted: boolean;
 };

@@ -10,12 +10,12 @@ import {
   Tr
 } from '@chakra-ui/react';
 import { useTable } from 'react-table';
-import { useQueryUsers } from '../../modules/user/hooks/data/useQueryUsers';
-import { useAdminColumns } from '../../modules/user/hooks/table/useAdminColumns.hook';
-import { PaginationContainer } from '../../modules/user/components/AdminTable/PaginationContainer/PaginationContainer';
-import { TableHeaderContainer } from '../../modules/user/components/AdminTable/TableHeader/TableHeaderContainer';
-import { AdminContainer } from '../../modules/user/containers/AdminContainer/AdminContainer';
-import { FilterBar } from '../../modules/user/components/AdminTable/FilterBar/FilterBar';
+import { useQueryUsers } from '@modules/user/hooks/data/useQueryUsers';
+import { useAdminColumns } from '@modules/user/hooks/table/useAdminColumns.hook';
+import { PaginationContainer } from '@modules/user/components/AdminTable/PaginationContainer/PaginationContainer';
+import { TableHeaderContainer } from '@modules/user/components/AdminTable/TableHeader/TableHeaderContainer';
+import { AdminContainer } from '@modules/user/containers/AdminContainer/AdminContainer';
+import { FilterBar } from '@modules/user/components/AdminTable/FilterBar/FilterBar';
 
 export default function AdministratorPage(): React.ReactElement {
   const { data } = useQueryUsers();

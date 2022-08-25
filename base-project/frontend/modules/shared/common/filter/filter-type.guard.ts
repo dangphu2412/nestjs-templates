@@ -9,7 +9,9 @@ export function isFilterType<T extends FilterKey>(
     return false;
   }
 
-  if (filter.type === [FilterKey.EXACT, FilterKey.LIKE, FilterKey.BOOLEAN]) {
+  if (
+    [FilterKey.EXACT, FilterKey.LIKE, FilterKey.BOOLEAN].includes(filter.type)
+  ) {
     return !!filter.value;
   }
 

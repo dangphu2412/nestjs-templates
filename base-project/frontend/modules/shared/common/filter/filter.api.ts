@@ -26,11 +26,13 @@ export type Filter<T extends FilterKey, V = string> = T extends FilterKey.EXACT
   : FilterKeeper<T, string>;
 
 export type SearchFilter = {
-  query: Filter<FilterKey.EXACT>;
+  query: Filter<FilterKey.LIKE>;
 };
 
 export type CombineSearchFilter<T> = T & SearchFilter;
 
-export type FilterParam<T extends Record<string, Filter<FilterKey>>> = {
+export type FilterParam<T extends Record<string, Filter<FilterKey>>> = Partial<{
   [K in keyof T]: T[K]['value'];
-};
+}>;
+
+export type FilterQuery = Record<string, unknown>;

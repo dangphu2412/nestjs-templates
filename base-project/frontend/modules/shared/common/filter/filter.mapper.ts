@@ -1,11 +1,11 @@
-import { Filter } from './filter.api';
+import { Filter, FilterQuery } from './filter.api';
 import { FilterKey } from './constant';
 import { isFilterType } from './filter-type.guard';
 
 export function toFilterQuery(
   filters: Record<string, Filter<any>>
-): Record<string, unknown> {
-  const query: Record<string, unknown> = {};
+): FilterQuery {
+  const query: FilterQuery = {};
 
   Object.keys(filters).forEach(filterKey => {
     const filter = filters[filterKey];
