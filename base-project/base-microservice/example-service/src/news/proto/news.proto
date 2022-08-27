@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package news;
+
+service NewsService {
+  rpc FindAll (Empty) returns (News) {}
+}
+
+message Empty {}
+
+message News {
+  repeated New data = 1;
+}
+
+message New {
+  int32 id = 1;
+  string title = 2;
+  string content = 3;
+}

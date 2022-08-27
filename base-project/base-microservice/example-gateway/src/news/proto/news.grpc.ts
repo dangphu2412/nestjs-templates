@@ -20,14 +20,14 @@ export interface New {
 export const NEWS_PACKAGE_NAME = 'news';
 
 export interface NewsServiceClient {
-  findAll(request: Empty, metadata?: Metadata): Observable<New>;
+  findAll(request: Empty, metadata?: Metadata): Observable<News>;
 }
 
 export interface NewsServiceController {
   findAll(
     request: Empty,
     metadata?: Metadata,
-  ): Promise<New> | Observable<New> | New;
+  ): Promise<News> | Observable<News> | News;
 }
 
 export function NewsServiceControllerMethods() {

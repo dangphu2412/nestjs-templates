@@ -2,7 +2,7 @@ import { Metadata } from '@grpc/grpc-js';
 import { Controller } from '@nestjs/common';
 import {
   Empty,
-  New,
+  News,
   NewsServiceController,
   NewsServiceControllerMethods,
 } from './proto/news.grpc';
@@ -14,7 +14,7 @@ export class NewsController implements NewsServiceController {
   findAll(
     request: Empty,
     metadata?: Metadata,
-  ): Promise<New> | Observable<New> | New {
+  ): Promise<News> | Observable<News> | News {
     return undefined;
   }
 }

@@ -3,7 +3,7 @@ syntax = "proto3";
 package news;
 
 service NewsService {
-  rpc FindAll (Empty) returns (New) {}
+  rpc FindAll (Empty) returns (News) {}
 }
 
 message Empty {}

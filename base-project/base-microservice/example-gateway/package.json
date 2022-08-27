@@ -18,7 +18,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:e2e": "jest --config test/jest-e2e.json",
     "migration": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js --config src/database/config/migration.config.ts",
     "seeder": "ts-node -r tsconfig-paths/register node_modules/typeorm/cli.js --config src/database/config/seeder.config.ts",
     "migrate:create": "npm run migration migration:create -- -n",
@@ -42,6 +42,7 @@
     "@nestjs/jwt": "^8.0.1",
     "@nestjs/microservices": "8.0.0",
     "@nestjs/typeorm": "8.0.2",
+    "@nestjs/platform-fastify": "8.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "lodash.isempty": "^4.4.0",
@@ -50,7 +51,12 @@
     "rxjs": "7.2.0",
     "ts-proto": "^1.122.0",
     "typeorm": "^0.2.34",
-    "typeorm-transactional-cls-hooked": "^0.1.21"
+    "typeorm-transactional-cls-hooked": "^0.1.21",
+    "@fastify/helmet": "8.0.0",
+    "fastify-compress": "^4.1.0",
+    "@nestjs/swagger": "^5.2.1",
+    "fastify-swagger": "^5.2.0",
+    "swagger-ui-express": "^4.4.0"
   },
   "devDependencies": {
     "@commitlint/cli": "16.2.3",
