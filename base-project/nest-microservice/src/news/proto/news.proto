@@ -8,6 +8,10 @@ service NewsService {
 
 message Empty {}
 
+message News {
+  repeated New data = 1;
+}
+
 message New {
   int32 id = 1;
   string title = 2;

@@ -6,11 +6,12 @@ import {
   patchTypeORMRepositoryWithBaseRepository,
   patchTypeORMTreeRepositoryWithBaseTreeRepository,
 } from 'typeorm-transactional-cls-hooked';
-import { ClientExceptionFilter } from './exception/exception.filter';
+import { GrpcExceptionFilter } from './exception/exception.filter';
 import { logAppScaffold } from './utils/app.utils';
 import { registerPaginationConfig } from './shared/query-shape/pagination/config/register-pagination.config';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
+import { NEWS_PACKAGE_NAME } from './news/proto/news.grpc';
 
 async function bootstrap() {
   initializeTransactionalContext();
@@ -23,8 +24,8 @@ async function bootstrap() {
     {
       transport: Transport.GRPC,
       options: {
-        package: 'news',
-        protoPath: join(__dirname, 'news/news.proto'),
+        package: NEWS_PACKAGE_NAME,
+        protoPath: join(__dirname, 'news/proto/news.proto'),
       },
     },
   );
@@ -34,7 +35,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  app.useGlobalFilters(new ClientExceptionFilter());
+  app.useGlobalFilters(new GrpcExceptionFilter());
 
   await app.listen();
 

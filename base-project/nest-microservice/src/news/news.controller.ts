@@ -1,15 +1,20 @@
-import { GrpcMethod } from '@nestjs/microservices';
 import { Metadata } from '@grpc/grpc-js';
 import { Controller } from '@nestjs/common';
+import {
+  Empty,
+  New,
+  NewsServiceController,
+  NewsServiceControllerMethods,
+} from './proto/news.grpc';
+import { Observable } from 'rxjs';
 
 @Controller()
-export class HeroesController {
-  @GrpcMethod('NewsService', 'FindAll')
-  findOne(data: any, metadata: Metadata): any {
-    const items = [
-      { id: 1, name: 'John' },
-      { id: 2, name: 'Doe' },
-    ];
-    return items.find(({ id }) => id === data.id);
+@NewsServiceControllerMethods()
+export class NewsController implements NewsServiceController {
+  findAll(
+    request: Empty,
+    metadata?: Metadata,
+  ): Promise<New> | Observable<New> | New {
+    return undefined;
   }
 }

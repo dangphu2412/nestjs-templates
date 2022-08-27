@@ -1,5 +1,5 @@
 import { ExceptionFilter, HttpException } from '@nestjs/common';
-import { ClientExceptionFilter } from '../exception.filter';
+import { GrpcExceptionFilter } from '../exception.filter';
 import {
   ArgumentsHost,
   HttpArgumentsHost,
@@ -26,7 +26,7 @@ describe('ClientExceptionFilter', () => {
   let filter: ExceptionFilter<HttpException>;
 
   beforeEach(() => {
-    filter = new ClientExceptionFilter();
+    filter = new GrpcExceptionFilter();
   });
 
   afterAll(() => {
