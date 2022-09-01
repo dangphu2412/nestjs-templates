@@ -1,27 +1,6 @@
-import {
-  generateClientException,
-  generateSystemException,
-} from './exception-generator';
+import { generateNewsException } from './service-exception-generator';
 
-export const AuthExceptionClientCode = {
-  DUPLICATED_USERNAME: generateClientException('AUTH__DUPLICATED_USERNAME'),
-  INCORRECT_USERNAME_OR_PASSWORD: generateClientException({
-    errorCode: 'AUTH__INCORRECT_USERNAME_OR_PASSWORD',
-    message: 'Incorrect username or password',
-  }),
-  LOGOUT_REQUIRED: generateClientException('LOGOUT_REQUIRED'),
-  FORBIDDEN: generateClientException('FORBIDDEN'),
-  INVALID_TOKEN_FORMAT: generateClientException('INVALID_TOKEN_FORMAT'),
-};
-
-export const UserClientCode = {
-  NOT_FOUND_USER: generateClientException({
-    errorCode: 'USER__NOT_FOUND',
-    message: 'No user(s) found',
-  }),
-};
-
-export const SystemExceptionClientCode = {
-  MAINTENANCE: generateSystemException('MAINTENANCE'),
-  GOT_ISSUE: generateSystemException('GOT_ISSUE'),
+export const NewsGrpcExceptionCode = {
+  MAINTENANCE: generateNewsException('MAINTENANCE'),
+  GOT_ISSUE: generateNewsException('GOT_ISSUE'),
 };

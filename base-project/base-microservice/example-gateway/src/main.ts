@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { ClientExceptionFilter } from './exception/exception.filter';
+import { AllExceptionFilter } from './exception/exception.filter';
 import {
   FastifyAdapter,
   NestFastifyApplication,
@@ -50,7 +50,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  app.useGlobalFilters(new ClientExceptionFilter());
+  app.useGlobalFilters(new AllExceptionFilter());
 
   SwaggerModule.setup('api', app, document);
 

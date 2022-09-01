@@ -15,6 +15,8 @@ export class NewsController implements NewsServiceController {
     request: Empty,
     metadata?: Metadata,
   ): Promise<News> | Observable<News> | News {
-    return undefined;
+    return {
+      data: [],
+    };
   }
 }

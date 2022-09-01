@@ -1,10 +1,7 @@
+import { ClientError } from './entities/exception.types';
+
 const PREFIX_CLIENT_STRATEGY = 'CLIENT_';
 const PREFIX_SYSTEM_STRATEGY = 'SYS_';
-
-export interface ClientError {
-  errorCode: string;
-  message?: string;
-}
 
 export function generateClientException(errorOrErrorCode: string): ClientError;
 export function generateClientException(

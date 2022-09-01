@@ -1,32 +1,14 @@
-import { ExceptionFilter, HttpException } from '@nestjs/common';
-import { GrpcExceptionFilter } from '../exception.filter';
-import {
-  ArgumentsHost,
-  HttpArgumentsHost,
-} from '@nestjs/common/interfaces/features/arguments-host.interface';
-import { isClientException } from '../exception-generator';
-
-jest.mock('../exception-generator', () => ({
-  isClientException: jest.fn(),
-  generateClientException: jest.fn(),
-  generateSystemException: jest.fn(),
-}));
-
-jest.mock('../exception-client-code.constant', () => ({
-  SystemExceptionClientCode: {
-    GOT_ISSUE: {
-      errorCode: 'GOT_ISSUE',
-      message: 'There is a system error',
-    },
-  },
-}));
+import { HttpException } from '@nestjs/common';
+import { isObservable } from 'rxjs';
+import { AllExceptionsFilter } from '../exception.filter';
+import { BaseRpcException } from '../rpc/base-rpc.exception';
+import { AlreadyExistsRpcException } from '../rpc/already-exists-rpc.exception';
 
 describe('ClientExceptionFilter', () => {
-  const mockIsClientException = isClientException as unknown as jest.Mock;
-  let filter: ExceptionFilter<HttpException>;
+  let filter: AllExceptionsFilter;
 
   beforeEach(() => {
-    filter = new GrpcExceptionFilter();
+    filter = new AllExceptionsFilter();
   });
 
   afterAll(() => {
@@ -34,7 +16,7 @@ describe('ClientExceptionFilter', () => {
   });
 
   describe('filter catch method should work', () => {
-    it('should handle exception success', () => {
+    it('should handle others exception success', () => {
       const exception: HttpException = new HttpException(
         {
           errorCode: 'CLIENT_CODE',
@@ -42,155 +24,17 @@ describe('ClientExceptionFilter', () => {
         },
         200,
       );
-      const mockGetResponse = jest.fn().mockImplementation(() => ({
-        status: jest.fn().mockImplementation(() => ({
-          send: jest.fn(),
-        })),
-      }));
 
-      const mockHttpArgumentsHost = jest.fn().mockImplementation(() => ({
-        getResponse: mockGetResponse,
-        getRequest: jest.fn(),
-      })) as unknown as () => HttpArgumentsHost;
-
-      const argHost = {
-        switchToHttp: mockHttpArgumentsHost,
-      } as ArgumentsHost;
-
-      filter.catch(exception, argHost);
-
-      expect(mockHttpArgumentsHost).toBeCalledTimes(1);
-      expect(mockHttpArgumentsHost().getResponse).toBeCalledTimes(1);
+      expect(isObservable(filter.catch(exception))).toBeTruthy();
     });
 
-    it('should handle client exception success', () => {
-      const exception: HttpException = new HttpException(
-        {
-          errorCode: 'CLIENT_CODE',
-          message: 'test',
-        },
-        400,
-      );
-      const mockSend = jest.fn();
-      const mockStatus = jest.fn().mockImplementation(() => ({
-        send: mockSend,
-      }));
-      const mockGetResponse = jest.fn().mockImplementation(() => ({
-        status: mockStatus,
-      }));
-
-      const mockHttpArgumentsHost = jest.fn().mockImplementation(() => ({
-        getResponse: mockGetResponse,
-      })) as unknown as () => HttpArgumentsHost;
-
-      const argHost = {
-        switchToHttp: mockHttpArgumentsHost,
-      } as ArgumentsHost;
-
-      mockIsClientException.mockReturnValue(true);
-
-      filter.catch(exception, argHost);
-
-      expect(mockHttpArgumentsHost).toBeCalledTimes(1);
-      expect(mockHttpArgumentsHost().getResponse).toBeCalledTimes(1);
-      expect(mockHttpArgumentsHost().getResponse().status).toBeCalledTimes(1);
-      expect(mockHttpArgumentsHost().getResponse().status).toBeCalledWith(400);
-      expect(
-        mockHttpArgumentsHost().getResponse().status().send,
-      ).toBeCalledTimes(1);
-      expect(
-        mockHttpArgumentsHost().getResponse().status().send,
-      ).toBeCalledWith({
+    it('should handle rpc exception success', () => {
+      const exception: BaseRpcException = new AlreadyExistsRpcException({
         errorCode: 'CLIENT_CODE',
-        statusCode: 400,
         message: 'test',
       });
-    });
 
-    it('should handle other http exception not internal', () => {
-      const exception: HttpException = new HttpException(
-        {
-          message: 'test',
-        },
-        400,
-      );
-      const mockSend = jest.fn();
-      const mockStatus = jest.fn().mockImplementation(() => ({
-        send: mockSend,
-      }));
-      const mockGetResponse = jest.fn().mockImplementation(() => ({
-        status: mockStatus,
-      }));
-
-      const mockHttpArgumentsHost = jest.fn().mockImplementation(() => ({
-        getResponse: mockGetResponse,
-      })) as unknown as () => HttpArgumentsHost;
-
-      const argHost = {
-        switchToHttp: mockHttpArgumentsHost,
-      } as ArgumentsHost;
-
-      mockIsClientException.mockReturnValue(false);
-
-      filter.catch(exception, argHost);
-
-      expect(mockHttpArgumentsHost).toBeCalledTimes(1);
-      expect(mockHttpArgumentsHost().getResponse).toBeCalledTimes(1);
-      expect(mockHttpArgumentsHost().getResponse().status).toBeCalledTimes(1);
-      expect(mockHttpArgumentsHost().getResponse().status).toBeCalledWith(400);
-      expect(
-        mockHttpArgumentsHost().getResponse().status().send,
-      ).toBeCalledTimes(1);
-      expect(
-        mockHttpArgumentsHost().getResponse().status().send,
-      ).toBeCalledWith({
-        errorCode: '400',
-        statusCode: 400,
-        message: 'test',
-      });
-    });
-
-    it('should handle other http internal exception', () => {
-      const exception: HttpException = new HttpException(
-        {
-          message: 'test',
-        },
-        500,
-      );
-      const mockSend = jest.fn();
-      const mockStatus = jest.fn().mockImplementation(() => ({
-        send: mockSend,
-      }));
-      const mockGetResponse = jest.fn().mockImplementation(() => ({
-        status: mockStatus,
-      }));
-
-      const mockHttpArgumentsHost = jest.fn().mockImplementation(() => ({
-        getResponse: mockGetResponse,
-      })) as unknown as () => HttpArgumentsHost;
-
-      const argHost = {
-        switchToHttp: mockHttpArgumentsHost,
-      } as ArgumentsHost;
-
-      mockIsClientException.mockReturnValue(false);
-
-      filter.catch(exception, argHost);
-
-      expect(mockHttpArgumentsHost).toBeCalledTimes(1);
-      expect(mockHttpArgumentsHost().getResponse).toBeCalledTimes(1);
-      expect(mockHttpArgumentsHost().getResponse().status).toBeCalledTimes(1);
-      expect(mockHttpArgumentsHost().getResponse().status).toBeCalledWith(500);
-      expect(
-        mockHttpArgumentsHost().getResponse().status().send,
-      ).toBeCalledTimes(1);
-      expect(
-        mockHttpArgumentsHost().getResponse().status().send,
-      ).toBeCalledWith({
-        errorCode: 'GOT_ISSUE',
-        statusCode: 500,
-        message: 'There is a system error',
-      });
+      expect(filter.catch(exception)).toBeUndefined();
     });
   });
 });

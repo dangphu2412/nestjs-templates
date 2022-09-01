@@ -1,4 +1,4 @@
-const PREFIX_CLIENT_STRATEGY = 'CLIENT_';
+const PREFIX_CLIENT_STRATEGY = 'SERVICE_';
 const PREFIX_SYSTEM_STRATEGY = 'SYS_';
 
 export interface ClientError {

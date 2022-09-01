@@ -6,7 +6,7 @@ import {
   patchTypeORMRepositoryWithBaseRepository,
   patchTypeORMTreeRepositoryWithBaseTreeRepository,
 } from 'typeorm-transactional-cls-hooked';
-import { GrpcExceptionFilter } from './exception/exception.filter';
+import { AllExceptionsFilter } from './exception/exception.filter';
 import { logAppScaffold } from './utils/app.utils';
 import { registerPaginationConfig } from './shared/query-shape/pagination/config/register-pagination.config';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
@@ -35,7 +35,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  app.useGlobalFilters(new GrpcExceptionFilter());
+  app.useGlobalFilters(new AllExceptionsFilter());
 
   await app.listen();
 

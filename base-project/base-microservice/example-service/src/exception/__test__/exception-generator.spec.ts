@@ -8,7 +8,7 @@ describe('exception generator', () => {
   describe('test generateClientException', () => {
     it('should generate client exception success with default message', () => {
       const result = generateClientException('ERROR');
-      expect(result.errorCode).toEqual('CLIENT_ERROR');
+      expect(result.errorCode).toEqual('SERVICE_ERROR');
       expect(result.message).toEqual('There is an error');
     });
 
@@ -17,7 +17,7 @@ describe('exception generator', () => {
         errorCode: 'ERROR_2',
         message: 'test',
       });
-      expect(result.errorCode).toEqual('CLIENT_ERROR_2');
+      expect(result.errorCode).toEqual('SERVICE_ERROR_2');
       expect(result.message).toEqual('test');
     });
   });

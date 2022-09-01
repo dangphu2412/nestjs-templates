@@ -28,6 +28,7 @@ export class NewsController implements OnModuleInit {
 
   @Get()
   findAll(): Observable<News> {
+    console.log(`Calling new controller`);
     const metadata = new Metadata();
     return this.newsService.findAll({}, metadata);
   }
