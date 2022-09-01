@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
+import { DatabaseModule } from './database/database.module';
 import { SharedModule } from './shared/shared.module';
-import { NewsModule } from './news/news.module';
 import { NotificationModule } from './notifications/notification.module';
 
 @Module({
-  imports: [SharedModule, NewsModule, NotificationModule],
+  imports: [DatabaseModule, SharedModule, NotificationModule],
 })
 export class AppModule {}

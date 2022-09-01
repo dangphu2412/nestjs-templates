@@ -1,0 +1,66 @@
+version: '3.8'
+services:
+  postgres:
+    container_name: pg
+    image: postgres:alpine3.16
+    restart: always
+    env_file: .env
+    environment:
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_USER: $DB_USERNAME
+      POSTGRES_DB: $DB_DATABASE
+    volumes:
+      - ./docker/data:/data/db
+    ports:
+      - "5432:${DB_PORT}"
+    networks:
+      - node-network
+
+  backend:
+    container_name: backend
+    image: backend
+    build:
+      context: .
+    restart: always
+    env_file: .env
+    depends_on:
+      - postgres
+    links:
+      - postgres
+      - redis
+    ports:
+      - "3000:${PORT}"
+    networks:
+      - node-network
+
+  redis:
+    container_name: redis
+    privileged: true
+    image: redis:6.2.5-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - node-network
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:6.10
+    environment:
+      PGADMIN_DEFAULT_EMAIL: 'test@gmail.com'
+      PGADMIN_DEFAULT_PASSWORD: 'changeme'
+    volumes:
+      - pgadmin:/root/.pgadmin
+    depends_on:
+      - postgres
+    ports:
+      - "5050:80"
+    networks:
+      - node-network
+
+volumes:
+  data:
+  pgadmin:
+
+networks:
+  node-network:
+    driver: bridge
