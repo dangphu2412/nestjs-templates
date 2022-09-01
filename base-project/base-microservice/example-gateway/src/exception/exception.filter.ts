@@ -32,6 +32,12 @@ export class AllExceptionFilter implements RpcExceptionFilter<RpcException> {
     const response = host.switchToHttp().getResponse<FastifyReply>();
 
     if (exception instanceof HttpException) {
+      const status = exception.getStatus();
+      response.status(status).send({
+        statusCode: status,
+        errorCode: SystemExceptionClientCode.GATEWAY_CANNOT_HANDLE.errorCode,
+        message: exception.message,
+      });
       return;
     }
 
