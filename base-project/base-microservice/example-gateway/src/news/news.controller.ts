@@ -1,5 +1,5 @@
 import { Metadata } from '@grpc/grpc-js';
-import { Controller, Get, Inject, OnModuleInit } from '@nestjs/common';
+import { Controller, Get, Inject, OnModuleInit, Post } from '@nestjs/common';
 import {
   News,
   NEWS_PACKAGE_NAME,
@@ -31,5 +31,11 @@ export class NewsController implements OnModuleInit {
     console.log(`Calling new controller`);
     const metadata = new Metadata();
     return this.newsService.findAll({}, metadata);
+  }
+
+  @Post('maintenance')
+  notifyServiceMaintenance() {
+    const metadata = new Metadata();
+    return this.newsService.sendMaintenanceEmailToCustomers({}, metadata);
   }
 }

@@ -21,6 +21,11 @@ export const NEWS_PACKAGE_NAME = 'news';
 
 export interface NewsServiceClient {
   findAll(request: Empty, metadata?: Metadata): Observable<News>;
+
+  sendMaintenanceEmailToCustomers(
+    request: Empty,
+    metadata?: Metadata,
+  ): Observable<Empty>;
 }
 
 export interface NewsServiceController {
@@ -28,11 +33,19 @@ export interface NewsServiceController {
     request: Empty,
     metadata?: Metadata,
   ): Promise<News> | Observable<News> | News;
+
+  sendMaintenanceEmailToCustomers(
+    request: Empty,
+    metadata?: Metadata,
+  ): Promise<Empty> | Observable<Empty> | Empty;
 }
 
 export function NewsServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ['findAll'];
+    const grpcMethods: string[] = [
+      'findAll',
+      'sendMaintenanceEmailToCustomers',
+    ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(
         constructor.prototype,

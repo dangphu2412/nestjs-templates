@@ -4,6 +4,7 @@ package news;
 
 service NewsService {
   rpc FindAll (Empty) returns (News) {}
+  rpc SendMaintenanceEmailToCustomers (Empty) returns (Empty) {}
 }
 
 message Empty {}
