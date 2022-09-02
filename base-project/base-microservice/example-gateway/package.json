@@ -34,6 +34,7 @@
     "proto:gen": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=. src/**/proto/*.proto --ts_proto_opt=fileSuffix=.grpc --ts_proto_opt=nestJs=true --ts_proto_opt=addGrpcMetadata=true"
   },
   "dependencies": {
+    "@fastify/helmet": "8.0.0",
     "@grpc/grpc-js": "^1.6.10",
     "@grpc/proto-loader": "^0.7.2",
     "@nestjs/common": "8.0.0",
@@ -41,22 +42,22 @@
     "@nestjs/core": "8.0.0",
     "@nestjs/jwt": "^8.0.1",
     "@nestjs/microservices": "8.0.0",
-    "@nestjs/typeorm": "8.0.2",
     "@nestjs/platform-fastify": "8.0.0",
+    "@nestjs/swagger": "^5.2.1",
+    "@nestjs/typeorm": "8.0.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
+    "fastify-compress": "^4.1.0",
+    "fastify-swagger": "^5.2.0",
+    "kafkajs": "^2.2.0",
     "lodash.isempty": "^4.4.0",
     "pg": "8.7.1",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.2.0",
+    "swagger-ui-express": "^4.4.0",
     "ts-proto": "^1.122.0",
     "typeorm": "^0.2.34",
-    "typeorm-transactional-cls-hooked": "^0.1.21",
-    "@fastify/helmet": "8.0.0",
-    "fastify-compress": "^4.1.0",
-    "@nestjs/swagger": "^5.2.1",
-    "fastify-swagger": "^5.2.0",
-    "swagger-ui-express": "^4.4.0"
+    "typeorm-transactional-cls-hooked": "^0.1.21"
   },
   "devDependencies": {
     "@commitlint/cli": "16.2.3",

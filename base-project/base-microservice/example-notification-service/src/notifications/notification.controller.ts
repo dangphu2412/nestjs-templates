@@ -1,15 +1,12 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
+import { SendMailMessage } from './clients/send-mail.interface';
+import { SEND_MAIL_TOPIC } from './constants/subscribe-topic.constants';
 
 @Controller()
 export class NotificationController {
-  @MessagePattern('hero.kill.dragon')
-  killDragon(@Payload() message: any): any {
-    const dragonId = message.dragonId;
-    const items = [
-      { id: 1, name: 'Mythical Sword' },
-      { id: 2, name: 'Key to Dungeon' },
-    ];
-    return items;
+  @MessagePattern(SEND_MAIL_TOPIC)
+  killDragon(@Payload() message: SendMailMessage): SendMailMessage {
+    return message;
   }
 }

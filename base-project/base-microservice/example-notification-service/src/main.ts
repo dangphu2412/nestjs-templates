@@ -23,11 +23,10 @@ async function bootstrap() {
       transport: Transport.KAFKA,
       options: {
         client: {
-          clientId: 'notification', // hero-server
-          brokers: ['localhost:9092'],
+          brokers: ['127.0.0.1:9092'],
         },
         consumer: {
-          groupId: 'notification-consumer', // hero-consumer-server
+          groupId: 'notification-consumer',
         },
       },
     },

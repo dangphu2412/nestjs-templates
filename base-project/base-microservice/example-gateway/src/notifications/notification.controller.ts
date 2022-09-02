@@ -1,24 +1,30 @@
-import { Controller, OnModuleInit, Post } from '@nestjs/common';
-import { Client, ClientKafka } from '@nestjs/microservices';
+import { Controller, Get, Inject, OnModuleInit } from '@nestjs/common';
+import { ClientKafka } from '@nestjs/microservices';
+import {
+  NOTIFICATION_CLIENT,
+  SendMailMessage,
+} from './clients/send-mail.interface';
+import { SEND_MAIL_TOPIC } from './constants/subscribe-topic.constants';
 
 @Controller({
   version: '1',
   path: 'notifications',
 })
 export class NotificationController implements OnModuleInit {
-  @Client()
-  client: ClientKafka;
+  constructor(
+    @Inject(NOTIFICATION_CLIENT)
+    private readonly client: ClientKafka,
+  ) {}
 
-  onModuleInit() {
-    const requestPatterns = ['notifications'];
-
-    requestPatterns.forEach((pattern) => {
-      this.client.subscribeToResponseOf(pattern);
-    });
+  async onModuleInit() {
+    this.client.subscribeToResponseOf(SEND_MAIL_TOPIC);
+    await this.client.connect();
   }
 
-  @Post('/system-maintenance')
+  @Get('/system-maintenance')
   sendMaintenanceEmailToCustomers() {
-    this.client.emit('', {});
+    return this.client.send(SEND_MAIL_TOPIC, {
+      receivers: ['test1@gmail.com'],
+    } as SendMailMessage);
   }
 }
