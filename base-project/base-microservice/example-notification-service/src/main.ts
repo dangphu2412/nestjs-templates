@@ -10,6 +10,10 @@ import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './exception/exception.filter';
 import { logAppScaffold } from './utils/app.utils';
 import { registerPaginationConfig } from './shared/query-shape/pagination/config/register-pagination.config';
+import {
+  NOTIFICATION_CLIENT_ID,
+  NOTIFICATION_CONSUMER,
+} from './notifications/clients/send-mail.interface';
 
 async function bootstrap() {
   initializeTransactionalContext();
@@ -23,10 +27,11 @@ async function bootstrap() {
       transport: Transport.KAFKA,
       options: {
         client: {
+          clientId: NOTIFICATION_CLIENT_ID,
           brokers: ['127.0.0.1:9092'],
         },
         consumer: {
-          groupId: 'notification-consumer',
+          groupId: NOTIFICATION_CONSUMER,
         },
       },
     },
