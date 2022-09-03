@@ -5,7 +5,8 @@ import { BasicLoginRequestDto } from './entities/dtos/basic-login-request.dto';
 import { UserService, UserServiceToken } from '../user/client/user.service';
 import {
   BadRequestException,
-  Inject, Injectable,
+  Inject,
+  Injectable,
   UnauthorizedException,
   UnprocessableEntityException,
 } from '@nestjs/common';
@@ -16,7 +17,7 @@ import {
   RoleService,
   RoleServiceToken,
 } from '../authorization/client/role.service';
-import { BcryptService } from '../shared/bcrypt.service';
+import { BcryptService } from '../shared/services/bcrypt.service';
 import {
   RoleStorage,
   RoleStorageToken,

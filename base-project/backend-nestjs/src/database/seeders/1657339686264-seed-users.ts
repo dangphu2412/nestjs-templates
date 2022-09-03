@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
-import { BcryptService } from '../../shared/bcrypt.service';
+import { BcryptService } from '../../shared/services/bcrypt.service';
 import { ConfigService } from '@nestjs/config';
 import { Role } from '../../authorization/entities/role.entity';
 

@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { JwtStrategy } from '../../strategies/jwt.strategy';
-import { ConfigService } from '@nestjs/config';
 import { JwtPayload } from '../../entities/jwt-payload';
+import { ModuleConfigService } from '../../../shared/services/module-config.service';
 
 describe('AuthController', () => {
   let jwtStrategy: JwtStrategy;
@@ -11,9 +11,9 @@ describe('AuthController', () => {
       providers: [
         JwtStrategy,
         {
-          provide: ConfigService,
+          provide: ModuleConfigService,
           useValue: {
-            get: jest.fn().mockReturnValue('jwtKey' as never),
+            getJwtConfig: jest.fn().mockReturnValue({ secret: 'jwtKey' }),
           },
         },
       ],

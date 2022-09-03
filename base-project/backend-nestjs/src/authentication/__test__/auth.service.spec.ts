@@ -7,7 +7,7 @@ import {
   RoleServiceToken,
 } from '../../authorization/client/role.service';
 import { JwtService } from '@nestjs/jwt';
-import { BcryptService } from '../../shared/bcrypt.service';
+import { BcryptService } from '../../shared/services/bcrypt.service';
 import {
   RoleStorage,
   RoleStorageToken,
