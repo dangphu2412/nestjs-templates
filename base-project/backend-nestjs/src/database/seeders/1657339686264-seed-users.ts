@@ -3,6 +3,7 @@ import { User } from '../../user/entities/user.entity';
 import { BcryptService } from '../../shared/services/bcrypt.service';
 import { ConfigService } from '@nestjs/config';
 import { Role } from '../../authorization/entities/role.entity';
+import { ModuleConfig } from '../../shared/services/module-config';
 
 export class SeedUsers1657339686264 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
@@ -15,7 +16,7 @@ export class SeedUsers1657339686264 implements MigrationInterface {
       },
     });
     const bcryptService = new BcryptService(
-      new ConfigService<Record<string, unknown>, false>(),
+      new ModuleConfig(new ConfigService<Record<string, unknown>, false>()),
     );
     const password = await bcryptService.hash('test123');
     const user = new User();

@@ -1,7 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { BcryptService } from './services/bcrypt.service';
-import { ModuleConfigService } from './services/module-config.service';
+import { ModuleConfig } from './services/module-config';
 
 @Global()
 @Module({
@@ -10,7 +10,7 @@ import { ModuleConfigService } from './services/module-config.service';
       isGlobal: true,
     }),
   ],
-  providers: [BcryptService, ConfigService, ModuleConfigService],
-  exports: [BcryptService, ConfigService, ModuleConfigService],
+  providers: [BcryptService, ModuleConfig, ConfigService],
+  exports: [BcryptService, ModuleConfig],
 })
 export class SharedModule {}
