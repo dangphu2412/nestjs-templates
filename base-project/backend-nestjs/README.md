@@ -2,72 +2,137 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Features
+[![Awesome NestJS](https://img.shields.io/badge/Awesome-NestJS-blue.svg?longCache=true&style=flat-square)](https://github.com/dangphu2412/nestjs-templates)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+[Nest](https://github.com/nestjs/nest) monolithic repository
 
 ## Installation
 
 ```bash
-$ npm install
+$ yarn
 ```
 
 ## Running the app
 
 ```bash
 # development
-$ npm run start
+$ yarn start
 
 # watch mode
-$ npm run start:dev
+$ yarn start:dev
 
 # production mode
-$ npm run start:prod
+$ yarn start:prod
 ```
 
 ## Test
 
 ```bash
 # unit tests
-$ npm run test
+$ yarn test
 
 # e2e tests
-$ npm run test:e2e
+$ yarn test:e2e
 
 # test coverage
-$ npm run test:cov
+$ yarn test:cov
 ```
 
-## Support
+## Feature description
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+<dl>
+  <dt>Modularization</dt>
+  <dd>Separate feature into module. Each module has the same architecture</dd>
 
-## Stay in touch
+  <dt><b>JWT Authentication</b></dt>
+  <dd>Installed and configured JWT authentication.</dd>
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+  <dt><b>Environment Configuration</b></dt>
+  <dd>development, staging and production environment configurations</dd>
 
-## License
+  <dt><b>Swagger Api Documentation</b></dt>
+  <dd>Already integrated API documentation. To see all available endpoints visit http://localhost:3000/docs</dd>
 
-Nest is [MIT licensed](LICENSE).
+  <dt><b>Linter</b></dt>  
+  <dd>eslint + prettier = ❤️</dd>
+
+  <dt></dt>
+  <dd></dd>
+</dl>
+
+### Naming convention
+- [English language](https://github.com/dangphu2412/nestjs-templates/tree/main/base-project/backend-nestjs#english-language)
+- [Functions](https://github.com/dangphu2412/nestjs-templates/tree/main/base-project/backend-nestjs#functions)
+- [Classes](https://github.com/dangphu2412/nestjs-templates/tree/main/base-project/backend-nestjs#classes)
+- [Variables](https://github.com/dangphu2412/nestjs-templates/tree/main/base-project/backend-nestjs#variables)
+
+#### English language
+```typescript
+/* Bad */
+const primerNombre = 'Gustavo'
+const amigos = ['Kate', 'John']
+
+/* Good */
+const firstName = 'Gustavo'
+const friends = ['Kate', 'John']
+```
+>Like it or not, English is the dominant language in programming: the syntax of all programming languages is written in English, as well as countless documentations and educational materials. By writing your code in English you dramatically increase its cohesiveness.
+
+#### Functions
+- A/HC/LC Pattern
+
+```
+prefix? + action (A) + high context (HC) + low context? (LC)
+```
+
+| Name                 | Prefix | Action (A) | High context (HC) | Low context (LC) |
+|----------------------|--------|------------|-------------------|------------------|
+| getUser              |        | get        | User              |                  |
+| getUserMessages      |        | get        | User              | Messages         |
+| shouldDisplayMessage | should | Display    | Message           |                  |
+| getUser              |        | get        | User              |                  |
+
+- Actions
+
+The verb part of your function name. The most important part responsible for describing what the function does.
+
+Please focus on intention of name which is the most important thing when writing function.
+
+Getting easy when naming function when you function only do one thing at a time (it is well known as SINGLETON principle)
+```typescript
+function getUserFullName() {
+  return this.firstName + ' ' + this.lastName;
+}
+
+```
+
+- Parameters
+
+There are some rules when trying to define functions or method of a class. Sometimes, we may meet a function with no argument or even up to 4 or 5 or more.
+
+Well let take a look at example:
+
+```typescript
+function getStockPrice(region: Region, day: Date, stockCode: StockCode): StockPrice {}
+// Compare to
+function getStockPrice(stockArea: StockArea): StockPrice {}
+```
+
+Both would get the stock price, but take a look at the meaning of the function when comparing both of them.
+
+The first one is quite ambigious due to triac parameters and not really focus on the target in which they are getting the information. Are we getting based on region, day or stockCode? May one of this param is  used for validation only? ...
+
+The second way is more clear about the intention: we are getting stock price based on stock area - That is it!
+
+Avoid putting too much parameter on function or method - when it is happened, pls try to refactor, extract method, ...
+
+Read more:
+- Clean Code: Chapter 3 - Functions - Robert C. Martin
+Too Many Parameters - Wiki C2
+- Single Responsibility Principle - Wikipedia
+- Extract Method - Refactoring Guru
+- Parameter Object - Refactoring Guru
+
+#### Classes
+#### Variables

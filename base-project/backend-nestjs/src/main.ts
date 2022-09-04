@@ -57,7 +57,7 @@ async function bootstrap() {
   );
   app.useGlobalFilters(new ClientExceptionFilter());
 
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('docs', app, document);
 
   const configService = app.get(ConfigService);
   const port = configService.get<string>('PORT');
