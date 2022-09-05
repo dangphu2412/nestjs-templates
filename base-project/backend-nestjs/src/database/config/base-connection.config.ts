@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm/dist/interfaces/typeorm-options.interface';
 import { User } from '../../user';
 import { Role } from '../../authorization';
-import { Menu } from '../../menu/entities/menu.entity';
+import { Menu } from '../../menu';
 
 dotenv.config();
 

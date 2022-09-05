@@ -5,7 +5,7 @@ import { isBooleanString } from 'class-validator';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm/dist/interfaces/typeorm-options.interface';
 import { User } from '../../user';
 import { Role } from '../../authorization';
-import { Menu } from '../../menu/entities/menu.entity';
+import { Menu } from '../../menu';
 
 @Injectable()
 export class ModuleConfig {

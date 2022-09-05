@@ -1,6 +1,6 @@
-import { MenuService, MenuServiceToken } from './client/menu.service';
 import { Controller, Get, Inject } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { MenuService, MenuServiceToken } from '../client';
 
 @Controller({
   path: 'menus',
