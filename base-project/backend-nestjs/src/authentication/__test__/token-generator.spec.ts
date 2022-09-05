@@ -1,8 +1,8 @@
 import { Test } from '@nestjs/testing';
-import { TokenGenerator, TokenGeneratorToken } from '../client/token-generator';
-import { TokenGeneratorImpl } from '../token-generator';
+import { TokenGeneratorImpl } from '../internal/token-generator';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { TokenGenerator, TokenGeneratorToken } from '../client';
 
 describe('TokenGenerator', () => {
   let tokenGenerator: TokenGenerator;

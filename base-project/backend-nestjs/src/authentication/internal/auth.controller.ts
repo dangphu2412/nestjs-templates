@@ -1,15 +1,18 @@
 import { Body, Controller, Delete, Inject, Post } from '@nestjs/common';
-import { AuthService, AuthServiceToken } from './client/auth.service';
-import { BasicRegisterRequestDto } from './entities/dtos/basic-register-request.dto';
-import { BasicLoginRequestDto } from './entities/dtos/basic-login-request.dto';
+
 import { ApiNoContentResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { RenewTokensRequestDto } from './entities/dtos/renew-tokens-request.dto';
-import { CurrentUser } from './decorators/user.decorator';
 import {
   RoleStorage,
   RoleStorageToken,
-} from '../authorization/client/role-storage';
+} from '../../authorization/client/role-storage';
 import { extractJwtPayload } from './utils/jwt.utils';
+import {
+  AuthService,
+  AuthServiceToken,
+  BasicLoginDto,
+  BasicRegisterDto,
+  RenewTokensDto,
+} from '../client';
 
 @ApiTags('auth')
 @Controller({
@@ -28,7 +31,7 @@ export class AuthController {
   @ApiResponse({
     status: 201,
   })
-  public register(@Body() basicRegisterRequestDto: BasicRegisterRequestDto) {
+  public register(@Body() basicRegisterRequestDto: BasicRegisterDto) {
     return this.authService.register(basicRegisterRequestDto);
   }
 
@@ -40,20 +43,18 @@ export class AuthController {
     status: 422,
     description: 'AUTH__INCORRECT_USERNAME_OR_PASSWORD',
   })
-  public login(@Body() basicLoginRequestDto: BasicLoginRequestDto) {
+  public login(@Body() basicLoginRequestDto: BasicLoginDto) {
     return this.authService.login(basicLoginRequestDto);
   }
 
   @Post('tokens/renew')
-  public renewAccessToken(
-    @Body() renewTokensRequestDto: RenewTokensRequestDto,
-  ) {
+  public renewAccessToken(@Body() renewTokensRequestDto: RenewTokensDto) {
     return this.authService.renewTokens(renewTokensRequestDto.refreshToken);
   }
 
   @ApiNoContentResponse()
   @Delete('logout')
-  public logout(@Body() renewTokensRequestDto: RenewTokensRequestDto) {
+  public logout(@Body() renewTokensRequestDto: RenewTokensDto) {
     const jwtPayload = extractJwtPayload(renewTokensRequestDto.refreshToken);
     if (!jwtPayload) {
       return;

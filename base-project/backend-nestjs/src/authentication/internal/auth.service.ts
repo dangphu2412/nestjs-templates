@@ -1,8 +1,4 @@
-import { AuthService } from './client/auth.service';
-import { FinishLoginResponseDto } from './entities/dtos/finish-login-response.dto';
-import { BasicRegisterRequestDto } from './entities/dtos/basic-register-request.dto';
-import { BasicLoginRequestDto } from './entities/dtos/basic-login-request.dto';
-import { UserService, UserServiceToken } from '../user/client/user.service';
+import { UserService, UserServiceToken } from '../../user/client/user.service';
 import {
   BadRequestException,
   Inject,
@@ -11,21 +7,28 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { AuthExceptionClientCode } from '../exception/exception-client-code.constant';
+import { AuthExceptionClientCode } from '../../exception/exception-client-code.constant';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
 import {
   RoleService,
   RoleServiceToken,
-} from '../authorization/client/role.service';
-import { BcryptService } from '../shared/services/bcrypt.service';
+} from '../../authorization/client/role.service';
+import { BcryptService } from '../../shared/services/bcrypt.service';
 import {
   RoleStorage,
   RoleStorageToken,
-} from '../authorization/client/role-storage';
-import { Role } from '../authorization/entities/role.entity';
-import { TokenGenerator, TokenGeneratorToken } from './client/token-generator';
-import { JwtPayload } from './entities/jwt-payload';
+} from '../../authorization/client/role-storage';
+import { Role } from '../../authorization/entities/role.entity';
 import { extractJwtPayload } from './utils/jwt.utils';
+import {
+  AuthService,
+  BasicLoginDto,
+  BasicRegisterDto,
+  JwtPayload,
+  LoginCredentials,
+  TokenGenerator,
+  TokenGeneratorToken,
+} from '../client';
 
 @Injectable()
 export class AuthServiceImpl implements AuthService {
@@ -51,8 +54,8 @@ export class AuthServiceImpl implements AuthService {
 
   @Transactional()
   async register(
-    basicRegisterRequestDto: BasicRegisterRequestDto,
-  ): Promise<FinishLoginResponseDto> {
+    basicRegisterRequestDto: BasicRegisterDto,
+  ): Promise<LoginCredentials> {
     const user = await this.userService.findByUsername(
       basicRegisterRequestDto.username,
     );
@@ -88,9 +91,7 @@ export class AuthServiceImpl implements AuthService {
     };
   }
 
-  async login(
-    basicLoginRequestDto: BasicLoginRequestDto,
-  ): Promise<FinishLoginResponseDto> {
+  async login(basicLoginRequestDto: BasicLoginDto): Promise<LoginCredentials> {
     const user = await this.userService.findByUsername(
       basicLoginRequestDto.username,
       ['roles'],
@@ -119,7 +120,7 @@ export class AuthServiceImpl implements AuthService {
     };
   }
 
-  async renewTokens(refreshToken: string): Promise<FinishLoginResponseDto> {
+  async renewTokens(refreshToken: string): Promise<LoginCredentials> {
     try {
       const { sub } = await this.jwtService.verifyAsync<JwtPayload>(
         refreshToken,

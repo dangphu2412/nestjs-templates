@@ -1,9 +1,7 @@
-import { TokenGenerator } from './client/token-generator';
-import { TokenDto } from './entities/dtos/finish-login-response.dto';
 import { Injectable } from '@nestjs/common';
-import { JwtPayload } from './entities/jwt-payload';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { JwtPayload, TokenDto, TokenGenerator } from '../client';
 
 @Injectable()
 export class TokenGeneratorImpl implements TokenGenerator {

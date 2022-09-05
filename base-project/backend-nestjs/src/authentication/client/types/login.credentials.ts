@@ -4,6 +4,6 @@ export interface TokenDto {
   value: string;
 }
 
-export interface FinishLoginResponseDto {
+export interface LoginCredentials {
   tokens: TokenDto[];
 }

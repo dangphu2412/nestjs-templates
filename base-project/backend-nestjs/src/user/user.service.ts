@@ -4,10 +4,10 @@ import { UserRepository } from './user.repository';
 import { CreateUserDto } from './entities/dtos/create-user.dto';
 import { User } from './entities/user.entity';
 import { Role } from '../authorization/entities/role.entity';
-import { MyProfile } from '../authentication/entities/my-profile';
 import { GetUserQueryDto } from './entities/dtos/get-user-query.dto';
 import { UserSummary } from './entities/dtos/user-summary.response';
 import { UserClientCode } from '../exception/exception-client-code.constant';
+import { MyProfile } from '../authentication';
 
 @Injectable()
 export class UserServiceImpl implements UserService {

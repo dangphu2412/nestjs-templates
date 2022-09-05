@@ -1,5 +1,5 @@
-import { JwtPayload } from '../entities/jwt-payload';
-import { Nullable } from '../../core/client/util.type';
+import { JwtPayload } from '../../client';
+import { Nullable } from '../../../core/client/util.type';
 
 export function extractJwtPayload(token: string): Nullable<JwtPayload> {
   const jwtPayloadSerialized = token.split('.')[1];

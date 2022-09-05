@@ -1,6 +1,6 @@
 import { applyDecorators, SetMetadata, UseGuards } from '@nestjs/common';
-import { Identified } from '../../authentication/decorators/identified.decorator';
 import { RoleAuthorizationGuard } from '../guards/role-authorization.guard';
+import { Identified } from '../../authentication';
 
 export const ROLE_META_DATA_KEY = 'roles';
 

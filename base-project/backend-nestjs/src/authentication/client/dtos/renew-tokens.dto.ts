@@ -1,12 +1,8 @@
 import { IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class BasicRegisterRequestDto {
+export class RenewTokensDto {
   @ApiProperty()
   @IsString()
-  username: string;
-
-  @ApiProperty()
-  @IsString()
-  password: string;
+  refreshToken: string;
 }

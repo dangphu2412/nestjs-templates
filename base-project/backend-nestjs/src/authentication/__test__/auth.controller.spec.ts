@@ -1,12 +1,12 @@
 import { Test } from '@nestjs/testing';
-import { AuthController } from '../auth.controller';
-import { AuthService, AuthServiceToken } from '../client/auth.service';
+import { AuthController } from '../internal/auth.controller';
+
 import {
   RoleStorage,
   RoleStorageToken,
 } from '../../authorization/client/role-storage';
-import { FinishLoginResponseDto } from '../entities/dtos/finish-login-response.dto';
-import { extractJwtPayload } from '../utils/jwt.utils';
+import { extractJwtPayload } from '../internal/utils/jwt.utils';
+import { AuthService, AuthServiceToken, LoginCredentials } from '../client';
 
 jest.mock('../utils/jwt.utils', () => ({
   extractJwtPayload: jest.fn(),
@@ -45,7 +45,7 @@ describe('AuthController', () => {
 
   describe('register', () => {
     it('should return FinishLoginResponseDto', async () => {
-      const result: FinishLoginResponseDto = {
+      const result: LoginCredentials = {
         tokens: [],
       };
       jest.spyOn(authService, 'register').mockResolvedValue(result);
@@ -62,7 +62,7 @@ describe('AuthController', () => {
 
   describe('login', () => {
     it('should return FinishLoginResponseDto', async () => {
-      const result: FinishLoginResponseDto = {
+      const result: LoginCredentials = {
         tokens: [],
       };
       jest.spyOn(authService, 'login').mockResolvedValue(result);
@@ -79,7 +79,7 @@ describe('AuthController', () => {
 
   describe('renewTokens', () => {
     it('should return FinishLoginResponseDto', async () => {
-      const result: FinishLoginResponseDto = {
+      const result: LoginCredentials = {
         tokens: [],
       };
       jest.spyOn(authService, 'renewTokens').mockResolvedValue(result);

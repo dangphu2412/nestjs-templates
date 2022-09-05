@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
-import { JwtStrategy } from '../../strategies/jwt.strategy';
-import { JwtPayload } from '../../entities/jwt-payload';
+import { JwtStrategy } from '../../internal/strategies/jwt.strategy';
 import { ModuleConfig } from '../../../shared/services/module-config';
+import { JwtPayload } from '../../client';
 
 describe('AuthController', () => {
   let jwtStrategy: JwtStrategy;

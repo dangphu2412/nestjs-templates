@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { UserController } from '../user.controller';
 import { UserService, UserServiceToken } from '../client/user.service';
-import { MyProfile } from '../../authentication/entities/my-profile';
+import { MyProfile } from '../../authentication';
 import { UserSummary } from '../entities/dtos/user-summary.response';
 
 describe('AuthController', () => {

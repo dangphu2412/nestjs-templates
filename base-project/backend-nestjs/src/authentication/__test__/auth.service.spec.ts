@@ -1,7 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { UserService, UserServiceToken } from '../../user/client/user.service';
-import { AuthService, AuthServiceToken } from '../client/auth.service';
-import { AuthServiceImpl } from '../auth.service';
+import { AuthServiceImpl } from '../internal/auth.service';
 import {
   RoleService,
   RoleServiceToken,
@@ -12,14 +11,17 @@ import {
   RoleStorage,
   RoleStorageToken,
 } from '../../authorization/client/role-storage';
-import { TokenGenerator, TokenGeneratorToken } from '../client/token-generator';
-import {
-  FinishLoginResponseDto,
-  TokenDto,
-} from '../entities/dtos/finish-login-response.dto';
 import { User } from '../../user/entities/user.entity';
 import { Role } from '../../authorization/entities/role.entity';
 import { UnprocessableEntityException } from '@nestjs/common';
+import {
+  AuthService,
+  AuthServiceToken,
+  LoginCredentials,
+  TokenDto,
+  TokenGenerator,
+  TokenGeneratorToken,
+} from '../client';
 
 jest.mock('typeorm-transactional-cls-hooked', () => ({
   Transactional: () => () => ({}),
@@ -38,7 +40,6 @@ describe('AuthService', () => {
   let roleStorage: RoleStorage;
   let tokenGenerator: TokenGenerator;
   let bcryptService: BcryptService;
-  let jwtService: JwtService;
   const date = new Date();
 
   beforeEach(async () => {
@@ -95,7 +96,6 @@ describe('AuthService', () => {
     roleStorage = moduleRef.get(RoleStorageToken);
     tokenGenerator = moduleRef.get(TokenGeneratorToken);
     bcryptService = moduleRef.get(BcryptService);
-    jwtService = moduleRef.get(JwtService);
   });
 
   describe('test register', () => {
@@ -107,7 +107,7 @@ describe('AuthService', () => {
           type: 'asd',
         },
       ];
-      const result: FinishLoginResponseDto = {
+      const result: LoginCredentials = {
         tokens: mockTokensResponse,
       };
       const mockRoles: Role[] = [

@@ -1,5 +1,5 @@
 import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
-import { TokenDto } from '../entities/dtos/finish-login-response.dto';
+import { TokenDto } from '../types';
 
 export const TokenGeneratorToken = randomStringGenerator();
 
