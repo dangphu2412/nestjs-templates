@@ -1,4 +1,4 @@
-import { AuthorizationStrategy } from '../client/authorization';
+import { AuthorizationStrategy } from '../../client';
 import { Logger } from '@nestjs/common';
 
 export const StrategiesKeyById: Record<string, AuthorizationStrategy> = {};

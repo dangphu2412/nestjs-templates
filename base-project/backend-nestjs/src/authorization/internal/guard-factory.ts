@@ -2,7 +2,7 @@ import { Reflector } from '@nestjs/core';
 import { ExecutionContext, ForbiddenException, Type } from '@nestjs/common';
 import { StrategiesKeyById } from './strategies/authorization-strategy.register';
 import { ROLE_META_DATA_KEY } from './decorators/can-access-by.decorator';
-import { AuthorizationGuard } from './client/authorization';
+import { AuthorizationGuard } from '../client';
 
 export function CreateAuthorizationGuard(
   strategyId: string,

@@ -2,7 +2,7 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 import { BcryptService } from '../../shared/services/bcrypt.service';
 import { ConfigService } from '@nestjs/config';
-import { Role } from '../../authorization/entities/role.entity';
+import { Role } from '../../authorization';
 import { ModuleConfig } from '../../shared/services/module-config';
 
 export class SeedUsers1657339686264 implements MigrationInterface {

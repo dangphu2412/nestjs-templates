@@ -4,7 +4,7 @@ import { AuthController } from '../internal/auth.controller';
 import {
   RoleStorage,
   RoleStorageToken,
-} from '../../authorization/client/role-storage';
+} from '../../authorization/client/interfaces/role-storage';
 import { extractJwtPayload } from '../internal/utils/jwt.utils';
 import { AuthService, AuthServiceToken, LoginCredentials } from '../client';
 

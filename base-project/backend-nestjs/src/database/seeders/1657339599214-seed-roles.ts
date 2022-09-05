@@ -1,5 +1,5 @@
 import { In, MigrationInterface, QueryRunner } from 'typeorm';
-import { Role } from '../../authorization/entities/role.entity';
+import { Role } from '../../authorization';
 
 export class SeedRoles1657339599214 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {

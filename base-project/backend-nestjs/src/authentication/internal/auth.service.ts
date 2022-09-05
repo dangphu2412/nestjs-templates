@@ -9,16 +9,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { AuthExceptionClientCode } from '../../exception/exception-client-code.constant';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
-import {
-  RoleService,
-  RoleServiceToken,
-} from '../../authorization/client/role.service';
 import { BcryptService } from '../../shared/services/bcrypt.service';
-import {
-  RoleStorage,
-  RoleStorageToken,
-} from '../../authorization/client/role-storage';
-import { Role } from '../../authorization/entities/role.entity';
 import { extractJwtPayload } from './utils/jwt.utils';
 import {
   AuthService,
@@ -29,6 +20,13 @@ import {
   TokenGenerator,
   TokenGeneratorToken,
 } from '../client';
+import {
+  Role,
+  RoleService,
+  RoleServiceToken,
+  RoleStorage,
+  RoleStorageToken,
+} from '../../authorization';
 
 @Injectable()
 export class AuthServiceImpl implements AuthService {

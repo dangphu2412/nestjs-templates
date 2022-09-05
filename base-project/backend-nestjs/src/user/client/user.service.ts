@@ -1,7 +1,7 @@
 import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
 import { User } from '../entities/user.entity';
 import { CreateUserDto } from '../entities/dtos/create-user.dto';
-import { Role } from '../../authorization/entities/role.entity';
+import { Role } from '../../authorization';
 import { MyProfile } from '../../authentication';
 import { GetUserQueryDto } from '../entities/dtos/get-user-query.dto';
 import { UserSummary } from '../entities/dtos/user-summary.response';

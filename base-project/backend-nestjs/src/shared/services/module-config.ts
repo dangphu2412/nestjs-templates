@@ -4,7 +4,7 @@ import { JwtModuleOptions } from '@nestjs/jwt';
 import { isBooleanString } from 'class-validator';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm/dist/interfaces/typeorm-options.interface';
 import { User } from '../../user/entities/user.entity';
-import { Role } from '../../authorization/entities/role.entity';
+import { Role } from '../../authorization';
 import { Menu } from '../../menu/entities/menu.entity';
 
 @Injectable()

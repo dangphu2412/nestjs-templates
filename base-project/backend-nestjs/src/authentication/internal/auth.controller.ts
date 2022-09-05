@@ -4,7 +4,7 @@ import { ApiNoContentResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   RoleStorage,
   RoleStorageToken,
-} from '../../authorization/client/role-storage';
+} from '../../authorization/client/interfaces/role-storage';
 import { extractJwtPayload } from './utils/jwt.utils';
 import {
   AuthService,

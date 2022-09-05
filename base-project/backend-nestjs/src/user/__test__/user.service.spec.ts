@@ -7,7 +7,7 @@ import { UserRepository } from '../user.repository';
 import { User } from '../entities/user.entity';
 import { GetUserQueryDto } from '../entities/dtos/get-user-query.dto';
 import { CreateUserDto } from '../entities/dtos/create-user.dto';
-import { Role } from '../../authorization/entities/role.entity';
+import { Role } from '../../authorization';
 import { NotFoundException } from '@nestjs/common';
 
 describe('UserService', () => {

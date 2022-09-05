@@ -1,18 +1,9 @@
 import { Test } from '@nestjs/testing';
 import { UserService, UserServiceToken } from '../../user/client/user.service';
 import { AuthServiceImpl } from '../internal/auth.service';
-import {
-  RoleService,
-  RoleServiceToken,
-} from '../../authorization/client/role.service';
 import { JwtService } from '@nestjs/jwt';
 import { BcryptService } from '../../shared/services/bcrypt.service';
-import {
-  RoleStorage,
-  RoleStorageToken,
-} from '../../authorization/client/role-storage';
 import { User } from '../../user/entities/user.entity';
-import { Role } from '../../authorization/entities/role.entity';
 import { UnprocessableEntityException } from '@nestjs/common';
 import {
   AuthService,
@@ -22,6 +13,13 @@ import {
   TokenGenerator,
   TokenGeneratorToken,
 } from '../client';
+import {
+  Role,
+  RoleService,
+  RoleServiceToken,
+  RoleStorage,
+  RoleStorageToken,
+} from '../../authorization';
 
 jest.mock('typeorm-transactional-cls-hooked', () => ({
   Transactional: () => () => ({}),

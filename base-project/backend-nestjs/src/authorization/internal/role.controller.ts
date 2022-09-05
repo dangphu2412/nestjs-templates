@@ -1,6 +1,6 @@
 import { Controller, Get, Inject } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { RoleService, RoleServiceToken } from './client/role.service';
+import { RoleService, RoleServiceToken } from '../client/interfaces/role.service';
 
 @Controller({
   path: 'roles',

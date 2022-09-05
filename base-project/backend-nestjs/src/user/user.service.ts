@@ -3,7 +3,7 @@ import { UserService } from './client/user.service';
 import { UserRepository } from './user.repository';
 import { CreateUserDto } from './entities/dtos/create-user.dto';
 import { User } from './entities/user.entity';
-import { Role } from '../authorization/entities/role.entity';
+import { Role } from '../authorization';
 import { GetUserQueryDto } from './entities/dtos/get-user-query.dto';
 import { UserSummary } from './entities/dtos/user-summary.response';
 import { UserClientCode } from '../exception/exception-client-code.constant';

@@ -1,11 +1,10 @@
 import { Controller, Get, Inject, Param, Patch, Query } from '@nestjs/common';
 import { ApiNoContentResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { UserService, UserServiceToken } from './client/user.service';
-import { CanAccessBy } from '../authorization/decorators/can-access-by.decorator';
 import { GetUserQueryDto } from './entities/dtos/get-user-query.dto';
-import { RoleDef } from '../authorization/constants/role-def.enum';
 import { UserSummary } from './entities/dtos/user-summary.response';
 import { CurrentUser, Identified, JwtPayload } from '../authentication';
+import { CanAccessBy, RoleDef } from '../authorization';
 
 @ApiTags('users')
 @Controller({
