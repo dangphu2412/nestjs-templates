@@ -1,14 +1,17 @@
 import { Test } from '@nestjs/testing';
-import { UserController } from '../user.controller';
-import { UserService, UserServiceToken } from '../client/user.service';
-import { UserSummary } from '../entities/dtos/user-summary.response';
-import { UserServiceImpl } from '../user.service';
-import { UserRepository } from '../user.repository';
-import { User } from '../entities/user.entity';
-import { GetUserQueryDto } from '../entities/dtos/get-user-query.dto';
-import { CreateUserDto } from '../entities/dtos/create-user.dto';
 import { Role } from '../../authorization';
 import { NotFoundException } from '@nestjs/common';
+import { UserRepository } from '../internal/user.repository';
+import { UserServiceImpl } from '../internal/user.service';
+import { UserController } from '../internal/user.controller';
+import {
+  CreateUserDto,
+  User,
+  UserManagementQuery,
+  UserManagementView,
+  UserService,
+  UserServiceToken,
+} from '../client';
 
 describe('UserService', () => {
   let userService: UserService;
@@ -63,7 +66,7 @@ describe('UserService', () => {
 
   describe('UserService.find', () => {
     it('should return user summaries', async () => {
-      const result: UserSummary[] = [
+      const result: UserManagementView = [
         {
           id: '1',
           username: 'username',
@@ -73,7 +76,7 @@ describe('UserService', () => {
           deletedAt: date,
         },
       ];
-      const query: GetUserQueryDto = {
+      const query: UserManagementQuery = {
         size: 10,
         page: 1,
         activeDateRange: {
@@ -91,7 +94,7 @@ describe('UserService', () => {
     });
 
     it('should return empty data when no records found', async () => {
-      const query: GetUserQueryDto = {
+      const query: UserManagementQuery = {
         size: 10,
         page: 1,
         activeDateRange: {

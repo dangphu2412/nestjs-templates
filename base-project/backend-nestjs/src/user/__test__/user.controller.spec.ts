@@ -1,8 +1,7 @@
 import { Test } from '@nestjs/testing';
-import { UserController } from '../user.controller';
-import { UserService, UserServiceToken } from '../client/user.service';
+import { UserController } from '../internal/user.controller';
 import { MyProfile } from '../../authentication';
-import { UserSummary } from '../entities/dtos/user-summary.response';
+import { UserManagementView, UserService, UserServiceToken } from '../client';
 
 describe('AuthController', () => {
   let userController: UserController;
@@ -45,7 +44,7 @@ describe('AuthController', () => {
 
   describe('find', () => {
     it('should return users', async () => {
-      const result: UserSummary[] = [
+      const result: UserManagementView = [
         {
           username: 'fusdeptrai',
           id: '1',

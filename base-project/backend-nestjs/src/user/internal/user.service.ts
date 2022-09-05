@@ -1,13 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { UserService } from './client/user.service';
+import { UserService } from '../client/interfaces/user.service';
 import { UserRepository } from './user.repository';
-import { CreateUserDto } from './entities/dtos/create-user.dto';
-import { User } from './entities/user.entity';
-import { Role } from '../authorization';
-import { GetUserQueryDto } from './entities/dtos/get-user-query.dto';
-import { UserSummary } from './entities/dtos/user-summary.response';
-import { UserClientCode } from '../exception/exception-client-code.constant';
-import { MyProfile } from '../authentication';
+import { CreateUserDto } from '../client/dtos/create-user.dto';
+import { User } from '../client/entities/user.entity';
+import { Role } from '../../authorization';
+import { UserManagementQuery } from '../client/dtos/user-management-query.dto';
+import { UserClientCode } from '../../exception/exception-client-code.constant';
+import { MyProfile } from '../../authentication';
+import { UserManagementView } from '../client/types/user-management-view.types';
 
 @Injectable()
 export class UserServiceImpl implements UserService {
@@ -19,7 +19,7 @@ export class UserServiceImpl implements UserService {
     });
   }
 
-  find(query: GetUserQueryDto): Promise<UserSummary[]> {
+  find(query: UserManagementQuery): Promise<UserManagementView> {
     const offset = (query.page - 1) * query.size;
     return this.userRepository.find({
       skip: offset,

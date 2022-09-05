@@ -1,4 +1,3 @@
-import { UserService, UserServiceToken } from '../../user/client/user.service';
 import {
   BadRequestException,
   Inject,
@@ -27,6 +26,7 @@ import {
   RoleStorage,
   RoleStorageToken,
 } from '../../authorization';
+import { UserService, UserServiceToken } from '../../user';
 
 @Injectable()
 export class AuthServiceImpl implements AuthService {

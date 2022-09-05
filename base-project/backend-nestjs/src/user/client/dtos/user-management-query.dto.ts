@@ -6,7 +6,7 @@ import { SortQuery } from '../../../shared/query-shape/sort/entities/sort.query'
 import { ToSortQuery } from '../../../shared/query-shape/sort/decorators/to-sort-query.decorator';
 import { IsSortQueryContains } from '../../../shared/query-shape/sort/decorators/is-sort-query-contains.decorator';
 
-export class GetUserQueryDto extends OffsetPagination {
+export class UserManagementQuery extends OffsetPagination {
   @ToDateRange()
   @ValidateNested()
   activeDateRange?: DateRange;

@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtModuleOptions } from '@nestjs/jwt';
 import { isBooleanString } from 'class-validator';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm/dist/interfaces/typeorm-options.interface';
-import { User } from '../../user/entities/user.entity';
+import { User } from '../../user';
 import { Role } from '../../authorization';
 import { Menu } from '../../menu/entities/menu.entity';
 

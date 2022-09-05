@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Role } from '../../authorization';
+import { Role } from '../../../authorization';
 import { Exclude } from 'class-transformer';
 
 @Entity({

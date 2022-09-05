@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserController } from './user.controller';
-import { UserServiceToken } from './client/user.service';
+import { UserServiceToken } from '../client/interfaces/user.service';
 import { UserServiceImpl } from './user.service';
 import { UserRepository } from './user.repository';
 

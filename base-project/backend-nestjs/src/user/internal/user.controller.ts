@@ -1,10 +1,13 @@
 import { Controller, Get, Inject, Param, Patch, Query } from '@nestjs/common';
 import { ApiNoContentResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { UserService, UserServiceToken } from './client/user.service';
-import { GetUserQueryDto } from './entities/dtos/get-user-query.dto';
-import { UserSummary } from './entities/dtos/user-summary.response';
-import { CurrentUser, Identified, JwtPayload } from '../authentication';
-import { CanAccessBy, RoleDef } from '../authorization';
+import {
+  UserService,
+  UserServiceToken,
+} from '../client/interfaces/user.service';
+import { UserManagementQuery } from '../client/dtos/user-management-query.dto';
+import { CurrentUser, Identified, JwtPayload } from '../../authentication';
+import { CanAccessBy, RoleDef } from '../../authorization';
+import { UserManagementView } from '../client/types/user-management-view.types';
 
 @ApiTags('users')
 @Controller({
@@ -27,7 +30,7 @@ export class UserController {
   @CanAccessBy(RoleDef.ADMIN)
   @Get('/')
   @ApiOkResponse()
-  find(@Query() query: GetUserQueryDto): Promise<UserSummary[]> {
+  find(@Query() query: UserManagementQuery): Promise<UserManagementView> {
     return this.userService.find(query);
   }
 
