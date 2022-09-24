@@ -1,22 +1,28 @@
 import React from 'react';
-import { Paginator } from '../../../../shared/components/Pagination/Paginator';
-import { usePagination } from '../../../../shared/common/pagination/pagination.hook';
+import { Paginator } from '@modules/shared/components/Pagination/Paginator';
+import { useDispatch } from 'react-redux';
+import { userActions } from '@modules/user/store/user.slice';
 
 export function PaginationContainer(): React.ReactElement {
-  const { setPagination } = usePagination();
+  const dispatch = useDispatch();
 
-  function onPaginationChange(currentPage: number, currentPageSize: number) {
-    setPagination({
-      page: currentPage,
-      pageSize: currentPageSize
-    });
+  function handlePaginationChange(
+    currentPage: number,
+    currentPageSize: number
+  ) {
+    dispatch(
+      userActions.setPagination({
+        page: currentPage,
+        size: currentPageSize
+      })
+    );
   }
 
   return (
     <Paginator
       className="py-2"
       totalPage={100}
-      onPaginationChange={onPaginationChange}
+      onPaginationChange={handlePaginationChange}
     />
   );
 }

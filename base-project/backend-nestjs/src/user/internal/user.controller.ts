@@ -5,6 +5,7 @@ import {
   Inject,
   Param,
   Patch,
+  Post,
   Query,
 } from '@nestjs/common';
 import {
@@ -56,7 +57,7 @@ export class UserController {
   }
 
   @CanAccessBy(RoleDef.ADMIN)
-  @Get('/')
+  @Post('/')
   @ApiCreatedResponse()
   async createUser(@Body() createUserDto: CreateUserDto) {
     await this.userService.assertUsernameNotDuplicated(createUserDto.username);

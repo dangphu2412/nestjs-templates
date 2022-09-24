@@ -16,9 +16,10 @@ import { PaginationContainer } from '@modules/user/components/AdminTable/Paginat
 import { TableHeaderContainer } from '@modules/user/components/AdminTable/TableHeader/TableHeaderContainer';
 import { AdminContainer } from '@modules/user/containers/AdminContainer/AdminContainer';
 import { FilterBar } from '@modules/user/components/AdminTable/FilterBar/FilterBar';
+import { FullLoader } from '@modules/shared/components/Loader/Full/FullLoader';
 
 export default function AdministratorPage(): React.ReactElement {
-  const { data } = useQueryUsers();
+  const { data, isLoading } = useQueryUsers();
   const columns = useAdminColumns();
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -26,6 +27,8 @@ export default function AdministratorPage(): React.ReactElement {
 
   return (
     <AdminContainer>
+      <FullLoader isLoading={isLoading} />
+
       <div className="px-6">
         <TableHeaderContainer />
         <FilterBar />
@@ -35,6 +38,7 @@ export default function AdministratorPage(): React.ReactElement {
       <TableContainer>
         <Table variant="simple" {...getTableProps()}>
           <TableCaption>Manage admin users</TableCaption>
+
           <Thead>
             {headerGroups.map(headerGroup => (
               <Tr {...headerGroup.getHeaderGroupProps()}>
@@ -46,6 +50,7 @@ export default function AdministratorPage(): React.ReactElement {
               </Tr>
             ))}
           </Thead>
+
           <Tbody {...getTableBodyProps()}>
             {rows.map(row => {
               prepareRow(row);

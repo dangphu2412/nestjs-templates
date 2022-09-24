@@ -20,15 +20,16 @@ export function MoreActionCell({
 
   const actionItems: ActionOnUserItem[] = [
     {
-      key: '1',
+      key: `UPDATE_USER_KEY${row.original.id}`,
       content: 'Update user'
     },
     {
-      key: '2',
+      key: `TOGGLE_STATUS_KEY${row.original.id}`,
       content: 'Toggle status',
       onClick: () => toggleUserActive(row.original.id)
     }
   ];
+
   return (
     <Menu>
       <MenuButton className={styles['cell-more-option']} cursor="pointer">

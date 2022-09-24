@@ -31,6 +31,7 @@ const userSlice = createSlice({
   initialState: initialUserState,
   reducers: {
     setPagination: (state, action: PayloadAction<Pagination>) => {
+      state.isSubmitted = true;
       state.pagination = action.payload;
     },
     setFilter: (state, action: PayloadAction<FilterParam<AdminFilter>>) => {

@@ -35,6 +35,7 @@ export function TableHeader({ onAddNewUser }: Props): React.ReactElement {
 
   function handleSaveUser(createUserInputs: CreateUserInputs): void {
     onAddNewUser(createUserInputs);
+    onClose();
   }
 
   return (
@@ -69,7 +70,7 @@ export function TableHeader({ onAddNewUser }: Props): React.ReactElement {
               <FormLabel htmlFor="username">Username</FormLabel>
               <Input
                 {...register('username')}
-                id="username"
+                type="text"
                 placeholder="Please enter user name"
               />
             </div>
@@ -77,8 +78,8 @@ export function TableHeader({ onAddNewUser }: Props): React.ReactElement {
             <div>
               <FormLabel htmlFor="password">Password</FormLabel>
               <Input
-                id="password"
                 {...register('password')}
+                type="password"
                 placeholder="Please enter password"
               />
             </div>
@@ -88,8 +89,8 @@ export function TableHeader({ onAddNewUser }: Props): React.ReactElement {
                 Confirm Your Password
               </FormLabel>
               <Input
-                id="confirmPassword"
                 {...register('confirmPassword')}
+                type="password"
                 placeholder="Please confirm your password"
               />
             </div>

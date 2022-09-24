@@ -7,7 +7,8 @@ import { User } from '../../../models/user.type';
 export function StatusCell({
   value
 }: CellProps<User, string>): React.ReactElement {
-  const isUserAvailable = value !== null;
+  const isUserAvailable = value === null;
+
   return (
     <div
       className={classNames(

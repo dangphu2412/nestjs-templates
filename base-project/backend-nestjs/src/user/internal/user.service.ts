@@ -40,9 +40,11 @@ export class UserServiceImpl implements UserService {
 
   find(query: UserManagementQuery): Promise<UserManagementView> {
     const offset = (query.page - 1) * query.size;
+
     return this.userRepository.find({
       skip: offset,
       take: query.size,
+      withDeleted: true,
     });
   }
 
