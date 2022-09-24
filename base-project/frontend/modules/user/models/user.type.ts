@@ -6,3 +6,8 @@ export type User = {
   createdAt: string;
   deletedAt: string;
 };
+
+export type CreateUserDto = {
+  username: string;
+  password: string;
+};

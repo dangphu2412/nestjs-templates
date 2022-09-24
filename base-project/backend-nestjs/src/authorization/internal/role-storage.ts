@@ -1,4 +1,4 @@
-import { RoleStorage } from '../client';
+import { Role, RoleMapByActiveState, RoleStorage } from '../client';
 import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import type { Cache } from 'cache-manager';
 import { ConfigService } from '@nestjs/config';
@@ -11,6 +11,13 @@ export class RoleStorageImpl implements RoleStorage {
 
   private static generateCacheKey(userId: string): string {
     return `${RoleStorageImpl.ROLE_CACHE_KEY}-${userId}`;
+  }
+
+  private static toRoleKeys(roles: Role[]): RoleMapByActiveState {
+    return roles.reduce((roles: Record<string, boolean>, currentRole) => {
+      roles[currentRole.key] = true;
+      return roles;
+    }, {});
   }
 
   constructor(
@@ -31,10 +38,10 @@ export class RoleStorageImpl implements RoleStorage {
     );
   }
 
-  async set(userId: string, roles: Record<string, boolean>): Promise<void> {
+  async set(userId: string, roles: Role[]): Promise<void> {
     await this.cacheManager.set(
       RoleStorageImpl.generateCacheKey(userId),
-      roles,
+      RoleStorageImpl.toRoleKeys(roles),
       this.ttl,
     );
   }

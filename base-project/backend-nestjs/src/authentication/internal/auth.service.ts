@@ -20,7 +20,6 @@ import {
   TokenGeneratorToken,
 } from '../client';
 import {
-  Role,
   RoleService,
   RoleServiceToken,
   RoleStorage,
@@ -43,26 +42,13 @@ export class AuthServiceImpl implements AuthService {
     private readonly bcryptService: BcryptService,
   ) {}
 
-  private static toRoleKeys(roles: Role[]): Record<string, boolean> {
-    return roles.reduce((roles: Record<string, boolean>, currentRole) => {
-      roles[currentRole.key] = true;
-      return roles;
-    }, {});
-  }
-
   @Transactional()
   async register(
     basicRegisterRequestDto: BasicRegisterDto,
   ): Promise<LoginCredentials> {
-    const user = await this.userService.findByUsername(
+    await this.userService.assertUsernameNotDuplicated(
       basicRegisterRequestDto.username,
     );
-
-    if (user) {
-      throw new UnprocessableEntityException(
-        AuthExceptionClientCode.DUPLICATED_USERNAME,
-      );
-    }
 
     const hashedPassword = await this.bcryptService.hash(
       basicRegisterRequestDto.password,
@@ -77,11 +63,10 @@ export class AuthServiceImpl implements AuthService {
     ]);
 
     await this.userService.updateRolesForUser(createdUser, roles);
-    const roleKeys = AuthServiceImpl.toRoleKeys(roles);
 
     const [tokens] = await Promise.all([
       this.tokenGenerator.generate(createdUser.id),
-      this.roleStorage.set(createdUser.id, roleKeys),
+      this.roleStorage.set(createdUser.id, roles),
     ]);
 
     return {
@@ -94,23 +79,22 @@ export class AuthServiceImpl implements AuthService {
       basicLoginRequestDto.username,
       ['roles'],
     );
-
-    if (
+    const cannotLogin =
       !user ||
       (await this.bcryptService.compare(
         basicLoginRequestDto.password,
         user.password,
-      ))
-    ) {
+      ));
+
+    if (cannotLogin) {
       throw new UnprocessableEntityException(
         AuthExceptionClientCode.INCORRECT_USERNAME_OR_PASSWORD,
       );
     }
-    const roleKeys = AuthServiceImpl.toRoleKeys(user.roles);
 
     const [tokens] = await Promise.all([
       this.tokenGenerator.generate(user.id),
-      this.roleStorage.set(user.id, roleKeys),
+      this.roleStorage.set(user.id, user.roles),
     ]);
 
     return {
@@ -129,12 +113,15 @@ export class AuthServiceImpl implements AuthService {
       };
     } catch {
       const jwtPayload = extractJwtPayload(refreshToken);
+
       if (!jwtPayload) {
         throw new BadRequestException(
           AuthExceptionClientCode.INVALID_TOKEN_FORMAT,
         );
       }
+
       await this.roleStorage.clean(jwtPayload.sub);
+
       throw new UnauthorizedException(AuthExceptionClientCode.LOGOUT_REQUIRED);
     }
   }

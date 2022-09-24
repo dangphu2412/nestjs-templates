@@ -16,14 +16,26 @@ import {
 } from '@chakra-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { useForm } from 'react-hook-form';
+
+export type CreateUserInputs = {
+  username: string;
+  password: string;
+  confirmPassword: string;
+};
 
 type Props = {
-  onAddNewUser: React.MouseEventHandler<HTMLButtonElement>;
+  onAddNewUser(createUserInputs: CreateUserInputs): void;
 };
 
 export function TableHeader({ onAddNewUser }: Props): React.ReactElement {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef<HTMLButtonElement>(null);
+  const { register, handleSubmit } = useForm<CreateUserInputs>();
+
+  function handleSaveUser(createUserInputs: CreateUserInputs): void {
+    onAddNewUser(createUserInputs);
+  }
 
   return (
     <Flex justifyContent="space-between" className="pt-6 pb-2">
@@ -55,12 +67,20 @@ export function TableHeader({ onAddNewUser }: Props): React.ReactElement {
           <DrawerBody className="space-y-2">
             <div>
               <FormLabel htmlFor="username">Username</FormLabel>
-              <Input id="username" placeholder="Please enter user name" />
+              <Input
+                {...register('username')}
+                id="username"
+                placeholder="Please enter user name"
+              />
             </div>
 
             <div>
               <FormLabel htmlFor="password">Password</FormLabel>
-              <Input id="password" placeholder="Please enter password" />
+              <Input
+                id="password"
+                {...register('password')}
+                placeholder="Please enter password"
+              />
             </div>
 
             <div>
@@ -69,13 +89,9 @@ export function TableHeader({ onAddNewUser }: Props): React.ReactElement {
               </FormLabel>
               <Input
                 id="confirmPassword"
+                {...register('confirmPassword')}
                 placeholder="Please confirm your password"
               />
-            </div>
-
-            <div>
-              <FormLabel htmlFor="avatar">Avatar</FormLabel>
-              <Input id="avatar" />
             </div>
           </DrawerBody>
 
@@ -83,7 +99,7 @@ export function TableHeader({ onAddNewUser }: Props): React.ReactElement {
             <Button variant="outline" mr={3} onClick={onClose}>
               Cancel
             </Button>
-            <Button colorScheme="blue" onClick={onAddNewUser}>
+            <Button colorScheme="blue" onClick={handleSubmit(handleSaveUser)}>
               Save
             </Button>
           </DrawerFooter>

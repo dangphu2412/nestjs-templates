@@ -14,6 +14,8 @@ export interface UserService {
   findByUsername(username: string): Promise<User>;
   findByUsername(username: string, relations: string[]): Promise<User>;
 
+  assertUsernameNotDuplicated(username: string): Promise<void>;
+
   getMyProfile(id: string): Promise<MyProfile>;
 
   create(dto: CreateUserDto): Promise<User>;

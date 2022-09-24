@@ -1,17 +1,36 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { UserService } from '../client/interfaces/user.service';
-import { UserRepository } from './user.repository';
-import { CreateUserDto } from '../client/dtos/create-user.dto';
-import { User } from '../client/entities/user.entity';
 import { Role } from '../../authorization';
-import { UserManagementQuery } from '../client/dtos/user-management-query.dto';
-import { UserClientCode } from '../../exception/exception-client-code.constant';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { UserRepository } from './user.repository';
+import {
+  CreateUserDto,
+  User,
+  UserManagementQuery,
+  UserManagementView,
+  UserService,
+} from '../client';
 import { MyProfile } from '../../authentication';
-import { UserManagementView } from '../client/types/user-management-view.types';
+import { UserClientCode } from '../../exception/exception-client-code.constant';
 
 @Injectable()
 export class UserServiceImpl implements UserService {
   constructor(private readonly userRepository: UserRepository) {}
+
+  async assertUsernameNotDuplicated(username: string): Promise<void> {
+    const isUsernameExisted =
+      (await this.userRepository.count({
+        where: {
+          username,
+        },
+      })) > 0;
+
+    if (isUsernameExisted) {
+      throw new ConflictException(UserClientCode.DUPLICATED_USERNAME);
+    }
+  }
 
   async getMyProfile(id: string): Promise<MyProfile | null> {
     return this.userRepository.findOne(id, {

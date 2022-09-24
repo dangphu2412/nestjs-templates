@@ -4,7 +4,6 @@ import {
 } from './exception-generator';
 
 export const AuthExceptionClientCode = {
-  DUPLICATED_USERNAME: generateClientException('AUTH__DUPLICATED_USERNAME'),
   INCORRECT_USERNAME_OR_PASSWORD: generateClientException({
     errorCode: 'AUTH__INCORRECT_USERNAME_OR_PASSWORD',
     message: 'Incorrect username or password',
@@ -19,6 +18,7 @@ export const UserClientCode = {
     errorCode: 'USER__NOT_FOUND',
     message: 'No user(s) found',
   }),
+  DUPLICATED_USERNAME: generateClientException('USER__DUPLICATED_USERNAME'),
 };
 
 export const SystemExceptionClientCode = {

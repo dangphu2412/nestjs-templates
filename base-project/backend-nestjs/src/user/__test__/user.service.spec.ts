@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 import { Role } from '../../authorization';
-import { NotFoundException } from '@nestjs/common';
+import { ConflictException, NotFoundException } from '@nestjs/common';
 import { UserRepository } from '../internal/user.repository';
 import { UserServiceImpl } from '../internal/user.service';
 import { UserController } from '../internal/user.controller';
@@ -34,6 +34,7 @@ describe('UserService', () => {
             save: jest.fn(),
             softDelete: jest.fn(),
             restore: jest.fn(),
+            count: jest.fn(),
           },
         },
       ],
@@ -310,6 +311,33 @@ describe('UserService', () => {
       expect(userRepository.findOne).toBeCalledWith('id', {
         withDeleted: true,
       });
+    });
+  });
+
+  describe('UserService.assertUsernameNotDuplicated', () => {
+    it('should throw error if username duplicated', async () => {
+      jest.spyOn(userRepository, 'count').mockResolvedValue(1);
+
+      await expect(
+        userService.assertUsernameNotDuplicated('username'),
+      ).rejects.toThrow(
+        new ConflictException({
+          errorCode: 'USER__DUPLICATED_USERNAME',
+          message: 'There is an error',
+        }),
+      );
+
+      expect(userRepository.count).toBeCalledTimes(1);
+    });
+
+    it('should not throw error if username is not duplicated', async () => {
+      jest.spyOn(userRepository, 'count').mockResolvedValue(0);
+
+      expect(
+        await userService.assertUsernameNotDuplicated('username'),
+      ).toBeUndefined();
+
+      expect(userRepository.count).toBeCalledTimes(1);
     });
   });
 });

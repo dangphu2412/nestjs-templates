@@ -14,11 +14,11 @@ export class TokenGeneratorImpl implements TokenGenerator {
   ) {
     this.accessTokenExpiration = configService.get<string>(
       'ACCESS_TOKEN_EXPIRATION',
-      '1m',
+      '1h',
     );
     this.refreshTokenExpiration = configService.get<string>(
       'REFRESH_TOKEN_EXPIRATION',
-      '1h',
+      '7d',
     );
   }
 
@@ -31,9 +31,11 @@ export class TokenGeneratorImpl implements TokenGenerator {
     const jwtPayload: JwtPayload = {
       sub: userId,
     };
+
     const accessToken = await this.jwtService.signAsync(jwtPayload, {
       expiresIn: this.accessTokenExpiration,
     });
+
     let refreshToken = providedRefreshToken;
 
     if (!providedRefreshToken) {

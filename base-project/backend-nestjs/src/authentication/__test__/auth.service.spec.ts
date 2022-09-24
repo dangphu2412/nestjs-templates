@@ -2,7 +2,6 @@ import { Test } from '@nestjs/testing';
 import { AuthServiceImpl } from '../internal/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { BcryptService } from '../../shared/services/bcrypt.service';
-import { UnprocessableEntityException } from '@nestjs/common';
 import {
   AuthService,
   AuthServiceToken,
@@ -51,7 +50,7 @@ describe('AuthService', () => {
           useValue: {
             updateRolesForUser: jest.fn(),
             create: jest.fn(),
-            findByUsername: jest.fn(),
+            assertUsernameNotDuplicated: jest.fn(),
           },
         },
         {
@@ -126,7 +125,9 @@ describe('AuthService', () => {
         updatedAt: date,
         deletedAt: date,
       };
-      jest.spyOn(userService, 'findByUsername').mockResolvedValue(null);
+      jest
+        .spyOn(userService, 'assertUsernameNotDuplicated')
+        .mockResolvedValue(null);
       jest.spyOn(bcryptService, 'hash').mockResolvedValue('hashed');
       jest.spyOn(userService, 'create').mockResolvedValue(mockUser);
       jest.spyOn(roleService, 'getNewUserRoles').mockResolvedValue(mockRoles);
@@ -145,33 +146,7 @@ describe('AuthService', () => {
         mockUser,
         mockRoles,
       );
-      expect(roleStorage.set).toBeCalledWith('1', { key: true });
-    });
-
-    it('should register failed because of non existing user', async () => {
-      const mockUser: User = {
-        id: '1',
-        username: 'username',
-        password: '',
-        email: '',
-        roles: [],
-        createdAt: date,
-        updatedAt: date,
-        deletedAt: date,
-      };
-      jest.spyOn(userService, 'findByUsername').mockResolvedValue(mockUser);
-
-      await expect(
-        authService.register({
-          username: 'username',
-          password: 'password',
-        }),
-      ).rejects.toThrow(
-        new UnprocessableEntityException({
-          errorCode: 'AUTH__DUPLICATED_USERNAME',
-          message: 'There is an error',
-        }),
-      );
+      expect(roleStorage.set).toBeCalledWith('1', mockRoles);
     });
   });
 });

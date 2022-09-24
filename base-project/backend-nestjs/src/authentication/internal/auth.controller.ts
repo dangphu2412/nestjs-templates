@@ -1,11 +1,4 @@
 import { Body, Controller, Delete, Inject, Post } from '@nestjs/common';
-
-import { ApiNoContentResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
-import {
-  RoleStorage,
-  RoleStorageToken,
-} from '../../authorization/client/interfaces/role-storage';
-import { extractJwtPayload } from './utils/jwt.utils';
 import {
   AuthService,
   AuthServiceToken,
@@ -13,6 +6,9 @@ import {
   BasicRegisterDto,
   RenewTokensDto,
 } from '../client';
+import { RoleStorage, RoleStorageToken } from '../../authorization';
+import { extractJwtPayload } from './utils/jwt.utils';
+import { ApiNoContentResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('auth')
 @Controller({

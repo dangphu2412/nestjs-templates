@@ -1,13 +1,27 @@
-import { Controller, Get, Inject, Param, Patch, Query } from '@nestjs/common';
-import { ApiNoContentResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import {
-  UserService,
-  UserServiceToken,
-} from '../client/interfaces/user.service';
-import { UserManagementQuery } from '../client/dtos/user-management-query.dto';
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Patch,
+  Query,
+} from '@nestjs/common';
+import {
+  ApiCreatedResponse,
+  ApiNoContentResponse,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CurrentUser, Identified, JwtPayload } from '../../authentication';
 import { CanAccessBy, RoleDef } from '../../authorization';
-import { UserManagementView } from '../client/types/user-management-view.types';
+import {
+  CreateUserDto,
+  UserManagementQuery,
+  UserManagementView,
+  UserService,
+  UserServiceToken,
+} from '../client';
 
 @ApiTags('users')
 @Controller({
@@ -39,5 +53,14 @@ export class UserController {
   @ApiNoContentResponse()
   async toggleIsActive(@Param('id') id: string) {
     await this.userService.toggleUserIsActive(id);
+  }
+
+  @CanAccessBy(RoleDef.ADMIN)
+  @Get('/')
+  @ApiCreatedResponse()
+  async createUser(@Body() createUserDto: CreateUserDto) {
+    await this.userService.assertUsernameNotDuplicated(createUserDto.username);
+
+    return this.userService.create(createUserDto);
   }
 }

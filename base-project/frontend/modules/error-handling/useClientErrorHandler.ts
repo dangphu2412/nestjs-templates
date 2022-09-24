@@ -38,8 +38,10 @@ export function useClientErrorHandler(): ClientErrorHandler {
           message: 'Getting network error'
         };
       }
+
       const isClientError = isClientException(error?.response?.data);
       const errorCode = error?.response?.data?.errorCode;
+
       return {
         isClientError,
         isSystemError: error.response.status >= 500,

@@ -1,3 +1,3 @@
-import { User } from '../../../user/client/entities/user.entity';
+import { User } from '../../../user';
 
 export type MyProfile = Pick<User, 'id' | 'username'>;

@@ -1,9 +1,15 @@
 import React from 'react';
-import { TableHeader } from './TableHeader';
+import { useMutateCreateUser } from '@modules/user/hooks/data/useMutateCreateUser';
+import { CreateUserInputs, TableHeader } from './TableHeader';
 
 export function TableHeaderContainer(): React.ReactElement {
-  function handleAddNewUser() {
-    alert('Crete new user');
+  const { mutate } = useMutateCreateUser();
+
+  function handleAddNewUser(createUserInputs: CreateUserInputs) {
+    mutate({
+      password: createUserInputs.password,
+      username: createUserInputs.username
+    });
   }
 
   return (
