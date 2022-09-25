@@ -21,18 +21,14 @@ export function AdminLayout({
   }
 
   function handleHoverToggleItem() {
-    if (isSideBarHidden) {
-      if (!isSideBarHovering) {
-        setIsSideBarHovering(true);
-      }
+    if (isSideBarHidden && !isSideBarHovering) {
+      setIsSideBarHovering(true);
     }
   }
 
   function handleMouseLeaveToggleItem() {
-    if (isSideBarHidden) {
-      if (isSideBarHovering) {
-        setIsSideBarHovering(false);
-      }
+    if (isSideBarHidden && isSideBarHovering) {
+      setIsSideBarHovering(false);
     }
   }
 
@@ -56,7 +52,7 @@ export function AdminLayout({
         <Box flex={1}>
           <Header isMenuHidden={isSideBarHidden} />
 
-          <div className="p-6 h-screen">{children}</div>
+          <div className="p-6">{children}</div>
 
           <Footer ref={footerRef} />
         </Box>

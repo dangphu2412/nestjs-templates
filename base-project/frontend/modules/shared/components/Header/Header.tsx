@@ -51,35 +51,33 @@ export function Header({ isMenuHidden }: Props): React.ReactElement {
 
   const [isHeaderLeftTop, setIsHeaderLeftTop] = React.useState(false);
 
-  React.useEffect(
-    function watchOffsetScroll() {
-      function handleDisplayHeader() {
-        if (!headerRef.current) {
-          return;
-        }
-
-        const isHeaderLeaving =
-          headerRef.current.offsetTop > HEADER_TOP_SPACE && !isHeaderLeftTop;
-
-        if (isHeaderLeaving) {
-          setIsHeaderLeftTop(true);
-          return;
-        }
-
-        const isHeaderBackToTop =
-          headerRef.current.offsetTop === HEADER_TOP_SPACE && isHeaderLeftTop;
-        if (isHeaderBackToTop) {
-          setIsHeaderLeftTop(false);
-        }
+  React.useEffect(() => {
+    function handleDisplayHeader() {
+      if (!headerRef.current) {
+        return;
       }
 
-      handleDisplayHeader();
+      const isHeaderLeaving =
+        headerRef.current.offsetTop > HEADER_TOP_SPACE && !isHeaderLeftTop;
 
-      window.addEventListener('scroll', handleDisplayHeader);
-      return () => window.removeEventListener('scroll', handleDisplayHeader);
-    },
-    [isHeaderLeftTop]
-  );
+      if (isHeaderLeaving) {
+        setIsHeaderLeftTop(true);
+        return;
+      }
+
+      const isHeaderBackToTop =
+        headerRef.current.offsetTop === HEADER_TOP_SPACE && isHeaderLeftTop;
+      if (isHeaderBackToTop) {
+        setIsHeaderLeftTop(false);
+      }
+    }
+
+    handleDisplayHeader();
+
+    window.addEventListener('scroll', handleDisplayHeader);
+
+    return () => window.removeEventListener('scroll', handleDisplayHeader);
+  }, [isHeaderLeftTop]);
 
   return (
     <Flex
@@ -92,6 +90,7 @@ export function Header({ isMenuHidden }: Props): React.ReactElement {
       alignItems="center"
       paddingX="1rem"
       paddingY="0.5rem"
+      zIndex="998"
     >
       <div>
         <Breadcrumb
