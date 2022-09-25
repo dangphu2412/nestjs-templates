@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { SharedModule } from './shared/shared.module';
-import { NewsModule } from './news/news.module';
+import { FilmsModule } from './films/films.module';
 
 @Module({
-  imports: [SharedModule, NewsModule],
+  imports: [SharedModule, FilmsModule],
 })
 export class AppModule {}

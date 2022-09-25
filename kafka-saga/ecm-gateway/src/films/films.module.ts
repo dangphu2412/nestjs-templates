@@ -1,22 +1,22 @@
 import { Module } from '@nestjs/common';
-import { NEWS_PACKAGE_NAME, protobufPackage } from './proto/news.grpc';
-import { NewsController } from './news.controller';
+import { FilmsController } from './films.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
+import { FILMS_PACKAGE_NAME, protobufPackage } from './proto/films.grpc';
 
 @Module({
   imports: [
     ClientsModule.register([
       {
-        name: NEWS_PACKAGE_NAME,
+        name: FILMS_PACKAGE_NAME,
         transport: Transport.GRPC,
         options: {
           package: protobufPackage,
-          protoPath: join(__dirname, 'proto/news.proto'),
+          protoPath: join(__dirname, 'proto/films.proto'),
         },
       },
     ]),
   ],
-  controllers: [NewsController],
+  controllers: [FilmsController],
 })
-export class NewsModule {}
+export class FilmsModule {}

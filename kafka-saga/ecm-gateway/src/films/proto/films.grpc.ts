@@ -3,55 +3,50 @@ import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
 import { Metadata } from '@grpc/grpc-js';
 import { Observable } from 'rxjs';
 
-export const protobufPackage = 'news';
+export const protobufPackage = 'films';
 
 export interface Empty {}
 
-export interface News {
-  data: New[];
+export interface Films {
+  data: Film[];
 }
 
-export interface New {
+export interface Film {
   id: number;
   title: string;
   content: string;
 }
 
-export const NEWS_PACKAGE_NAME = 'news';
-
-export interface NewsServiceClient {
-  findAll(request: Empty, metadata?: Metadata): Observable<News>;
-
-  sendMaintenanceEmailToCustomers(
-    request: Empty,
-    metadata?: Metadata,
-  ): Observable<Empty>;
+export interface FilmListingQuery {
+  page: number;
+  size: number;
+  search: string;
 }
 
-export interface NewsServiceController {
+export const FILMS_PACKAGE_NAME = 'films';
+
+export interface FilmsServiceClient {
+  findAll(request: FilmListingQuery, metadata?: Metadata): Observable<Films>;
+}
+
+export interface FilmsServiceController {
   findAll(
     request: Empty,
     metadata?: Metadata,
-  ): Promise<News> | Observable<News> | News;
-
-  sendMaintenanceEmailToCustomers(
-    request: Empty,
-    metadata?: Metadata,
-  ): Promise<Empty> | Observable<Empty> | Empty;
+  ): Promise<Films> | Observable<Films> | Films;
 }
 
-export function NewsServiceControllerMethods() {
+export function FilmsServiceControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = [
       'findAll',
-      'sendMaintenanceEmailToCustomers',
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(
         constructor.prototype,
         method,
       );
-      GrpcMethod('NewsService', method)(
+      GrpcMethod('FilmsService', method)(
         constructor.prototype[method],
         method,
         descriptor,
@@ -63,7 +58,7 @@ export function NewsServiceControllerMethods() {
         constructor.prototype,
         method,
       );
-      GrpcStreamMethod('NewsService', method)(
+      GrpcStreamMethod('FilmsService', method)(
         constructor.prototype[method],
         method,
         descriptor,
@@ -72,4 +67,4 @@ export function NewsServiceControllerMethods() {
   };
 }
 
-export const NEWS_SERVICE_NAME = 'NewsService';
+export const FILMS_SERVICE_NAME = 'FilmsService';

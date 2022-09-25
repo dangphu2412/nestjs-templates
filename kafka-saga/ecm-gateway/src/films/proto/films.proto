@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package films;
+
+service FilmsService {
+  rpc FindAll (FilmListingQuery) returns (Films) {}
+  rpc SendMaintenanceEmailToCustomers (Empty) returns (Empty) {}
+}
+
+message Empty {}
+
+message Films {
+  repeated Film data = 1;
+}
+
+message FilmListingQuery {
+  int32 page = 1;
+  int32 size = 2;
+  string search = 3;
+}
+
+message Film {
+  int32 id = 1;
+  string title = 2;
+  string content = 3;
+}
