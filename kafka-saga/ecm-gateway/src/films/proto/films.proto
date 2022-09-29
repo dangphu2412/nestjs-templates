@@ -4,19 +4,29 @@ package films;
 
 service FilmsService {
   rpc FindAll (FilmListingQuery) returns (Films) {}
-  rpc SendMaintenanceEmailToCustomers (Empty) returns (Empty) {}
 }
 
 message Empty {}
 
+message Pagination {
+  int32 page = 1;
+  int32 size = 2;
+}
+
+message PaginationMetadata {
+  int32 page = 1;
+  int32 size = 2;
+  int32 totalRecords = 3;
+  int32 totalPages = 4;
+}
+
 message Films {
-  repeated Film data = 1;
+  repeated Film items = 1;
 }
 
 message FilmListingQuery {
-  int32 page = 1;
-  int32 size = 2;
-  string search = 3;
+  Pagination pagination = 1;
+  string search = 2;
 }
 
 message Film {

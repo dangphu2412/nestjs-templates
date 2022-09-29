@@ -4,5 +4,5 @@ import { Menu } from '../entities/menu.entity';
 export const MenuServiceToken = randomStringGenerator();
 
 export interface MenuService {
-  find(): Promise<Menu[]>;
+  findMenusByUserId(userId: string): Promise<Menu[]>;
 }

@@ -90,4 +90,12 @@ export class UserServiceImpl implements UserService {
 
     await this.userRepository.restore(id);
   }
+
+  findById(id: string): Promise<User | null>;
+  findById(id: string, relations?: string[]): Promise<User | null>;
+  findById(id: string, relations?: string[]): Promise<User | null> {
+    return this.userRepository.findOne(id, {
+      relations,
+    });
+  }
 }

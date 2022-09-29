@@ -46,6 +46,7 @@ export class AuthServiceImpl implements AuthService {
   async register(
     basicRegisterRequestDto: BasicRegisterDto,
   ): Promise<LoginCredentials> {
+    // TODO: Retrieve record of user service and throw own auth service exception code
     await this.userService.assertUsernameNotDuplicated(
       basicRegisterRequestDto.username,
     );

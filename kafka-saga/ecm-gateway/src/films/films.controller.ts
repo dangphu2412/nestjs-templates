@@ -22,7 +22,7 @@ export class FilmsController implements OnModuleInit {
     private filmsClientGrpc: ClientGrpc,
   ) {}
 
-  onModuleInit(): any {
+  onModuleInit(): void {
     this.filmsService =
       this.filmsClientGrpc.getService<FilmsServiceClient>(FILMS_SERVICE_NAME);
   }

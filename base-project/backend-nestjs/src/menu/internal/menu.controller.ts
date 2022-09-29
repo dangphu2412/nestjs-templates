@@ -1,6 +1,7 @@
 import { Controller, Get, Inject } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { MenuService, MenuServiceToken } from '../client';
+import { CurrentUser, Identified, JwtPayload } from '../../authentication';
 
 @Controller({
   path: 'menus',
@@ -13,8 +14,9 @@ export class MenuController {
     private readonly menuService: MenuService,
   ) {}
 
+  @Identified
   @Get()
-  find() {
-    return this.menuService.find();
+  find(@CurrentUser() { sub: userId }: JwtPayload) {
+    return this.menuService.findMenusByUserId(userId);
   }
 }

@@ -11,6 +11,9 @@ export const UserServiceToken = randomStringGenerator();
 export interface UserService {
   find(query: UserManagementQuery): Promise<UserManagementView>;
 
+  findById(id: string): Promise<User | null>;
+  findById(id: string, relations: string[]): Promise<User | null>;
+
   findByUsername(username: string): Promise<User>;
   findByUsername(username: string, relations: string[]): Promise<User>;
 
