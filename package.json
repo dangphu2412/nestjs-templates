@@ -15,5 +15,8 @@
     "@commitlint/cli": "16.2.3",
     "@commitlint/config-angular": "16.2.3",
     "husky": "^8.0.1"
+  },
+  "dependencies": {
+    "google-auth-library": "^8.5.2"
   }
 }
