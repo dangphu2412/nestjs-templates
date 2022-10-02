@@ -44,6 +44,7 @@ async function bootstrap() {
   });
   await app.register(compression, { encodings: ['gzip', 'deflate'] });
 
+  app.setGlobalPrefix('/api');
   app.enableCors();
   app.useGlobalPipes(
     new ValidationPipe({

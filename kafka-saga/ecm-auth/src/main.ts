@@ -11,7 +11,7 @@ import { logAppScaffold } from './utils/app.utils';
 import { registerPaginationConfig } from './shared/query-shape/pagination/config/register-pagination.config';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
-import { NEWS_PACKAGE_NAME } from './auth/proto/news.grpc';
+import { AUTH_PACKAGE_NAME } from './auth/proto/auth.grpc';
 
 async function bootstrap() {
   initializeTransactionalContext();
@@ -24,7 +24,7 @@ async function bootstrap() {
     {
       transport: Transport.GRPC,
       options: {
-        package: NEWS_PACKAGE_NAME,
+        package: AUTH_PACKAGE_NAME,
         protoPath: join(__dirname, 'auth/proto/auth.proto'),
       },
     },

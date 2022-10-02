@@ -1,13 +1,14 @@
 import { Authenticator, JwtPayload } from '../clients';
 import { AuthCredentials, LoginGoogleDto } from '../proto/auth.grpc';
-import { GoogleOauth2ClientToken } from './google-oauth2-client';
+import { GoogleOauth2ClientToken } from './google-oauth2-client.provider';
 import { Inject } from '@nestjs/common';
-import { OAuth2Client, TokenPayload } from 'google-auth-library';
+import { LoginTicket, OAuth2Client, TokenPayload } from 'google-auth-library';
 import { AppConfig } from '../../shared/app-config';
 import { AuthGrpcExceptionCode } from '../../exception/exception-client-code.constant';
 import { CreateUserDto, UserService, UserServiceToken } from '../../user';
 import { JwtService } from '@nestjs/jwt';
 import { InternalRpcException } from '../../exception/rpc/internal-rpc.exception';
+import { InvalidArgumentRpcException } from '../../exception/rpc/invalid-argument-rpc.exception';
 
 export class AuthenticatorImpl implements Authenticator {
   private readonly clientId: string;
@@ -24,10 +25,7 @@ export class AuthenticatorImpl implements Authenticator {
   }
 
   async verify(dto: LoginGoogleDto): Promise<AuthCredentials> {
-    const loginTicket = await this.googleOauth2Client.verifyIdToken({
-      idToken: dto.idToken,
-      audience: this.clientId,
-    });
+    const loginTicket = await this.getLoginTicket(dto.idToken);
 
     const tokenPayload: TokenPayload = loginTicket.getPayload();
 
@@ -66,6 +64,19 @@ export class AuthenticatorImpl implements Authenticator {
         },
       ],
     };
+  }
+
+  private async getLoginTicket(idToken: string): Promise<LoginTicket> {
+    try {
+      return await this.googleOauth2Client.verifyIdToken({
+        idToken,
+        audience: this.clientId,
+      });
+    } catch {
+      throw new InvalidArgumentRpcException(
+        AuthGrpcExceptionCode.INVALID_ID_TOKEN,
+      );
+    }
   }
 
   private validateScopes(tokenPayload: TokenPayload) {

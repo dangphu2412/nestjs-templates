@@ -4,7 +4,7 @@ import { AppConfig } from '../../shared/app-config';
 
 export const GoogleOauth2ClientToken = 'GoogleOauth2ClientToken';
 
-export const GoogleOauth2Client: Provider = {
+export const GoogleOauth2ClientProvider: Provider<OAuth2Client> = {
   provide: GoogleOauth2ClientToken,
   inject: [AppConfig],
   useFactory(appConfig: AppConfig) {

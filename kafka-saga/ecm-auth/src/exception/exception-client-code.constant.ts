@@ -10,6 +10,10 @@ export const AuthGrpcExceptionCode = {
     errorCode: 'MISSING_AUTH_SCOPE_PROVIDED',
     message: 'IdToken provided is missing scope profile when requested',
   }),
+  INVALID_ID_TOKEN: generateAuthException({
+    errorCode: 'INVALID_ID_TOKEN',
+    message: 'IdToken provided is invalid. Please check your config',
+  }),
 };
 
 export const UserGrpcExceptionCode = {

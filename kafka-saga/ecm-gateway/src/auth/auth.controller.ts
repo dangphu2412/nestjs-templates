@@ -30,6 +30,8 @@ export class AuthController implements OnModuleInit {
   loginByGoogle(
     @Body() loginGoogleDto: LoginGoogleDto,
   ): Observable<AuthCredentials> {
+    console.log(loginGoogleDto.idToken);
+    console.log(typeof loginGoogleDto.idToken);
     return this.authService.loginByGoogle(loginGoogleDto);
   }
 }
