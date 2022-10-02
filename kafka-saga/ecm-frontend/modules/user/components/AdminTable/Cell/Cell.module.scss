@@ -1,0 +1,7 @@
+.cell-status {
+  @apply inline-block rounded text-white py-0.5 px-1 font-bold;
+}
+
+.cell-more-option {
+  @apply cursor-pointer w-full text-left pl-7;
+}

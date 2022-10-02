@@ -1,0 +1,12 @@
+.btn-wrapper {
+  @apply absolute cursor-pointer delay-150 mt-[2rem] z-[999];
+  transition: margin 150ms;
+}
+
+.btn-stick-to-sidebar {
+  @apply top-0 left-0 ml-[calc(var(--sidebar-w)-0.5rem)];
+}
+
+.btn-stick-to-header {
+  @apply top-0 left-0 ml-10;
+}

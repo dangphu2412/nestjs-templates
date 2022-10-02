@@ -1,0 +1,7 @@
+.tab {
+  @apply px-4 py-2 w-full;
+}
+
+.tab-active {
+  @apply border rounded-l-md;
+}

@@ -1,0 +1,23 @@
+.sidebar-wrapper {
+  @apply ml-4 w-[var(--sidebar-w)];
+}
+
+.sidebar-dynamic-display {
+  @apply bg-white mt-10 z-[999] absolute -translate-x-96 transition-transform delay-150;
+}
+
+.sidebar-bloat {
+  @apply translate-x-0 mt-10 ml-6;
+}
+
+.active-menu {
+  @apply bg-white rounded-lg;
+  font-weight: 600;
+  box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+}
+
+.active-icon {
+  @apply bg-primary #{!important};
+}
+
+

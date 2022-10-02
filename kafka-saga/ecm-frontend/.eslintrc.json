@@ -1,0 +1,31 @@
+{
+  "extends": [
+    "react-app",
+    "airbnb-typescript",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "react/prop-types": "off",
+    "react/jsx-no-bind": "off",
+    "react/default-props": "off",
+    "react/require-default-props": "off",
+    "react/destructuring-assignment": ["off"],
+    "import/prefer-default-export": "off",
+    "import/no-cycle": "off",
+    "no-multi-assign": "off",
+    "no-param-reassign": "off",
+    "prefer-destructuring": "off",
+    "quotes": ["error", "single"],
+    "semi": "error"
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {}
+    }
+  },
+  "plugins": ["import", "jest-dom"]
+}
