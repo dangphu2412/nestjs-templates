@@ -1,5 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ModuleConfig } from './module-config';
 
 @Global()
 @Module({
@@ -8,7 +9,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       isGlobal: true,
     }),
   ],
-  providers: [ConfigService],
-  exports: [ConfigService],
+  providers: [ConfigService, ModuleConfig],
+  exports: [ConfigService, ModuleConfig],
 })
 export class SharedModule {}

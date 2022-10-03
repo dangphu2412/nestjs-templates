@@ -17,10 +17,6 @@ import { useRouter } from 'next/router';
 import classNames from 'classnames';
 import styles from './Header.module.scss';
 
-type Props = {
-  isMenuHidden: boolean;
-};
-
 type UserActionItem = {
   text: React.ReactNode;
   link: string;
@@ -30,7 +26,7 @@ type UserActionItem = {
 // TODO: Update handle of hook to track on element top position
 const HEADER_TOP_SPACE = 24;
 
-export function Header({ isMenuHidden }: Props): React.ReactElement {
+export function Header(): React.ReactElement {
   const router = useRouter();
   const headerRef = React.useRef<HTMLDivElement>(null);
 
@@ -93,11 +89,7 @@ export function Header({ isMenuHidden }: Props): React.ReactElement {
       zIndex="998"
     >
       <div>
-        <Breadcrumb
-          fontWeight="medium"
-          fontSize="sm"
-          marginLeft={isMenuHidden ? '2rem' : 0}
-        >
+        <Breadcrumb fontWeight="medium" fontSize="sm" marginLeft="2rem">
           <BreadcrumbItem>
             <BreadcrumbLink href="#">
               <FontAwesomeIcon icon={faStore} />

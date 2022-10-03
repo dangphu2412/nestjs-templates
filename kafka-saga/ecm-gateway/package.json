@@ -31,7 +31,7 @@
     "seeder:rollback": "npm run seeder migration:revert",
     "schema:drop": "npm run migration schema:drop",
     "schema:sync": "npm run migration schema:sync",
-    "proto:gen": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=. src/**/proto/*.proto --ts_proto_opt=fileSuffix=.grpc --ts_proto_opt=nestJs=true --ts_proto_opt=addGrpcMetadata=true"
+    "proto:gen": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=. src/**/proto/*.proto --ts_proto_opt=fileSuffix=.grpc --ts_proto_opt=nestJs=true --ts_proto_opt=addGrpcMetadata=true --ts_proto_opt=emitImportedFiles=true"
   },
   "dependencies": {
     "@fastify/helmet": "8.0.0",
@@ -42,6 +42,7 @@
     "@nestjs/core": "8.0.0",
     "@nestjs/jwt": "^8.0.1",
     "@nestjs/microservices": "8.0.0",
+    "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-fastify": "8.0.0",
     "@nestjs/swagger": "^5.2.1",
     "@nestjs/typeorm": "8.0.2",
@@ -51,6 +52,8 @@
     "fastify-swagger": "^5.2.0",
     "kafkajs": "^2.2.0",
     "lodash.isempty": "^4.4.0",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.0",
     "pg": "8.7.1",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.2.0",

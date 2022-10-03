@@ -2,8 +2,11 @@ syntax = "proto3";
 
 package auth;
 
+import "google/protobuf/empty.proto";
+
 service AuthService {
   rpc LoginByGoogle (LoginGoogleDto) returns (AuthCredentials) {}
+  rpc GetMyProfile (google.protobuf.Empty) returns (MyProfile) {}
 }
 
 message LoginGoogleDto {
@@ -17,4 +20,10 @@ message Token {
 
 message AuthCredentials {
   repeated Token tokens = 1;
+}
+
+message MyProfile {
+  string id = 1;
+  string email = 2;
+  string fullName = 3;
 }

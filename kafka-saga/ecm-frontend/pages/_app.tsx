@@ -8,7 +8,7 @@ import * as React from 'react';
 import { Provider } from 'react-redux';
 import { NextPage } from 'next';
 import { UserProvider } from '@modules/user/contexts/UserContext/user.provider';
-import { AdminLayout } from '@modules/shared/layouts/AdminLayout/AdminLayout';
+import { AppLayout } from '@modules/shared/layouts/AdminLayout/AppLayout';
 import { store } from '../config/store';
 
 export type NextPageWithLayout = NextPage & {
@@ -32,7 +32,7 @@ const theme = extendTheme({
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const [queryClient] = React.useState(() => new QueryClient());
   const renderLayout =
-    Component.getLayout ?? (page => <AdminLayout>{page}</AdminLayout>);
+    Component.getLayout ?? (page => <AppLayout>{page}</AppLayout>);
 
   return (
     <ChakraProvider theme={theme}>

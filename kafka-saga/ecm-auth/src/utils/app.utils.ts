@@ -16,7 +16,7 @@ export function logAppScaffold(app: INestMicroservice) {
   const env = configService.get('NODE_ENV');
   const memUsage = Math.floor(process.memoryUsage().heapUsed / 1024 / 1024);
 
-  logger.log(`Service news up`);
+  logger.log(`Service auth up`);
   logger.log(`Application is running in ${env} mode`);
   logger.log(
     `Memory usage: ${memUsage} MB -` +

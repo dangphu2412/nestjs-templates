@@ -1,4 +1,11 @@
-import { Body, Controller, Inject, OnModuleInit, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  OnModuleInit,
+  Post,
+} from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import {
   AUTH_PACKAGE_NAME,
@@ -6,8 +13,12 @@ import {
   AuthCredentials,
   AuthServiceClient,
   LoginGoogleDto,
+  MyProfile,
 } from './proto/auth.grpc';
 import { Observable } from 'rxjs';
+import { CurrentUser, Identified } from './decorators';
+import { JwtPayload } from './clients';
+import { createUserMetadata } from './factories/user-metadata.factory';
 
 @Controller({
   path: 'auth',
@@ -30,8 +41,14 @@ export class AuthController implements OnModuleInit {
   loginByGoogle(
     @Body() loginGoogleDto: LoginGoogleDto,
   ): Observable<AuthCredentials> {
-    console.log(loginGoogleDto.idToken);
-    console.log(typeof loginGoogleDto.idToken);
     return this.authService.loginByGoogle(loginGoogleDto);
+  }
+
+  @Identified
+  @Get('/me')
+  getMyProfile(@CurrentUser('sub') userId: string): Observable<MyProfile> {
+    const metadata = createUserMetadata(userId);
+
+    return this.authService.getMyProfile({}, metadata);
   }
 }
