@@ -9,6 +9,8 @@ import { Provider } from 'react-redux';
 import { NextPage } from 'next';
 import { UserProvider } from '@modules/user/contexts/UserContext/user.provider';
 import { AppLayout } from '@modules/shared/layouts/AdminLayout/AppLayout';
+import { GoogleOAuthProvider } from '@modules/auth/providers/o-auth.provider';
+import { GOOGLE_CLIENT_ID } from '@modules/shared/constants/env.constants';
 import { store } from '../config/store';
 
 export type NextPageWithLayout = NextPage & {
@@ -39,9 +41,11 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <Provider store={store}>
-            <UserProvider>
-              {renderLayout(<Component {...pageProps} />)}
-            </UserProvider>
+            <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+              <UserProvider>
+                {renderLayout(<Component {...pageProps} />)}
+              </UserProvider>
+            </GoogleOAuthProvider>
           </Provider>
         </Hydrate>
       </QueryClientProvider>

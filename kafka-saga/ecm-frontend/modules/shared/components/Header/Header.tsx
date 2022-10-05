@@ -127,10 +127,10 @@ export function Header(): React.ReactElement {
               <FontAwesomeIcon icon={faUser} className="mr-2" />
             </MenuButton>
             <MenuList>
-              {userActionItems.map(item => (
+              {userActionItems.map((item, i) => (
                 <>
                   <MenuItem
-                    key={item.link}
+                    key={`${item.link}`}
                     onClick={() => router.push(item.link)}
                   >
                     {item.text}

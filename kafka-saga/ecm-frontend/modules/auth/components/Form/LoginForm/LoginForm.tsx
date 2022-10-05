@@ -8,6 +8,8 @@ import {
   Input,
   Text
 } from '@chakra-ui/react';
+import { GoogleLoginButton } from '@modules/auth/components/Button/LogInButton/GoogleLoginButton';
+import { OAuthCredentialResponse } from '@modules/auth/clients';
 import classes from './LoginForm.module.scss';
 
 type LoginFormProps = {
@@ -29,6 +31,12 @@ export function LoginForm(props: LoginFormProps): React.ReactElement {
 
   function onSubmit(inputs: FormInputs) {
     props.doLogin(inputs);
+  }
+
+  function handleLoginGoogleSuccess(
+    oAuthCredentialResponse: OAuthCredentialResponse
+  ) {
+    console.log(oAuthCredentialResponse);
   }
 
   return (
@@ -82,6 +90,8 @@ export function LoginForm(props: LoginFormProps): React.ReactElement {
         >
           Sign In
         </Button>
+
+        <GoogleLoginButton onSuccess={handleLoginGoogleSuccess} />
       </form>
     </div>
   );
