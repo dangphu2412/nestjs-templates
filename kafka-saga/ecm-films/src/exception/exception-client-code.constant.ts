@@ -1,6 +1,6 @@
-import { generateNewsException } from './service-exception-generator';
+import { generateFilmsException } from './service-exception-generator';
 
-export const NewsGrpcExceptionCode = {
-  MAINTENANCE: generateNewsException('MAINTENANCE'),
-  GOT_ISSUE: generateNewsException('GOT_ISSUE'),
+export const FilmsGrpcExceptionCode = {
+  MAINTENANCE: generateFilmsException('MAINTENANCE'),
+  GOT_ISSUE: generateFilmsException('GOT_ISSUE'),
 };

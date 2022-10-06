@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm/dist/interfaces/typeorm-options.interface';
+import { Film } from '../../films/clients/entities/film.entity';
 
 dotenv.config();
 
@@ -12,8 +13,11 @@ export const connectionConfig: TypeOrmModuleOptions = {
   password: process.env.DB_PASSWORD,
   port: parseInt(process.env.DB_PORT),
   database: process.env.DB_DATABASE,
-  entities: [],
+  entities: [Film],
   synchronize: isNotProd,
   logging: true,
   migrationsRun: false,
+  cli: {
+    migrationsDir: 'src/database/migrations',
+  },
 };

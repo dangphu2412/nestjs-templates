@@ -45,7 +45,9 @@ export const AuthApiClient = {
   login,
   renewTokens() {
     registerBrowserStorage();
+
     const refreshToken = BrowserStorage.get('refreshToken') ?? '';
+
     return ApiClient.post<Tokens, RenewTokensRequest>('/auth/tokens/renew', {
       refreshToken
     });

@@ -26,8 +26,12 @@ export interface FilmListingQuery {
 export interface Film {
   id: number;
   title: string;
-  content: string;
-  showTime: string;
+  timeRange: string;
+  thumbnail: string;
+  premiereDate: string;
+  slug: string;
+  showTypes: string[];
+  timeSlots: string[];
 }
 
 export const FILMS_PACKAGE_NAME = 'films';

@@ -1,4 +1,3 @@
-import { Metadata } from '@grpc/grpc-js';
 import { Controller, Get, Inject, OnModuleInit, Query } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { ClientGrpc } from '@nestjs/microservices';
@@ -29,8 +28,6 @@ export class FilmsController implements OnModuleInit {
 
   @Get()
   findAll(@Query() query: FilmListingQuery): Observable<Films> {
-    const metadata = new Metadata();
-
-    return this.filmsService.findAll(query, metadata);
+    return this.filmsService.findAll(query);
   }
 }

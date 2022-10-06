@@ -1,3 +1,3 @@
 import { createServiceExceptionGenerator } from './exception-generator.factory';
 
-export const generateNewsException = createServiceExceptionGenerator('NEWS_');
+export const generateFilmsException = createServiceExceptionGenerator('FILMS_');

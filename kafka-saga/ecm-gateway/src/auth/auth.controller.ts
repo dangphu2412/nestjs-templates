@@ -17,7 +17,6 @@ import {
 } from './proto/auth.grpc';
 import { Observable } from 'rxjs';
 import { CurrentUser, Identified } from './decorators';
-import { JwtPayload } from './clients';
 import { createUserMetadata } from './factories/user-metadata.factory';
 
 @Controller({

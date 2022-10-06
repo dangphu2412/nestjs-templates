@@ -31,7 +31,7 @@
     "seeder:rollback": "npm run seeder migration:revert",
     "schema:drop": "npm run migration schema:drop",
     "schema:sync": "npm run migration schema:sync",
-    "proto:gen": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=. src/**/proto/*.proto --ts_proto_opt=fileSuffix=.grpc --ts_proto_opt=nestJs=true --ts_proto_opt=addGrpcMetadata=true"
+    "proto:gen": "protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=. src/**/**/proto/*.proto --ts_proto_opt=fileSuffix=.grpc --ts_proto_opt=nestJs=true --ts_proto_opt=addGrpcMetadata=true"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.6.10",

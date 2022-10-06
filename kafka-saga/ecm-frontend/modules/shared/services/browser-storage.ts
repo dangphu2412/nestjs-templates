@@ -11,9 +11,6 @@ export function registerBrowserStorage(type?: BrowserStorageType): void {
     return;
   }
 
-  if (!localStorage) {
-    throw new Error('Not found sessionStorage');
-  }
   storage = sessionStorage;
 }
 

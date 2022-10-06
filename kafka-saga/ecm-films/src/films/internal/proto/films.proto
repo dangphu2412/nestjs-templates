@@ -27,6 +27,10 @@ message FilmListingQuery {
 message Film {
   int32 id = 1;
   string title = 2;
-  string content = 3;
-  string showTime = 4;
+  string timeRange = 3;
+  string thumbnail = 4;
+  string premiereDate = 5;
+  string slug = 6;
+  repeated string showTypes = 7;
+  repeated string timeSlots = 8;
 }
