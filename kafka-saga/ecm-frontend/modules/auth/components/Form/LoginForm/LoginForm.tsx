@@ -10,10 +10,15 @@ import {
 } from '@chakra-ui/react';
 import { GoogleLoginButton } from '@modules/auth/components/Button/LogInButton/GoogleLoginButton';
 import { OAuthCredentialResponse } from '@modules/auth/clients';
+import {
+  BasicLoginRequest,
+  LoginGoogleRequest,
+  LoginType
+} from '@modules/auth/services/auth-api-client';
 import classes from './LoginForm.module.scss';
 
 type LoginFormProps = {
-  doLogin(inputs: FormInputs): void;
+  doLogin(inputs: BasicLoginRequest | LoginGoogleRequest): void;
   className?: string;
 };
 
@@ -22,7 +27,10 @@ type FormInputs = {
   password: string;
 };
 
-export function LoginForm(props: LoginFormProps): React.ReactElement {
+export function LoginForm({
+  doLogin,
+  className
+}: LoginFormProps): React.ReactElement {
   const {
     register,
     handleSubmit,
@@ -30,17 +38,24 @@ export function LoginForm(props: LoginFormProps): React.ReactElement {
   } = useForm<FormInputs>();
 
   function onSubmit(inputs: FormInputs) {
-    props.doLogin(inputs);
+    doLogin(inputs);
   }
 
-  function handleLoginGoogleSuccess(
-    oAuthCredentialResponse: OAuthCredentialResponse
-  ) {
-    console.log(oAuthCredentialResponse);
+  function handleLoginGoogleSuccess({
+    credential: idToken
+  }: OAuthCredentialResponse) {
+    if (!idToken) {
+      throw new Error('Missing idToken for login with google');
+    }
+
+    doLogin({
+      idToken,
+      loginType: LoginType.GOOGLE
+    });
   }
 
   return (
-    <div className={`${classes['form-container']} ${props.className ?? ''}`}>
+    <div className={`${classes['form-container']} ${className ?? ''}`}>
       <Heading size="md" className="text-left mb-3" color="primary">
         Welcome back
       </Heading>

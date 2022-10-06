@@ -4,7 +4,7 @@ import { AuthenticatorImpl } from './services/authenticator';
 import { AuthenticatorToken } from './clients';
 import { GoogleOauth2ClientProvider } from './services/google-oauth2-client.provider';
 import { UserModule } from '../user/internal/user.module';
-import { JwtService } from '@nestjs/jwt';
+import { JwtService } from './services/jwt.service';
 
 @Module({
   imports: [UserModule],
@@ -14,8 +14,8 @@ import { JwtService } from '@nestjs/jwt';
       provide: AuthenticatorToken,
       useClass: AuthenticatorImpl,
     },
-    JwtService,
     GoogleOauth2ClientProvider,
+    JwtService,
   ],
 })
 export class AuthModule {}

@@ -12,7 +12,7 @@ export const AuthGrpcExceptionCode = {
   }),
   INVALID_ID_TOKEN: generateAuthException({
     errorCode: 'INVALID_ID_TOKEN',
-    message: 'IdToken provided is invalid. Please check your config',
+    message: 'IdToken provided is invalid. Please check idToken again',
   }),
 };
 

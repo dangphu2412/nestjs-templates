@@ -1,7 +1,12 @@
 import { useMutation } from 'react-query';
 import { useToast } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { AuthApiClient } from '../services/auth-api-client';
+import {
+  AuthApiClient,
+  BasicLoginRequest,
+  LoginGoogleRequest,
+  Tokens
+} from '../services/auth-api-client';
 import {
   BrowserStorage,
   registerBrowserStorage
@@ -13,13 +18,19 @@ export function useLoginMutation() {
   const errorHandler = useClientErrorHandler();
   const router = useRouter();
 
-  return useMutation(AuthApiClient.login, {
+  const { isLoading, mutate } = useMutation<
+    Tokens,
+    unknown,
+    BasicLoginRequest | LoginGoogleRequest
+  >(AuthApiClient.login, {
     mutationKey: 'POST_LOGIN',
     onSuccess: async data => {
       registerBrowserStorage();
+
       data.tokens.forEach(token => {
         BrowserStorage.set(token.name, token.value);
       });
+
       await router.push('/');
     },
     onError: error => {
@@ -47,4 +58,6 @@ export function useLoginMutation() {
       }
     }
   });
+
+  return { isLoading, mutate };
 }

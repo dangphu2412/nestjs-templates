@@ -6,9 +6,9 @@ import { LoginTicket, OAuth2Client, TokenPayload } from 'google-auth-library';
 import { AppConfig } from '../../shared/app-config';
 import { AuthGrpcExceptionCode } from '../../exception/exception-client-code.constant';
 import { CreateUserDto, UserService, UserServiceToken } from '../../user';
-import { JwtService } from '@nestjs/jwt';
 import { InternalRpcException } from '../../exception/rpc/internal-rpc.exception';
 import { InvalidArgumentRpcException } from '../../exception/rpc/invalid-argument-rpc.exception';
+import { JwtService } from './jwt.service';
 
 export class AuthenticatorImpl implements Authenticator {
   private readonly clientId: string;
@@ -54,7 +54,7 @@ export class AuthenticatorImpl implements Authenticator {
       sub: userId,
     };
 
-    const accessToken = await this.jwtService.signAsync(jwtPayload);
+    const accessToken = await this.jwtService.sign(jwtPayload);
 
     return {
       tokens: [

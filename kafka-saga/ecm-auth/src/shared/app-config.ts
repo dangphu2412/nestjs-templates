@@ -42,4 +42,8 @@ export class AppConfig {
   getGoogleOAuthClientId() {
     return this.getString('GOOGLE_OAUTH_CLIENT_ID');
   }
+
+  getJwtSecret() {
+    return this.getString('JWT_SECRET');
+  }
 }
