@@ -90,17 +90,17 @@ export function Header(): React.ReactElement {
     >
       <div>
         <Breadcrumb fontWeight="medium" fontSize="sm" marginLeft="2rem">
-          <BreadcrumbItem>
+          <BreadcrumbItem key="1">
             <BreadcrumbLink href="#">
               <FontAwesomeIcon icon={faStore} />
             </BreadcrumbLink>
           </BreadcrumbItem>
 
-          <BreadcrumbItem>
+          <BreadcrumbItem key="2">
             <BreadcrumbLink href="#">Pages</BreadcrumbLink>
           </BreadcrumbItem>
 
-          <BreadcrumbItem>
+          <BreadcrumbItem key="3">
             <BreadcrumbLink href="#">Current Menu</BreadcrumbLink>
           </BreadcrumbItem>
         </Breadcrumb>
@@ -127,15 +127,13 @@ export function Header(): React.ReactElement {
               <FontAwesomeIcon icon={faUser} className="mr-2" />
             </MenuButton>
             <MenuList>
-              {userActionItems.map((item, i) => (
-                <>
-                  <MenuItem
-                    key={`${item.link}`}
-                    onClick={() => router.push(item.link)}
-                  >
-                    {item.text}
-                  </MenuItem>
-                </>
+              {userActionItems.map(item => (
+                <MenuItem
+                  key={`${item.link}`}
+                  onClick={() => router.push(item.link)}
+                >
+                  {item.text}
+                </MenuItem>
               ))}
             </MenuList>
           </Menu>

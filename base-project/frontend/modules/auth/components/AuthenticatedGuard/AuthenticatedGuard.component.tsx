@@ -1,21 +1,23 @@
 import React, { PropsWithChildren } from 'react';
 import { useRouter } from 'next/router';
+import { UserIdentity } from '@modules/auth/services/user-identity';
 import { UserContext } from '../../../user/contexts/UserContext/user.context';
 import { useQueryMyProfile } from '../../../user/hooks/data/useQueryMyProfile';
 import { useClientErrorHandler } from '../../../error-handling/useClientErrorHandler';
 import { TokenManager } from '../../../shared/services/token-manager';
 import { ClientErrorCode } from '../../../error-handling/client-code';
-import { ProtectPrivateGuard } from '../../guards/protect-private.guard';
 
 type AuthenticatedGuardProps = PropsWithChildren<{
-  publicRoutes: string[];
-  defaultRoute: string;
+  authRoutes: string[];
+  fallbackRoute: string;
 }>;
 
-export function AuthenticatedGuard(
-  props: AuthenticatedGuardProps
-): React.ReactElement {
-  const router = useRouter();
+export function AuthenticatedGuard({
+  authRoutes,
+  fallbackRoute,
+  children
+}: AuthenticatedGuardProps): React.ReactElement {
+  const { pathname, push } = useRouter();
   const errorHandler = useClientErrorHandler();
 
   const { dispatch: setUser } = React.useContext(UserContext);
@@ -24,30 +26,22 @@ export function AuthenticatedGuard(
 
   React.useEffect(() => {
     async function protectPage() {
-      if (
-        !ProtectPrivateGuard.canAccess({
-          publicRoutes: props.publicRoutes,
-          accessPathName: router.pathname
-        })
-      ) {
-        await router.push(props.defaultRoute);
+      const isNotLoggedIn = !UserIdentity.isAuthenticated();
+      const isNotAuthRoutes = !authRoutes.includes(pathname);
+
+      if (isNotLoggedIn && isNotAuthRoutes) {
+        await push(fallbackRoute);
+
         return;
       }
+
       if (!data && status === 'idle') {
         await fetchMyProfile();
       }
     }
 
     protectPage();
-  }, [
-    data,
-    status,
-    fetchMyProfile,
-    props.publicRoutes,
-    props.defaultRoute,
-    router.pathname,
-    router
-  ]);
+  }, [data, status, fetchMyProfile, authRoutes, pathname, push, fallbackRoute]);
 
   React.useEffect(() => {
     async function handleError() {
@@ -68,7 +62,7 @@ export function AuthenticatedGuard(
                 ClientErrorCode.LOGOUT_REQUIRED
               ].includes(renewClientCode)
             ) {
-              await router.push('/logout');
+              await push('/logout');
             }
           }
         }
@@ -76,7 +70,7 @@ export function AuthenticatedGuard(
     }
 
     handleError();
-  }, [error, errorHandler, fetchMyProfile, router]);
+  }, [error, errorHandler, fetchMyProfile, push]);
 
   React.useEffect(() => {
     if (data) {
@@ -84,5 +78,5 @@ export function AuthenticatedGuard(
     }
   }, [data, setUser]);
 
-  return <>{status === 'success' && props.children}</>;
+  return <>{status === 'success' && children}</>;
 }

@@ -136,14 +136,12 @@ export function Header({ isMenuHidden }: Props): React.ReactElement {
             </MenuButton>
             <MenuList>
               {userActionItems.map(item => (
-                <>
-                  <MenuItem
-                    key={item.link}
-                    onClick={() => router.push(item.link)}
-                  >
-                    {item.text}
-                  </MenuItem>
-                </>
+                <MenuItem
+                  key={item.link}
+                  onClick={() => router.push(item.link)}
+                >
+                  {item.text}
+                </MenuItem>
               ))}
             </MenuList>
           </Menu>

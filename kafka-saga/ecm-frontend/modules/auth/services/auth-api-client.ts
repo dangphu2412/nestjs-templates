@@ -51,14 +51,5 @@ export const AuthApiClient = {
     return ApiClient.post<Tokens, RenewTokensRequest>('/auth/tokens/renew', {
       refreshToken
     });
-  },
-  logout() {
-    registerBrowserStorage();
-    const refreshToken = BrowserStorage.get('refreshToken') ?? '';
-    return ApiClient.delete<void, RenewTokensRequest>('/auth/logout', {
-      data: {
-        refreshToken
-      }
-    });
   }
 };

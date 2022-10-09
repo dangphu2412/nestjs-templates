@@ -3,6 +3,6 @@ import { User } from '../models/user.type';
 
 export const UserApiClient = {
   getMyProfile(): Promise<User> {
-    return ApiClient.get<User, unknown>('/users/me');
+    return ApiClient.get<User, unknown>('api/auth/me');
   }
 };
