@@ -2,7 +2,7 @@
 import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
 import { Metadata } from '@grpc/grpc-js';
 import { Observable } from 'rxjs';
-import { Empty } from '../../../google/protobuf/empty.grpc';
+import {Empty} from "../../google/protobuf/Empty.grpc";
 
 export const protobufPackage = 'auth';
 

@@ -84,12 +84,11 @@ export function Header(): React.ReactElement {
       )}
       justifyContent="space-between"
       alignItems="center"
-      paddingX="1rem"
       paddingY="0.5rem"
       zIndex="998"
     >
       <div>
-        <Breadcrumb fontWeight="medium" fontSize="sm" marginLeft="2rem">
+        <Breadcrumb fontWeight="medium" fontSize="sm">
           <BreadcrumbItem key="1">
             <BreadcrumbLink href="#">
               <FontAwesomeIcon icon={faStore} />

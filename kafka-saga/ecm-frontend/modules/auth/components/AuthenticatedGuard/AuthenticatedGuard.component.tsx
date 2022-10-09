@@ -2,9 +2,8 @@ import React, { PropsWithChildren } from 'react';
 import { useRouter } from 'next/router';
 import { TokenManager } from '@modules/shared/services/token-manager';
 import { UserIdentity } from '@modules/auth/services/user-identity';
-import { UserContext } from '../../../user/contexts/UserContext/user.context';
+import { useUser } from '@modules/user/contexts/UserContext/useUser.hook';
 import { useQueryMyProfile } from '../../../user/hooks/data/useQueryMyProfile';
-import { useClientErrorHandler } from '../../../error-handling/useClientErrorHandler';
 
 type AuthenticatedGuardProps = PropsWithChildren<{
   fallbackRoute: string;
@@ -16,31 +15,32 @@ export function AuthGuard({
   fallbackRoute,
   children
 }: AuthenticatedGuardProps): React.ReactElement {
+  const { dispatch: setUser } = useUser();
   const { pathname, push } = useRouter();
-  const errorHandler = useClientErrorHandler();
-
-  const { dispatch: setUser } = React.useContext(UserContext);
-
-  const { refetch: fetchMyProfile, data, error, status } = useQueryMyProfile();
+  const { refetch: getMyProfile, data, error, status } = useQueryMyProfile();
 
   React.useEffect(() => {
     async function protectAuthPage() {
       const isLoggedIn = UserIdentity.isAuthenticated();
       const isAuthRoute = authRoutes.includes(pathname);
 
-      if (isLoggedIn && !isAuthRoute && !data && status === 'idle') {
-        await fetchMyProfile();
+      const shouldGetMyProfile =
+        isLoggedIn && !isAuthRoute && !data && status === 'idle';
+      const shouldFallback = isLoggedIn && isAuthRoute;
+
+      if (shouldGetMyProfile) {
+        await getMyProfile();
 
         return;
       }
 
-      if (isLoggedIn && isAuthRoute) {
+      if (shouldFallback) {
         await push(fallbackRoute);
       }
     }
 
     protectAuthPage();
-  }, [data, status, fetchMyProfile, pathname, authRoutes, fallbackRoute, push]);
+  }, [data, status, getMyProfile, pathname, authRoutes, fallbackRoute, push]);
 
   React.useEffect(() => {
     async function handleError() {
@@ -50,7 +50,7 @@ export function AuthGuard({
     }
 
     handleError();
-  }, [error, errorHandler, fallbackRoute, fetchMyProfile, push]);
+  }, [error, fallbackRoute, getMyProfile, push]);
 
   React.useEffect(() => {
     if (data) {

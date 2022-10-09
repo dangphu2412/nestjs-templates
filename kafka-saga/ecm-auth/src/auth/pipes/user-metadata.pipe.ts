@@ -12,7 +12,7 @@ export class UserMetadataPipe implements PipeTransform<Metadata> {
 
     const userId = value.get('userId')?.[0];
 
-    if (!userId || Buffer.isBuffer(userId) || !isUUID(value)) {
+    if (!userId || Buffer.isBuffer(userId) || !isUUID(userId)) {
       throw new InvalidArgumentRpcException({
         errorCode: 'INVALID_USER_METADATA',
         message: `Invalid userId format. Current value is ${userId} and type is ${typeof userId}. Expected to be string`,

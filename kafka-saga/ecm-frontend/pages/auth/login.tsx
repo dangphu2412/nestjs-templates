@@ -4,6 +4,7 @@ import { Container, Grid, GridItem, Image } from '@chakra-ui/react';
 import { LoginForm } from '@modules/auth/components/Form/LoginForm/LoginForm';
 import { FullLoader } from '@modules/shared/components/Loader/Full/FullLoader';
 import { useLoginMutation } from '@modules/auth/hooks/useLoginMutation';
+import { NoLayout } from '@modules/shared/components/NoLayout';
 import { NextPageWithLayout } from '../_app';
 
 const LoginPage: NextPageWithLayout = () => {
@@ -37,5 +38,7 @@ const LoginPage: NextPageWithLayout = () => {
     </>
   );
 };
+
+LoginPage.getLayout = NoLayout;
 
 export default LoginPage;

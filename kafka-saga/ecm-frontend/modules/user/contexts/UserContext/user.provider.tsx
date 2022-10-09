@@ -6,6 +6,7 @@ type UserProviderProps = PropsWithChildren<{}>;
 
 export function UserProvider(props: UserProviderProps): React.ReactElement {
   const [user, setUser] = React.useState<User>(initialUserCtxState);
+
   return (
     <UserContext.Provider
       value={{
