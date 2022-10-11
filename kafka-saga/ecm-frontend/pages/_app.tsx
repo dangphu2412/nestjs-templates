@@ -42,13 +42,13 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <Provider store={store}>
-            <AuthGuard authRoutes={['/auth/login']} fallbackRoute="/">
-              <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-                <UserProvider>
+            <UserProvider>
+              <AuthGuard authRoutes={['/auth/login']} fallbackRoute="/">
+                <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
                   {renderLayout(<Component {...pageProps} />)}
-                </UserProvider>
-              </GoogleOAuthProvider>
-            </AuthGuard>
+                </GoogleOAuthProvider>
+              </AuthGuard>
+            </UserProvider>
           </Provider>
         </Hydrate>
       </QueryClientProvider>

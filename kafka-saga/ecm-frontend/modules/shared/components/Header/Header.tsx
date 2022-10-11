@@ -4,6 +4,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  Button,
   Flex,
   Menu,
   MenuButton,
@@ -12,9 +13,10 @@ import {
   Text
 } from '@chakra-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell, faStore, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faStore, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
+import { useUser } from '@modules/user/contexts/UserContext/useUser.hook';
 import styles from './Header.module.scss';
 
 type UserActionItem = {
@@ -27,9 +29,6 @@ type UserActionItem = {
 const HEADER_TOP_SPACE = 24;
 
 export function Header(): React.ReactElement {
-  const router = useRouter();
-  const headerRef = React.useRef<HTMLDivElement>(null);
-
   const userActionItems: UserActionItem[] = [
     {
       text: 'Profile',
@@ -45,7 +44,10 @@ export function Header(): React.ReactElement {
     }
   ];
 
+  const { push } = useRouter();
+  const headerRef = React.useRef<HTMLDivElement>(null);
   const [isHeaderLeftTop, setIsHeaderLeftTop] = React.useState(false);
+  const { state: user } = useUser();
 
   React.useEffect(() => {
     function handleDisplayHeader() {
@@ -121,25 +123,26 @@ export function Header(): React.ReactElement {
           className="space-x-4"
           flexDirection="row"
         >
-          <Menu>
-            <MenuButton cursor="pointer">
-              <FontAwesomeIcon icon={faUser} className="mr-2" />
-            </MenuButton>
-            <MenuList>
-              {userActionItems.map(item => (
-                <MenuItem
-                  key={`${item.link}`}
-                  onClick={() => router.push(item.link)}
-                >
-                  {item.text}
-                </MenuItem>
-              ))}
-            </MenuList>
-          </Menu>
+          {user && (
+            <Menu>
+              <MenuButton cursor="pointer">
+                <FontAwesomeIcon icon={faUser} className="mr-2" />
+              </MenuButton>
 
-          <div>
-            <FontAwesomeIcon icon={faBell} />
-          </div>
+              <MenuList>
+                {userActionItems.map(item => (
+                  <MenuItem
+                    key={`${item.link}`}
+                    onClick={() => push(item.link)}
+                  >
+                    {item.text}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
+          )}
+
+          {!user && <Button onClick={() => push('/auth/login')}>Login</Button>}
         </Flex>
       </Box>
     </Flex>
