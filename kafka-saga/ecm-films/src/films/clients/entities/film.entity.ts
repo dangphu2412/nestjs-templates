@@ -24,6 +24,7 @@ export class Film {
     name: 'slug',
     type: 'varchar',
     nullable: false,
+    unique: true,
   })
   slug: string;
 
