@@ -49,6 +49,7 @@
     "pg": "8.7.1",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.2.0",
+    "slugify": "^1.6.5",
     "ts-proto": "^1.122.0",
     "typeorm": "^0.2.34",
     "typeorm-transactional-cls-hooked": "^0.1.21"
