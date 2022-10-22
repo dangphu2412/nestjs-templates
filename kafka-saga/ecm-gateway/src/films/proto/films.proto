@@ -4,6 +4,28 @@ package films;
 
 service FilmsService {
   rpc FindAll (FilmListingQuery) returns (Films) {}
+  rpc CreateFilm (CreateFilmDto) returns (Empty) {}
+}
+
+message FilmListingQuery {
+  int32 page = 1;
+  int32 size = 2;
+  string search = 3;
+}
+
+message Films {
+  repeated Film items = 1;
+  PaginationMetadata metadata = 2;
+}
+
+message Film {
+  int32 id = 1;
+  string title = 2;
+  string timeRange = 3;
+  string thumbnail = 4;
+  string premiereDate = 5;
+  string slug = 6;
+  repeated string showTypes = 7;
 }
 
 message PaginationMetadata {
@@ -13,20 +35,12 @@ message PaginationMetadata {
   int32 totalPages = 4;
 }
 
-message Films {
-  repeated Film items = 1;
-  PaginationMetadata metadata = 2;
+message CreateFilmDto {
+  string title = 1;
+  string timeRange = 2;
+  string thumbnail = 3;
+  string premiereDate = 4;
+  repeated string showTypes = 7;
 }
 
-message FilmListingQuery {
-  int32 page = 1;
-  int32 size = 2;
-  string search = 3;
-}
-
-message Film {
-  int32 id = 1;
-  string title = 2;
-  string content = 3;
-  string showTime = 4;
-}
+message Empty {}

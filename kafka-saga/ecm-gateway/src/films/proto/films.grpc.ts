@@ -5,11 +5,10 @@ import { Observable } from 'rxjs';
 
 export const protobufPackage = 'films';
 
-export interface PaginationMetadata {
+export interface FilmListingQuery {
   page: number;
   size: number;
-  totalRecords: number;
-  totalPages: number;
+  search: string;
 }
 
 export interface Films {
@@ -17,23 +16,39 @@ export interface Films {
   metadata: PaginationMetadata | undefined;
 }
 
-export interface FilmListingQuery {
-  page: number;
-  size: number;
-  search: string;
-}
-
 export interface Film {
   id: number;
   title: string;
-  content: string;
-  showTime: string;
+  timeRange: string;
+  thumbnail: string;
+  premiereDate: string;
+  slug: string;
+  showTypes: string[];
 }
+
+export interface PaginationMetadata {
+  page: number;
+  size: number;
+  totalRecords: number;
+  totalPages: number;
+}
+
+export interface CreateFilmDto {
+  title: string;
+  timeRange: string;
+  thumbnail: string;
+  premiereDate: string;
+  showTypes: string[];
+}
+
+export interface Empty {}
 
 export const FILMS_PACKAGE_NAME = 'films';
 
 export interface FilmsServiceClient {
   findAll(request: FilmListingQuery, metadata?: Metadata): Observable<Films>;
+
+  createFilm(request: CreateFilmDto, metadata?: Metadata): Observable<Empty>;
 }
 
 export interface FilmsServiceController {
@@ -41,11 +56,16 @@ export interface FilmsServiceController {
     request: FilmListingQuery,
     metadata?: Metadata,
   ): Promise<Films> | Observable<Films> | Films;
+
+  createFilm(
+    request: CreateFilmDto,
+    metadata?: Metadata,
+  ): Promise<Empty> | Observable<Empty> | Empty;
 }
 
 export function FilmsServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ['findAll'];
+    const grpcMethods: string[] = ['findAll', 'createFilm'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(
         constructor.prototype,
