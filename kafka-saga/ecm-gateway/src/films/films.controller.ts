@@ -20,12 +20,13 @@ import {
 } from './proto/films.grpc';
 import { CurrentUser, Identified } from '../auth/decorators';
 import { createUserMetadata } from '../auth/factories/user-metadata.factory';
-import { ApiNoContentResponse, ApiOkResponse } from '@nestjs/swagger';
+import { ApiNoContentResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller({
   path: 'films',
   version: '1',
 })
+@ApiTags('films')
 export class FilmsController implements OnModuleInit {
   private filmsService: FilmsServiceClient;
 
@@ -42,6 +43,8 @@ export class FilmsController implements OnModuleInit {
   @ApiOkResponse()
   @Get()
   findAll(@Query() query: FilmListingQuery): Observable<Films> {
+    console.log('Querying');
+    console.log(query);
     return this.filmsService.findAll(query);
   }
 

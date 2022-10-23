@@ -13,6 +13,7 @@ import { FILMS_PACKAGE_NAME } from './proto/films.grpc';
         options: {
           package: FILMS_PACKAGE_NAME,
           protoPath: join(__dirname, 'proto/films.proto'),
+          url: 'localhost:5001',
         },
       },
     ]),

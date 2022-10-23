@@ -8,8 +8,8 @@ service FilmsService {
 }
 
 message FilmListingQuery {
-  int32 page = 1;
-  int32 size = 2;
+  optional int32 page = 1;
+  optional int32 size = 2;
   string search = 3;
 }
 

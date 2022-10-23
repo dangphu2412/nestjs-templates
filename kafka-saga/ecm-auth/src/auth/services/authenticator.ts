@@ -1,5 +1,5 @@
-import { Authenticator, JwtPayload } from '../clients';
-import { AuthCredentials, LoginGoogleDto } from '../proto/auth.grpc';
+import { Authenticator, JwtPayload, TokenDto } from '../clients';
+import { AuthCredentials, LoginGoogleDto, MyClaims } from '../proto/auth.grpc';
 import { GoogleOauth2ClientToken } from './google-oauth2-client.provider';
 import { Inject } from '@nestjs/common';
 import { LoginTicket, OAuth2Client, TokenPayload } from 'google-auth-library';
@@ -87,6 +87,32 @@ export class AuthenticatorImpl implements Authenticator {
     ) {
       throw new InternalRpcException(
         AuthGrpcExceptionCode.MISSING_AUTH_SCOPE_PROVIDED,
+      );
+    }
+  }
+
+  async verifyToken(token: TokenDto): Promise<MyClaims> {
+    const isNotValidToken =
+      token.name !== 'accessToken' || !token.value.startsWith('Bearer ');
+
+    if (isNotValidToken) {
+      throw new InvalidArgumentRpcException(
+        AuthGrpcExceptionCode.INVALID_JWT_TOKEN,
+      );
+    }
+
+    const tokenWithoutBearer = token.value.slice('Bearer '.length);
+
+    try {
+      const { sub } = await this.jwtService.decode(tokenWithoutBearer);
+
+      return {
+        sub,
+        roles: [],
+      };
+    } catch (error) {
+      throw new InvalidArgumentRpcException(
+        AuthGrpcExceptionCode.INVALID_JWT_TOKEN,
       );
     }
   }

@@ -1,16 +1,18 @@
-import { OptionalToDefault } from '../decorators/optional-to-default';
-import { ConfigKeys } from '../../config.registry';
+import { ToDefault } from '../decorators/to-default';
+import { ConfigKeys, ConfigRegistry } from '../../config.registry';
 import { IsNumber } from 'class-validator';
 import { ToInt } from '../../../transformer/toInt.decorator';
 
+// Proto auto transform number to 0 === cannot parse
+// TODO: improve this
 export class OffsetPagination {
   @ToInt()
-  @OptionalToDefault(ConfigKeys.DEFAULT_PAGE)
+  @ToDefault(ConfigKeys.DEFAULT_PAGE)
   @IsNumber()
-  page: number;
+  page: number = ConfigRegistry.get(ConfigKeys.DEFAULT_PAGE);
 
   @ToInt()
-  @OptionalToDefault(ConfigKeys.DEFAULT_SIZE)
+  @ToDefault(ConfigKeys.DEFAULT_SIZE)
   @IsNumber()
-  size: number;
+  size: number = ConfigRegistry.get(ConfigKeys.DEFAULT_SIZE);
 }

@@ -14,6 +14,10 @@ export const AuthGrpcExceptionCode = {
     errorCode: 'INVALID_ID_TOKEN',
     message: 'IdToken provided is invalid. Please check idToken again',
   }),
+  INVALID_JWT_TOKEN: generateAuthException({
+    errorCode: 'INVALID_JWT_TOKEN',
+    message: 'jwt token provided is invalid. Please check your token',
+  }),
 };
 
 export const UserGrpcExceptionCode = {

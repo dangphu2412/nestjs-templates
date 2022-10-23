@@ -18,11 +18,13 @@ import {
 import { Observable } from 'rxjs';
 import { CurrentUser, Identified } from './decorators';
 import { createUserMetadata } from './factories/user-metadata.factory';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller({
   path: 'auth',
   version: '1',
 })
+@ApiTags('auth')
 export class AuthController implements OnModuleInit {
   private authService: AuthServiceClient;
 

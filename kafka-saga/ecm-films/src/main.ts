@@ -26,6 +26,7 @@ async function bootstrap() {
       options: {
         package: FILMS_PACKAGE_NAME,
         protoPath: join(__dirname, 'films/internal/proto/films.proto'),
+        url: 'localhost:5001',
       },
     },
   );

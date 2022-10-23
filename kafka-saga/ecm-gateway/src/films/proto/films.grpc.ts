@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
 export const protobufPackage = 'films';
 
 export interface FilmListingQuery {
-  page: number;
-  size: number;
+  page?: number | undefined;
+  size?: number | undefined;
   search: string;
 }
 

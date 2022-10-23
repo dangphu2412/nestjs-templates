@@ -1,9 +1,9 @@
 import { applyDecorators, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../guards/jwt.guard';
 import { ApiBearerAuth, ApiUnauthorizedResponse } from '@nestjs/swagger';
+import { AuthGuard } from '../guards';
 
 export const Identified = applyDecorators(
-  UseGuards(JwtAuthGuard),
+  UseGuards(AuthGuard),
   ApiBearerAuth(),
   ApiUnauthorizedResponse({ description: 'Unauthorized' }),
 );

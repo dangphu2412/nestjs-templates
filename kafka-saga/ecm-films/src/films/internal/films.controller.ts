@@ -16,7 +16,6 @@ import { UserMetadataPipe } from '../../auth/pipes/user-metadata.pipe';
 
 @Controller()
 @FilmsServiceControllerMethods()
-@UsePipes(ValidationPipe)
 export class FilmsController implements FilmsServiceController {
   constructor(
     @Inject(FILMS_SERVICE_NAME)
@@ -24,13 +23,14 @@ export class FilmsController implements FilmsServiceController {
     private readonly filmsMapper: FilmsMapper,
   ) {}
 
+  @UsePipes(new ValidationPipe({ transform: true }))
   findAll(query: FilmListingQueryDto): Observable<Films> {
     return from(this.filmsService.find(query)).pipe(
       map<FilmListing, Films>(this.filmsMapper.toFilms(query)),
     );
   }
 
-  @UsePipes(UserMetadataPipe)
+  @UsePipes(ValidationPipe, UserMetadataPipe)
   async createFilm(
     createFilmDto: CreateFilmDto,
     metadata?: Metadata,

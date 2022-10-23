@@ -5,7 +5,7 @@ export function createPaginationMetadata({
   size,
   page,
 }: CreatePaginationMetadata): PaginationMetadata {
-  const totalPages = Math.ceil(totalRecords / size) + 1;
+  const totalPages = Math.ceil(totalRecords / size);
 
   return {
     size,

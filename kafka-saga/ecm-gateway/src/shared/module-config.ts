@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { JwtModuleOptions } from '@nestjs/jwt';
 import { isBooleanString } from 'class-validator';
 
 @Injectable()
@@ -45,11 +44,5 @@ export class ModuleConfig {
     }
 
     return value;
-  }
-
-  getJwtConfig(): JwtModuleOptions {
-    return {
-      secret: this.getString('JWT_SECRET'),
-    };
   }
 }

@@ -2,9 +2,10 @@
 import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
 import { Metadata } from '@grpc/grpc-js';
 import { Observable } from 'rxjs';
-import { Empty } from '../../../google/protobuf/empty.grpc';
 
 export const protobufPackage = 'auth';
+
+export interface Empty {}
 
 export interface LoginGoogleDto {
   idToken: string;
@@ -25,6 +26,11 @@ export interface MyProfile {
   fullName: string;
 }
 
+export interface MyClaims {
+  sub: string;
+  roles: string[];
+}
+
 export const AUTH_PACKAGE_NAME = 'auth';
 
 export interface AuthServiceClient {
@@ -34,6 +40,8 @@ export interface AuthServiceClient {
   ): Observable<AuthCredentials>;
 
   getMyProfile(request: Empty, metadata?: Metadata): Observable<MyProfile>;
+
+  verifyToken(request: Token, metadata?: Metadata): Observable<MyClaims>;
 }
 
 export interface AuthServiceController {
@@ -46,11 +54,20 @@ export interface AuthServiceController {
     request: Empty,
     metadata?: Metadata,
   ): Promise<MyProfile> | Observable<MyProfile> | MyProfile;
+
+  verifyToken(
+    request: Token,
+    metadata?: Metadata,
+  ): Promise<MyClaims> | Observable<MyClaims> | MyClaims;
 }
 
 export function AuthServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ['loginByGoogle', 'getMyProfile'];
+    const grpcMethods: string[] = [
+      'loginByGoogle',
+      'getMyProfile',
+      'verifyToken',
+    ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(
         constructor.prototype,

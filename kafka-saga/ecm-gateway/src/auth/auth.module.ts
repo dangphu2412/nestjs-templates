@@ -3,9 +3,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 import { AuthController } from './auth.controller';
 import { AUTH_PACKAGE_NAME } from './proto/auth.grpc';
-import { JwtStrategy } from './strategies/jwt.strategy';
-import { JwtModule } from '@nestjs/jwt';
-import { ModuleConfig } from '../shared/module-config';
+import { AuthenticationStrategy } from './strategies/auth.strategy';
 
 @Module({
   imports: [
@@ -19,13 +17,8 @@ import { ModuleConfig } from '../shared/module-config';
         },
       },
     ]),
-    JwtModule.registerAsync({
-      useFactory: (moduleConfigService: ModuleConfig) =>
-        moduleConfigService.getJwtConfig(),
-      inject: [ModuleConfig],
-    }),
   ],
   controllers: [AuthController],
-  providers: [JwtStrategy],
+  providers: [AuthenticationStrategy],
 })
 export class AuthModule {}

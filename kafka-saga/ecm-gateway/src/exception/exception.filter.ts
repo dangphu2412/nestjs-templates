@@ -14,15 +14,18 @@ import { Mapper } from '../core/client/mapper.interface';
 import { status as RpcStatus } from '@grpc/grpc-js';
 import { RpcToHttpStatusMapper } from './mapper/rpc-to-http-status.mapper';
 import { isRpcException } from './filters/is-rpc-exception';
-import { RpcException } from './entities/exception.types';
+import { ClientError, RpcException } from './entities/exception.types';
+import { HttpClientErrorMapper } from './mapper/http-client-error.mapper';
 
 @Catch()
 export class AllExceptionFilter implements RpcExceptionFilter<RpcException> {
   private static readonly logger: Logger = new Logger(AllExceptionFilter.name);
   private readonly httpStatusMapper: Mapper<RpcStatus, HttpStatus>;
+  private readonly httpClientErrorMapper: Mapper<HttpException, ClientError>;
 
   constructor() {
     this.httpStatusMapper = new RpcToHttpStatusMapper();
+    this.httpClientErrorMapper = new HttpClientErrorMapper();
   }
 
   catch(
@@ -33,9 +36,11 @@ export class AllExceptionFilter implements RpcExceptionFilter<RpcException> {
 
     if (exception instanceof HttpException) {
       const status = exception.getStatus();
+      const errorCode = this.httpClientErrorMapper.from(exception).errorCode;
+
       response.status(status).send({
         statusCode: status,
-        errorCode: SystemExceptionClientCode.GATEWAY_CANNOT_HANDLE.errorCode,
+        errorCode,
         message: exception.message,
       });
       return;
