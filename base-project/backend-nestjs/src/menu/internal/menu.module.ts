@@ -4,9 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MenuRepository } from './menu.repositoryt';
 import { MenuServiceImpl } from './menu.service';
 import { MenuServiceToken } from '../client';
+import { UserModule } from '../../user/internal/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([MenuRepository])],
+  imports: [UserModule, TypeOrmModule.forFeature([MenuRepository])],
   controllers: [MenuController],
   providers: [
     {

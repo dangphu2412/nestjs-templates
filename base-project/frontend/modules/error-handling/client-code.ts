@@ -7,7 +7,7 @@ export const ClientErrorCode = {
   INVALID_TOKEN_FORMAT: 'CLIENT_INVALID_TOKEN_FORMAT'
 };
 
-export const ClientCodeManager = new Map([
+export const ErrorMessageService = new Map([
   [
     `${ClientErrorCode.INCORRECT_USERNAME_OR_PASSWORD}`,
     'Username or password is incorrect'

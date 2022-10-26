@@ -8,17 +8,15 @@ import { TokenManager } from '../../../shared/services/token-manager';
 import { ClientErrorCode } from '../../../error-handling/client-code';
 
 type AuthenticatedGuardProps = PropsWithChildren<{
-  authRoutes: string[];
   fallbackRoute: string;
 }>;
 
 export function AuthenticatedGuard({
-  authRoutes,
   fallbackRoute,
   children
 }: AuthenticatedGuardProps): React.ReactElement {
   const { pathname, push } = useRouter();
-  const errorHandler = useClientErrorHandler();
+  const { handle, handleExpireLogin } = useClientErrorHandler();
 
   const { dispatch: setUser } = React.useContext(UserContext);
 
@@ -26,12 +24,8 @@ export function AuthenticatedGuard({
 
   React.useEffect(() => {
     async function protectPage() {
-      const isNotLoggedIn = !UserIdentity.isAuthenticated();
-      const isNotAuthRoutes = !authRoutes.includes(pathname);
-
-      if (isNotLoggedIn && isNotAuthRoutes) {
+      if (!UserIdentity.isAuthenticated()) {
         await push(fallbackRoute);
-
         return;
       }
 
@@ -41,36 +35,28 @@ export function AuthenticatedGuard({
     }
 
     protectPage();
-  }, [data, status, fetchMyProfile, authRoutes, pathname, push, fallbackRoute]);
+  }, [data, status, fetchMyProfile, pathname, push, fallbackRoute]);
 
   React.useEffect(() => {
     async function handleError() {
-      if (error) {
-        const { clientCode } = errorHandler.handle(error);
+      if (!error) {
+        return;
+      }
 
-        if (clientCode === ClientErrorCode.UNAUTHORIZED) {
-          try {
-            await TokenManager.renew();
-            await fetchMyProfile();
-          } catch (renewTokenError) {
-            const { clientCode: renewClientCode } =
-              errorHandler.handle(renewTokenError);
+      const { clientCode } = handle(error);
 
-            if (
-              [
-                ClientErrorCode.INVALID_TOKEN_FORMAT,
-                ClientErrorCode.LOGOUT_REQUIRED
-              ].includes(renewClientCode)
-            ) {
-              await push('/logout');
-            }
-          }
+      if (clientCode === ClientErrorCode.UNAUTHORIZED) {
+        try {
+          await TokenManager.renew();
+          await fetchMyProfile();
+        } catch (renewTokenError) {
+          handleExpireLogin(renewTokenError);
         }
       }
     }
 
     handleError();
-  }, [error, errorHandler, fetchMyProfile, push]);
+  }, [error, fetchMyProfile, handle, handleExpireLogin, push]);
 
   React.useEffect(() => {
     if (data) {

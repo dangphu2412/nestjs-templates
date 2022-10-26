@@ -33,7 +33,7 @@ export function AdminLayout({
   }
 
   return (
-    <AuthenticatedGuard authRoutes={['/login']} fallbackRoute="/login">
+    <AuthenticatedGuard fallbackRoute="/login">
       <ToggleMenuButton
         isMenuHidden={isSideBarHidden}
         onClick={handleClickToggleBtn}

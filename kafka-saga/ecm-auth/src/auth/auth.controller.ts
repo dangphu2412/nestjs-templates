@@ -6,9 +6,13 @@ import {
   Empty,
   MyClaims,
   MyProfile,
-  Token,
 } from './proto/auth.grpc';
-import { Authenticator, AuthenticatorToken, LoginGoogleDto } from './clients';
+import {
+  Authenticator,
+  AuthenticatorToken,
+  LoginGoogleDto,
+  TokenDto,
+} from './clients';
 import { Metadata } from '@grpc/grpc-js';
 import { from, map, Observable } from 'rxjs';
 import { UserService, UserServiceToken } from '../user';
@@ -43,7 +47,8 @@ export class AuthController implements AuthServiceController {
     ).pipe(map(this.userMapper.toMyProfile));
   }
 
-  verifyToken(token: Token): Promise<MyClaims> {
+  @UsePipes(ValidationPipe)
+  verifyToken(token: TokenDto): Promise<MyClaims> {
     return this.authenticator.verifyToken(token);
   }
 }
