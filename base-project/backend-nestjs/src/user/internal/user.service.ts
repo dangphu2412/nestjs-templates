@@ -1,19 +1,16 @@
 import { Role } from '../../authorization';
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import {
   CreateUserDto,
+  DuplicatedUsernameException,
+  NotFoundUserException,
   User,
   UserManagementQuery,
   UserManagementView,
   UserService,
 } from '../client';
 import { MyProfile } from '../../authentication';
-import { UserClientCode } from '../../exception/exception-client-code.constant';
 
 @Injectable()
 export class UserServiceImpl implements UserService {
@@ -28,11 +25,11 @@ export class UserServiceImpl implements UserService {
       })) > 0;
 
     if (isUsernameExisted) {
-      throw new ConflictException(UserClientCode.DUPLICATED_USERNAME);
+      throw new DuplicatedUsernameException();
     }
   }
 
-  async getMyProfile(id: string): Promise<MyProfile | null> {
+  async findMyProfile(id: string): Promise<MyProfile | null> {
     return this.userRepository.findOne(id, {
       select: ['id', 'username'],
     });
@@ -80,7 +77,7 @@ export class UserServiceImpl implements UserService {
     });
 
     if (!user) {
-      throw new NotFoundException(UserClientCode.NOT_FOUND_USER);
+      throw new NotFoundUserException();
     }
 
     if (user.deletedAt === null) {

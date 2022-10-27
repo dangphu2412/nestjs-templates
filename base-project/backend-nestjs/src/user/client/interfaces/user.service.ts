@@ -19,7 +19,7 @@ export interface UserService {
 
   assertUsernameNotDuplicated(username: string): Promise<void>;
 
-  getMyProfile(id: string): Promise<MyProfile>;
+  findMyProfile(id: string): Promise<MyProfile>;
 
   create(dto: CreateUserDto): Promise<User>;
   updateRolesForUser(user: User, roles: Role[]): Promise<void>;

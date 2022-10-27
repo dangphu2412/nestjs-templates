@@ -57,7 +57,7 @@ describe('UserService', () => {
         deletedAt: date,
       };
       jest.spyOn(userRepository, 'findOne').mockResolvedValue(result);
-      expect(await userService.getMyProfile('id')).toEqual(result);
+      expect(await userService.findMyProfile('id')).toEqual(result);
       expect(userRepository.findOne).toBeCalledTimes(1);
       expect(userRepository.findOne).toBeCalledWith('id', {
         select: ['id', 'username'],

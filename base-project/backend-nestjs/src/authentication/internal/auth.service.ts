@@ -1,12 +1,5 @@
-import {
-  BadRequestException,
-  Inject,
-  Injectable,
-  UnauthorizedException,
-  UnprocessableEntityException,
-} from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { AuthExceptionClientCode } from '../../exception/exception-client-code.constant';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
 import { BcryptService } from '../../shared/services/bcrypt.service';
 import { extractJwtPayload } from './utils/jwt.utils';
@@ -18,6 +11,9 @@ import {
   LoginCredentials,
   TokenGenerator,
   TokenGeneratorToken,
+  IncorrectUsernamePasswordException,
+  LogoutRequiredException,
+  InvalidTokenFormatException,
 } from '../client';
 import {
   RoleService,
@@ -88,9 +84,7 @@ export class AuthServiceImpl implements AuthService {
       ));
 
     if (cannotLogin) {
-      throw new UnprocessableEntityException(
-        AuthExceptionClientCode.INCORRECT_USERNAME_OR_PASSWORD,
-      );
+      throw new IncorrectUsernamePasswordException();
     }
 
     const [tokens] = await Promise.all([
@@ -116,14 +110,12 @@ export class AuthServiceImpl implements AuthService {
       const jwtPayload = extractJwtPayload(refreshToken);
 
       if (!jwtPayload) {
-        throw new BadRequestException(
-          AuthExceptionClientCode.INVALID_TOKEN_FORMAT,
-        );
+        throw new InvalidTokenFormatException();
       }
 
       await this.roleStorage.clean(jwtPayload.sub);
 
-      throw new UnauthorizedException(AuthExceptionClientCode.LOGOUT_REQUIRED);
+      throw new LogoutRequiredException();
     }
   }
 }

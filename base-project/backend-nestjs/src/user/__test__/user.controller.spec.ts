@@ -32,7 +32,7 @@ describe('AuthController', () => {
         username: 'fusdeptrai',
         id: '1',
       };
-      jest.spyOn(userService, 'getMyProfile').mockResolvedValue(result);
+      jest.spyOn(userService, 'findMyProfile').mockResolvedValue(result);
 
       expect(
         await userController.getMyProfile({

@@ -39,7 +39,7 @@ export class UserController {
   @Get('/me')
   @ApiOkResponse()
   getMyProfile(@CurrentUser() user: JwtPayload) {
-    return this.userService.getMyProfile(user.sub);
+    return this.userService.findMyProfile(user.sub);
   }
 
   @CanAccessBy(RoleDef.ADMIN)
