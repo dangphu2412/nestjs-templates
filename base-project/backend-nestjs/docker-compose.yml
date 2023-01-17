@@ -25,9 +25,11 @@ services:
     env_file: .env
     depends_on:
       - postgres
+      - mongo
     links:
       - postgres
       - redis
+      - mongo
     ports:
       - "3000:${PORT}"
     networks:
@@ -56,6 +58,19 @@ services:
       - "5050:80"
     networks:
       - node-network
+
+  mongo:
+    container_name: mongo
+    image: mongo:5.0.14
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - node-network
+    volumes:
+      - /usr/mongo:/data/db
+    ports:
+      - "27017:27017"
 
 volumes:
   data:
