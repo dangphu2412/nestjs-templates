@@ -5,4 +5,7 @@ export default {
   ...connectionConfig,
   migrations: ['src/database/seeders/*.ts'],
   migrationsTableName: 'seeder',
+  cli: {
+    migrationsDir: 'src/database/seeders',
+  },
 } as TypeOrmModuleOptions;
