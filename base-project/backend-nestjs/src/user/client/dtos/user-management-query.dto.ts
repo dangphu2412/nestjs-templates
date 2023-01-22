@@ -1,4 +1,4 @@
-import { IsOptional, ValidateNested } from 'class-validator';
+import { IsOptional, IsString, ValidateNested } from 'class-validator';
 import { OffsetPagination } from '../../../shared/query-shape/pagination/entities/offset-pagination.request';
 import { DateRange } from '../../../shared/query-shape/filter/entities/date-range.query';
 import { ToDateRange } from '../../../shared/query-shape/filter/decorators/to-date-range.decorator';
@@ -15,4 +15,8 @@ export class UserManagementQuery extends OffsetPagination {
   @IsOptional()
   @IsSortQueryContains(['username', 'deadDate'])
   sort?: SortQuery<'username' | 'deadDate'>;
+
+  @IsOptional()
+  @IsString()
+  search: string;
 }

@@ -1,74 +1,98 @@
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
-import { ClientErrorCode, ErrorMessageService } from './client-code';
+import { useToast } from '@chakra-ui/react';
+import { ClientErrorCode, ErrorMessageManager } from './client-code';
 
-interface HandleResponse {
-  isClientError: boolean;
-  isSystemError: boolean;
+export interface AppError {
   clientCode: string;
   message: string;
 }
 
-export interface ClientErrorHandler {
-  handle: (error: any) => HandleResponse;
-  handleExpireLogin: (err: any) => void;
+export interface ErrorHandler {
+  handle: (error: any) => void;
 }
 
 export interface ClientError extends Error {
   errorCode: string;
 }
 
-export function useClientErrorHandler(): ClientErrorHandler {
-  const { push } = useRouter();
+function isClientException(error: any): error is AxiosError<ClientError> {
+  return !!(error?.response?.data as ClientError).errorCode;
+}
 
-  function isNetworkError(error: AxiosError) {
-    return error.code === 'ERR_NETWORK';
-  }
-
-  function isClientException(response: any): response is ClientError {
-    return (
-      !!(response as ClientError).errorCode &&
-      response?.errorCode?.startsWith('CLIENT_')
-    );
-  }
-
-  function handleClientError(error: any) {
-    if (isNetworkError(error)) {
-      return {
-        isClientError: false,
-        isSystemError: true,
-        clientCode: null,
-        message: 'Getting network error'
-      };
-    }
-
-    const isClientError = isClientException(error?.response?.data);
-    const errorCode = error?.response?.data?.errorCode;
-
+function transformToAppError(error: AxiosError): AppError {
+  if (error.code === AxiosError.ERR_NETWORK) {
     return {
-      isClientError,
-      isSystemError: error.response.status >= 500,
-      clientCode: errorCode ?? error.response.status,
+      clientCode: AxiosError.ERR_NETWORK,
       message:
-        ErrorMessageService.get(errorCode) ?? 'System is getting some problem'
+        ErrorMessageManager.get(AxiosError.ERR_NETWORK) ??
+        'System is getting some problem'
     };
   }
 
-  function handleExpireLogin(error: any): void {
-    const { clientCode: renewClientCode } = handleClientError(error);
+  if (error.code === AxiosError.ECONNABORTED) {
+    return {
+      clientCode: AxiosError.ECONNABORTED,
+      message:
+        ErrorMessageManager.get(AxiosError.ECONNABORTED) ??
+        'System is getting some problem'
+    };
+  }
 
-    if (
-      [
-        ClientErrorCode.INVALID_TOKEN_FORMAT,
-        ClientErrorCode.LOGOUT_REQUIRED
-      ].includes(renewClientCode)
-    ) {
-      push('/logout');
+  if (!isClientException(error) || !error.response?.data) {
+    return {
+      clientCode: ClientErrorCode.UN_HANDLE_ERROR_CLIENT,
+      message: 'System is getting some problem'
+    };
+  }
+
+  return {
+    clientCode: error.response.data.errorCode,
+    message:
+      ErrorMessageManager.get(error.response.data.errorCode) ??
+      'System is getting some problem'
+  };
+}
+
+type ErrorHandlerProps = {
+  onHandleClientError?: (error: AppError) => void;
+};
+
+export function useErrorHandler({
+  onHandleClientError
+}: ErrorHandlerProps = {}): ErrorHandler {
+  const { push } = useRouter();
+  const showToast = useToast();
+
+  function handle(error: any): void {
+    const { clientCode, message } = transformToAppError(error);
+
+    switch (clientCode) {
+      case AxiosError.ERR_NETWORK:
+      case ClientErrorCode.MAINTENANCE:
+        push('/500');
+        break;
+      case ClientErrorCode.INVALID_TOKEN_FORMAT:
+      case ClientErrorCode.LOGOUT_REQUIRED:
+        push('/logout');
+        break;
+      default:
+        if (onHandleClientError) {
+          onHandleClientError({ clientCode, message });
+          return;
+        }
+
+        showToast({
+          title: 'Error',
+          duration: 5000,
+          status: 'error',
+          description: message
+        });
+        break;
     }
   }
 
   return {
-    handle: handleClientError,
-    handleExpireLogin
+    handle
   };
 }

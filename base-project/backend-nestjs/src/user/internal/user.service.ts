@@ -11,6 +11,7 @@ import {
   UserService,
 } from '../client';
 import { MyProfile } from '../../authentication';
+import { Like } from 'typeorm';
 
 @Injectable()
 export class UserServiceImpl implements UserService {
@@ -42,6 +43,9 @@ export class UserServiceImpl implements UserService {
       skip: offset,
       take: query.size,
       withDeleted: true,
+      where: {
+        username: Like(`%${query.search}%`),
+      },
     });
   }
 

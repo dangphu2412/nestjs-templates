@@ -12,12 +12,13 @@ import { NextPageWithLayout } from './_app';
 const LoginPage: NextPageWithLayout = () => {
   const { isLoading, mutate: doLogin } = useLoginMutation();
   const router = useRouter();
+  const isAuthenticated = UserIdentity.isAuthenticated();
 
   React.useEffect(() => {
-    if (UserIdentity.isAuthenticated()) {
-      router.replace('/');
+    if (isAuthenticated) {
+      router.push('/');
     }
-  }, [router]);
+  }, [isAuthenticated, router]);
 
   return (
     <>

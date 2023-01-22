@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { isNil } from '@modules/shared/utils/simple-assertion.utils';
 import { FilterKey } from '../../shared/common/filter/constant';
 import { initialPaginationState } from '../../shared/common/pagination/pagination.reducer';
 import { Pagination } from '../../shared/clients/list.api';
@@ -57,7 +58,7 @@ const userSlice = createSlice({
       action: PayloadAction<FilterParam<AdminFilter>>
     ) => {
       state.isSubmitted = true;
-      if (action.payload.query) {
+      if (isNil(action.payload.query)) {
         state.filters.query = {
           type: FilterKey.LIKE,
           value: action.payload.query
