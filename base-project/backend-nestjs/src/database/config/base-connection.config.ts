@@ -17,7 +17,7 @@ export const connectionConfig: TypeOrmModuleOptions = {
   database: process.env.DB_DATABASE,
   entities: [User, Role, Menu],
   synchronize: isNotProd,
-  logging: true,
+  logging: false,
   migrationsRun: false,
   cli: {
     migrationsDir: 'src/database/migrations',

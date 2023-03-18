@@ -24,12 +24,20 @@ export class UniqueAndIndexUsernameUser1674361910142
       }),
     ]);
 
-    await queryRunner.createIndices('users', [
-      new TableIndex({
-        name: this.INDEX_USERNAME_KEY,
-        columnNames: ['username'],
-      }),
-    ]);
+    // await queryRunner.createIndices('users', [
+    //   new TableIndex({
+    //     name: this.INDEX_USERNAME_KEY,
+    //     columnNames: ['username'],
+    //   }),
+    // ]);
+
+    // await queryRunner.query(
+    //   `CREATE INDEX "IDX_users_username_key" ON "users" using btree("username");`,
+    // );
+
+    await queryRunner.query(
+      `CREATE INDEX "IDX_users_username_key" ON "users" using hash("username");`,
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {

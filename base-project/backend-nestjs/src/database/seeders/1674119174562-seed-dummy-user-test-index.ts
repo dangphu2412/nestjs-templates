@@ -18,7 +18,7 @@ export class SeedDummyUserTestIndex1674119174562 implements MigrationInterface {
 
     const users: User[] = [];
 
-    for (let i = 0; i < 5_000; i++) {
+    for (let i = 0; i < 50_000; i++) {
       const user = new User();
       user.email = `test${i}@gmail.com`;
       user.username = `test${i}`;
