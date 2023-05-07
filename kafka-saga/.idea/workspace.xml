@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="3f7286d2-cfdf-4262-97af-19aa31036fa7" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../base-project/frontend/.env.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../base-project/backend-nestjs/src/database/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../base-project/backend-nestjs/src/database/README.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2Fkpao8524vEJvIEp4oYQUsAbvZ" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "prettierjs.PrettierConfiguration.Package": "/Users/phu.dangn/Projects/private/handons-design-pattern/kafka-saga/ecm-gateway/node_modules/prettier",
+    "ts.external.directory.path": "/Users/phu.dangn/Projects/private/handons-design-pattern/kafka-saga/ecm-gateway/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/ecm-films/src/films/internal" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="proto:gen" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/ecm-films/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="proto:gen" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.proto:gen" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3f7286d2-cfdf-4262-97af-19aa31036fa7" name="Changes" comment="" />
+      <created>1665046002054</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1665046002054</updated>
+      <workItem from="1665046003142" duration="491000" />
+      <workItem from="1670404423646" duration="27000" />
+      <workItem from="1670407615302" duration="401000" />
+      <workItem from="1672299260187" duration="49000" />
+      <workItem from="1672747784875" duration="10000" />
+      <workItem from="1676023882685" duration="52000" />
+      <workItem from="1676107615337" duration="30000" />
+      <workItem from="1678766419604" duration="42000" />
+      <workItem from="1679640397403" duration="146000" />
+      <workItem from="1679884630049" duration="71000" />
+      <workItem from="1680921428279" duration="11000" />
+      <workItem from="1683212001377" duration="73000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

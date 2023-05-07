@@ -13,7 +13,7 @@ where username = 'test39444'
 "Execution Time: 8.907 ms"
 ```
 
-- Hash Index Scan, Overlap on unique index using "IDX_users_username_key" on users  (cost=0.00..8.02 rows=1 width=129)
+- B-tree Index Scan, Overlap on unique index using "IDX_users_username_key" on users  (cost=0.00..8.02 rows=1 width=129)
 ```
 "Index Scan using ""IDX_users_username_key"" on users  (cost=0.41..8.43 rows=1 width=136) (actual time=0.195..0.196 rows=1 loops=1)"
 "  Index Cond: ((username)::text = 'test39444'::text)"
@@ -21,7 +21,7 @@ where username = 'test39444'
 "Execution Time: 0.232 ms"
 ```
 
-- Hash Index without unique index
+- B-tree without unique index
 ```
 "Index Scan using ""IDX_users_username_key"" on users  (cost=0.41..8.43 rows=1 width=129) (actual time=0.134..0.135 rows=1 loops=1)"
 "  Index Cond: ((username)::text = 'test39444'::text)"
@@ -29,7 +29,7 @@ where username = 'test39444'
 "Execution Time: 0.176 ms"
 ```
 
-- Indexing using unique key index
+- B-tree Indexing using unique key index
 ```
 "Index Scan using ""UQ_users_username_key"" on users  (cost=0.41..8.43 rows=1 width=129) (actual time=0.146..0.148 rows=1 loops=1)"
 "  Index Cond: ((username)::text = 'test39444'::text)"
