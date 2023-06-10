@@ -1,7 +1,6 @@
 import React from 'react';
-import styles from '@modules/user/components/AdminTable/FilterBar/FilterBar.module.scss';
 import { Input } from '@chakra-ui/react';
-import { userActions } from '@modules/user/store/user.slice';
+import { userActions } from '@/modules/user/store/user.slice';
 import { useDispatch } from 'react-redux';
 
 export function SearchInput(): React.ReactElement {
@@ -34,7 +33,6 @@ export function SearchInput(): React.ReactElement {
     <Input
       placeholder="Search by username"
       value={currentSearch}
-      className={styles['search-input']}
       onChange={handleSearchChange}
       onKeyDown={handleSearchPress}
       onBlur={handleBlur}

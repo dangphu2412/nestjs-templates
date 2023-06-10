@@ -1,7 +1,12 @@
 import React from 'react';
-import { UserContext } from './user.context';
-import { User } from '../../models/user.type';
+import { UserContext, UserContextState } from './user.context';
 
-export function useUser(): User | undefined {
-  return React.useContext(UserContext).state;
+export function useUser(): UserContextState {
+  const context = React.useContext(UserContext);
+
+  if (!context) {
+    throw new Error('No User Context found');
+  }
+
+  return context;
 }

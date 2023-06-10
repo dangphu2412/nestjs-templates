@@ -5,3 +5,7 @@
 .cell-more-option {
   @apply cursor-pointer w-full text-left pl-7;
 }
+
+.cell-paid {
+  @apply cursor-pointer;
+}

@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import {
   Button,
+  Checkbox,
   Flex,
   FormControl,
   FormLabel,
@@ -11,9 +12,13 @@ import {
 } from '@chakra-ui/react';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectInactiveDates } from '@modules/user/store/user.selector';
-import { userActions } from '@modules/user/store/user.slice';
-import { DatePicker } from '@modules/shared/components/Input/DatePicker/DatePicker';
+import {
+  selectMemberType,
+  selectJoinedInDates
+} from '@/modules/user/store/user.selector';
+import { userActions } from '@/modules/user/store/user.slice';
+import { DatePicker } from '@/modules/shared/components/Input/DatePicker/DatePicker';
+import { MemberType } from '@/modules/user/constants/admin-management.constants';
 import styles from './FilterDialog.module.scss';
 
 type FilterItem = {
@@ -26,8 +31,8 @@ type Props = {
 };
 
 enum FilterTab {
-  INACTIVE_DATE = 'INACTIVE_DATE',
-  CITY = 'CITY'
+  JOIN_DATE_RANGE = 'JOIN_DATE_RANGE',
+  MEMBER_TYPE = 'MEMBER_TYPE'
 }
 
 export function FilterDialog({
@@ -35,21 +40,23 @@ export function FilterDialog({
 }: Props): React.ReactElement {
   const dispatch = useDispatch();
   const [activeTabKey, setActiveTabKey] = React.useState(
-    FilterTab.INACTIVE_DATE
+    FilterTab.JOIN_DATE_RANGE
   );
   const tabs: FilterItem[] = [
     {
-      key: FilterTab.INACTIVE_DATE,
-      value: 'Inactive date'
+      key: FilterTab.JOIN_DATE_RANGE,
+      value: 'Join date'
     },
     {
-      key: FilterTab.CITY,
-      value: 'City'
+      key: FilterTab.MEMBER_TYPE,
+      value: 'Member type'
     }
   ];
+
   const {
-    value: { from, to }
-  } = useSelector(selectInactiveDates);
+    value: { fromDate, toDate }
+  } = useSelector(selectJoinedInDates);
+  const { value: memberType } = useSelector(selectMemberType);
 
   function handleTabClick(key: string) {
     setActiveTabKey(key as FilterTab);
@@ -66,9 +73,9 @@ export function FilterDialog({
   function handleFromDateChange(date: Date) {
     dispatch(
       userActions.setFilter({
-        disabledIn: {
-          from: date.toString(),
-          to
+        joinedIn: {
+          fromDate: date.toString(),
+          toDate
         }
       })
     );
@@ -77,10 +84,28 @@ export function FilterDialog({
   function handleToDateChange(date: Date) {
     dispatch(
       userActions.setFilter({
-        disabledIn: {
-          from,
-          to: date.toString()
+        joinedIn: {
+          fromDate,
+          toDate: date.toString()
         }
+      })
+    );
+  }
+
+  function handleIndebtedChange() {
+    if (memberType === MemberType.DEBTOR) {
+      dispatch(
+        userActions.setFilter({
+          memberType: ''
+        })
+      );
+
+      return;
+    }
+
+    dispatch(
+      userActions.setFilter({
+        memberType: MemberType.DEBTOR
       })
     );
   }
@@ -110,12 +135,12 @@ export function FilterDialog({
           </Flex>
 
           <FormControl className="pr-4 space-y-4">
-            {activeTabKey === FilterTab.INACTIVE_DATE && (
+            {activeTabKey === FilterTab.JOIN_DATE_RANGE && (
               <>
                 <FormControl>
                   <FormLabel>From date</FormLabel>
                   <DatePicker
-                    value={from ? new Date(from) : new Date()}
+                    value={fromDate ? new Date(fromDate) : new Date()}
                     onDateChange={handleFromDateChange}
                   />
                 </FormControl>
@@ -123,14 +148,21 @@ export function FilterDialog({
                 <FormControl>
                   <FormLabel>To date</FormLabel>
                   <DatePicker
-                    value={to ? new Date(to) : new Date()}
+                    value={toDate ? new Date(toDate) : new Date()}
                     onDateChange={handleToDateChange}
                   />
                 </FormControl>
               </>
             )}
 
-            {activeTabKey === FilterTab.CITY && <>City tab</>}
+            {activeTabKey === FilterTab.MEMBER_TYPE && (
+              <Checkbox
+                checked={memberType === MemberType.DEBTOR}
+                onChange={handleIndebtedChange}
+              >
+                Indebted
+              </Checkbox>
+            )}
           </FormControl>
         </Flex>
       </PopoverBody>

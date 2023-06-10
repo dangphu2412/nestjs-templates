@@ -18,8 +18,8 @@ export function isFilterType<T extends FilterKey>(
   if (filter.type === FilterKey.RANGE) {
     return (
       !!filter.value &&
-      !!(filter as Filter<FilterKey.RANGE>).value.from &&
-      !!(filter as Filter<FilterKey.RANGE>).value.to
+      !!(filter as Filter<FilterKey.RANGE>).value.fromDate &&
+      !!(filter as Filter<FilterKey.RANGE>).value.toDate
     );
   }
 

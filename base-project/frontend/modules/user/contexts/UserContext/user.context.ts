@@ -1,9 +1,9 @@
 import { createContext } from 'react';
+import { noop } from '@/modules/shared/utils';
+import { ContextWithDispatcher } from '@/modules/shared/clients';
 import { User } from '../../models/user.type';
-import { noop } from '../../../shared/utils/noop';
-import { ContextWithDispatcher } from '../../../shared/clients/context.api';
 
-type UserContextState = ContextWithDispatcher<User, User>;
+export type UserContextState = ContextWithDispatcher<User, User>;
 
 export const initialUserCtxState: User = {
   id: '',

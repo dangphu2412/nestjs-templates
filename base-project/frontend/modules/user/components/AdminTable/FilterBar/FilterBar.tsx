@@ -10,8 +10,8 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch } from 'react-redux';
-import { userActions } from '@modules/user/store/user.slice';
-import { SearchInput } from '@modules/user/components/AdminTable/FilterBar/SearchInput/SearchInput';
+import { userActions } from '@/modules/user/store/user.slice';
+import { SearchInput } from '@/modules/user/components/AdminTable/FilterBar/SearchInput/SearchInput';
 import { FilterDialog } from './FilterDialog/FilterDialog';
 
 export function FilterBar(): React.ReactElement {

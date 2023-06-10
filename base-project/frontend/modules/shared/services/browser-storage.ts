@@ -14,6 +14,7 @@ export function registerBrowserStorage(type?: BrowserStorageType): void {
   if (!localStorage) {
     throw new Error('Not found sessionStorage');
   }
+
   storage = sessionStorage;
 }
 
@@ -22,18 +23,21 @@ export const BrowserStorage = {
     if (!storage) {
       return null;
     }
+
     return storage.getItem(key);
   },
   set(key: string, value: string): void {
     if (!storage) {
       throw new Error('Unregister browser storage');
     }
+
     storage.setItem(key, value);
   },
   remove(key: string): void {
     if (!storage) {
       throw new Error('Unregister browser storage');
     }
+
     storage.removeItem(key);
   }
 };

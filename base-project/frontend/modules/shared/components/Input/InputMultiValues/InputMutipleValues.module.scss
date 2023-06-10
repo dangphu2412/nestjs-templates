@@ -1,0 +1,26 @@
+.tag-input {
+  @apply border-none focus:shadow-none focus:border-none focus-visible:outline-none;
+}
+
+.tag-input-width {
+  @apply min-w-[8rem];
+  & input {
+    @apply flex-grow;
+  }
+}
+
+.placeholder-width {
+  @apply w-full;
+}
+
+.tag-item {
+  @apply px-2 mr-2 break-all rounded;
+}
+
+.remove-icon {
+  @apply ml-1 cursor-pointer w-4 h-4;
+}
+
+.input-container {
+  @apply border px-4 leading-10;
+}

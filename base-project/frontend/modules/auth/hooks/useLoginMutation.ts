@@ -1,10 +1,9 @@
 import { useRouter } from 'next/router';
 import { useMutation } from 'react-query';
-
 import {
   BrowserStorage,
   registerBrowserStorage
-} from '@modules/shared/services/browser-storage';
+} from '@/modules/shared/services';
 import { AuthApiClient } from '../services/auth-api-client';
 
 export function useLoginMutation() {

@@ -1,20 +1,19 @@
 import React from 'react';
-import { useMutateCreateUser } from '@modules/user/hooks/data/useMutateCreateUser';
-import { CreateUserInputs, TableHeader } from './TableHeader';
+import { Flex } from '@chakra-ui/react';
+import { HeaderActions } from './HeaderActions';
+import { ContentHeader } from '@/modules/shared/components/Header/ContentHeader/ContentHeader';
 
 export function TableHeaderContainer(): React.ReactElement {
-  const { mutate } = useMutateCreateUser();
-
-  function handleAddNewUser(createUserInputs: CreateUserInputs) {
-    mutate({
-      password: createUserInputs.password,
-      username: createUserInputs.username
-    });
-  }
-
   return (
-    <>
-      <TableHeader onAddNewUser={handleAddNewUser} />
-    </>
+    <Flex justifyContent="space-between" className="pb-2">
+      <div>
+        <ContentHeader
+          main={'Administrator management'}
+          brief={'Where you can create, update and change user active'}
+        />
+      </div>
+
+      <HeaderActions />
+    </Flex>
   );
 }

@@ -1,35 +1,43 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { isNil } from '@modules/shared/utils/simple-assertion.utils';
-import { FilterKey } from '../../shared/common/filter/constant';
-import { initialPaginationState } from '../../shared/common/pagination/pagination.reducer';
-import { Pagination } from '../../shared/clients/list.api';
-import { FilterParam } from '../../shared/common/filter/filter.api';
+import { isNil } from '@/modules/shared/utils';
+import { FilterKey, FilterParam } from '@/modules/shared/common/filter';
+import { Pagination } from '@/modules/shared/clients';
+import { initialPaginationState } from '@/modules/shared/common/pagination/pagination.reducer';
+import { getFilterDateRange } from '@/modules/shared/utils/date.utils';
 import { AdminFilter, AdminState } from './user-store.types';
 
-const initialUserState: AdminState = {
-  pagination: {
-    page: initialPaginationState.page,
-    size: initialPaginationState.pageSize
-  },
-  filters: {
-    query: {
-      type: FilterKey.LIKE,
-      value: ''
+function getInitialUserState(): AdminState {
+  const dateRange = getFilterDateRange();
+
+  return {
+    pagination: {
+      page: initialPaginationState.page,
+      size: initialPaginationState.pageSize
     },
-    disabledIn: {
-      type: FilterKey.RANGE,
-      value: {
-        from: '',
-        to: ''
+    filters: {
+      query: {
+        type: FilterKey.LIKE,
+        value: ''
+      },
+      joinedIn: {
+        type: FilterKey.RANGE,
+        value: {
+          fromDate: dateRange.fromDate,
+          toDate: dateRange.toDate
+        }
+      },
+      memberType: {
+        type: FilterKey.EXACT,
+        value: ''
       }
-    }
-  },
-  isSubmitted: true
-};
+    },
+    isSubmitted: true
+  };
+}
 
 const userSlice = createSlice({
   name: 'user',
-  initialState: initialUserState,
+  initialState: getInitialUserState(),
   reducers: {
     setPagination: (state, action: PayloadAction<Pagination>) => {
       state.isSubmitted = true;
@@ -43,10 +51,18 @@ const userSlice = createSlice({
         };
         return;
       }
-      if (action.payload.disabledIn) {
-        state.filters.disabledIn = {
+
+      if (action.payload.joinedIn) {
+        state.filters.joinedIn = {
           type: FilterKey.RANGE,
-          value: action.payload.disabledIn
+          value: action.payload.joinedIn
+        };
+      }
+
+      if (action.payload.memberType !== undefined) {
+        state.filters.memberType = {
+          type: FilterKey.EXACT,
+          value: action.payload.memberType
         };
       }
     },
@@ -64,15 +80,16 @@ const userSlice = createSlice({
           value: action.payload.query
         };
       }
-      if (action.payload.disabledIn) {
-        state.filters.disabledIn = {
+
+      if (action.payload.joinedIn) {
+        state.filters.joinedIn = {
           type: FilterKey.RANGE,
-          value: action.payload.disabledIn
+          value: action.payload.joinedIn
         };
       }
     },
     resetFilter: state => {
-      state.filters = initialUserState.filters;
+      state.filters = getInitialUserState().filters;
     }
   }
 });

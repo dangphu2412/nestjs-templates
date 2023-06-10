@@ -4,8 +4,11 @@ import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import { Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import { CellProps } from 'react-table';
 import styles from './Cell.module.scss';
-import { useMutateUserActive } from '../../../hooks/data/useMutateUserActive';
-import { User } from '../../../models/user.type';
+import { UserManagementView } from '../../../models/user.type';
+import { Router } from 'next/router';
+
+type MoreActionCellProps = CellProps<UserManagementView, string> &
+  Pick<Router, 'push'>;
 
 type ActionOnUserItem = {
   key: string;
@@ -14,19 +17,14 @@ type ActionOnUserItem = {
 };
 
 export function MoreActionCell({
-  row
-}: CellProps<User, string>): React.ReactElement {
-  const { mutate: toggleUserActive } = useMutateUserActive();
-
+  row,
+  push
+}: MoreActionCellProps): React.ReactElement {
   const actionItems: ActionOnUserItem[] = [
     {
-      key: `UPDATE_USER_KEY${row.original.id}`,
-      content: 'Update user'
-    },
-    {
-      key: `TOGGLE_STATUS_KEY${row.original.id}`,
-      content: 'Toggle status',
-      onClick: () => toggleUserActive(row.original.id)
+      key: `UPDATE_ROLE_KEY${row.original.id}`,
+      content: 'Update role',
+      onClick: () => push(`/users/${row.original.id}/role-settings`)
     }
   ];
 
@@ -37,11 +35,9 @@ export function MoreActionCell({
       </MenuButton>
       <MenuList>
         {actionItems.map(item => (
-          <>
-            <MenuItem key={item.key} onClick={item.onClick}>
-              {item.content}
-            </MenuItem>
-          </>
+          <MenuItem key={item.key} onClick={item.onClick}>
+            {item.content}
+          </MenuItem>
         ))}
       </MenuList>
     </Menu>

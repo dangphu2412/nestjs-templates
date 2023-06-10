@@ -1,7 +1,7 @@
 import {
   BrowserStorage,
   registerBrowserStorage
-} from '@modules/shared/services/browser-storage';
+} from '@/modules/shared/services/browser-storage';
 
 export const UserIdentity = {
   isAuthenticated(): boolean {

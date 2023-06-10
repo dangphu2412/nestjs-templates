@@ -1,8 +1,8 @@
 import { FilterKey } from './constant';
 
-type Range<T> = {
-  from: T;
-  to: T;
+export type Range<T> = {
+  fromDate: T;
+  toDate: T;
 };
 
 type EnumFilter<T> = {
@@ -18,7 +18,7 @@ type FilterKeeper<K extends FilterKey, V> = {
 export type Filter<T extends FilterKey, V = string> = T extends FilterKey.EXACT
   ? FilterKeeper<T, string>
   : T extends FilterKey.RANGE
-  ? FilterKeeper<T, Range<string>>
+  ? FilterKeeper<T, Range<V>>
   : T extends FilterKey.BOOLEAN
   ? FilterKeeper<T, boolean>
   : T extends FilterKey.ENUMERABLE

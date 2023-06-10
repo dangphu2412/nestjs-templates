@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useRouter } from 'next/router';
-import isEmpty from 'lodash.isempty';
+import isEmpty from 'lodash/isEmpty';
 import classNames from 'classnames';
 import styles from './SideBar.module.scss';
 import { SidebarMenuItem } from '../../clients/sidebar-menu.types';
@@ -31,21 +31,21 @@ export function SideBar({
   isHovering,
   ...rest
 }: Props): React.ReactElement {
-  const router = useRouter();
+  const { push } = useRouter();
+  const { menus } = useQueryMenu();
 
-  const { data: menu } = useQueryMenu();
   const sidebarMenuItems = React.useMemo(
-    () => convertToSidebarMenu(menu),
-    [menu]
+    () => convertToSidebarMenu(menus),
+    [menus]
   );
 
   const handleNavigate = React.useCallback(
     (item: SidebarMenuItem) => {
       if (item.accessLink && isEmpty(item.subMenus)) {
-        router.push(item.accessLink);
+        push(item.accessLink);
       }
     },
-    [router]
+    [push]
   );
 
   return (
@@ -76,7 +76,7 @@ export function SideBar({
                       paddingY="0.675rem"
                       paddingX="1rem"
                       marginBottom="0.375rem"
-                      className={`${isExpanded && styles['active-menu']}`}
+                      className={`${isExpanded ? styles['active-menu'] : ''}`}
                       onClick={() => handleNavigate(item)}
                     >
                       {!!item?.icon && (
@@ -88,7 +88,9 @@ export function SideBar({
                           width="8"
                           boxShadow="0 .3125rem .625rem 0 rgba(0,0,0,.12)"
                           marginRight="1"
-                          className={`${isExpanded && styles['active-icon']}`}
+                          className={`${
+                            isExpanded ? styles['active-icon'] : ''
+                          }`}
                         >
                           <FontAwesomeIcon
                             width={12}

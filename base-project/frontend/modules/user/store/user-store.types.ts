@@ -1,12 +1,13 @@
 import {
   CombineSearchFilter,
-  Filter
-} from '../../shared/common/filter/filter.api';
-import { FilterKey } from '../../shared/common/filter/constant';
-import { Pagination } from '../../shared/clients/list.api';
+  Filter,
+  FilterKey
+} from '@/modules/shared/common/filter';
+import { Pagination } from '@/modules/shared/clients';
 
 export type AdminFilter = CombineSearchFilter<{
-  disabledIn: Filter<FilterKey.RANGE>;
+  joinedIn: Filter<FilterKey.RANGE>;
+  memberType: Filter<FilterKey.EXACT>;
 }>;
 
 export type AdminState = {

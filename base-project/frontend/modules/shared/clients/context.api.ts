@@ -1,6 +1,6 @@
 import { Dispatch } from 'react';
 
-export type Action<A, P = {}> = {
+export type Action<A, P = void> = {
   type: A;
   data: P;
 };

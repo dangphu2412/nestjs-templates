@@ -1,4 +1,4 @@
-import { ApiClient } from '../../shared/services/api-client';
+import { ApiClient } from '@/modules/shared/services';
 import { MenuItem } from '../clients/menu.api';
 
 export const MenuApiClient = {

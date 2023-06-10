@@ -1,22 +1,20 @@
 import React from 'react';
 import { CellProps } from 'react-table';
-import classNames from 'classnames';
-import styles from './Cell.module.scss';
-import { User } from '../../../models/user.type';
+import { UserManagementView } from '../../../models/user.type';
+import { useMutateUserActive } from '@/modules/user/hooks/data/useMutateUserActive';
+import { Switch } from '@chakra-ui/react';
 
 export function StatusCell({
-  value
-}: CellProps<User, string>): React.ReactElement {
-  const isUserAvailable = value === null;
+  value,
+  row
+}: CellProps<UserManagementView, string>): React.ReactElement {
+  const { mutate: toggleUserActive } = useMutateUserActive();
 
   return (
-    <div
-      className={classNames(
-        styles['cell-status'],
-        isUserAvailable ? 'bg-success' : 'bg-disable'
-      )}
-    >
-      {isUserAvailable ? 'Available' : 'Disable'}
-    </div>
+    <Switch
+      isChecked={value === null}
+      onChange={() => toggleUserActive(row.original.id)}
+      colorScheme={'green'}
+    />
   );
 }

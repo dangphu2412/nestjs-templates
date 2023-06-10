@@ -4,9 +4,9 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse
 } from 'axios';
-import { TokenManager } from '@modules/shared/services/token-manager';
-import { ClientErrorCode } from '@modules/error-handling/client-code';
-import { ClientError } from '@modules/error-handling/useClientErrorHandler';
+import { TokenManager } from '@/modules/shared/services/token-manager';
+import { ClientErrorCode } from '@/modules/error-handling/client-code';
+import { ClientError } from '@/modules/error-handling/useErrorHandler';
 import { BrowserStorage } from './browser-storage';
 
 const API_URL = process.env.NEXT_PUBLIC_API_ENDPOINT ?? 'http://localhost:8080';
@@ -66,7 +66,6 @@ export class ApiClientImpl {
 
     return response.data;
   }
-
   async post<T = any, D = any>(
     url: string,
     body?: D,
@@ -80,7 +79,6 @@ export class ApiClientImpl {
 
     return response.data;
   }
-
   async put<T = any, D = any>(
     url: string,
     body: D,
@@ -94,7 +92,6 @@ export class ApiClientImpl {
 
     return response.data;
   }
-
   async patch<T = any, D = any>(
     url: string,
     body?: D,
@@ -108,7 +105,6 @@ export class ApiClientImpl {
 
     return response.data;
   }
-
   async delete<T = any, D = any>(
     url: string,
     config?: ClientRequestConfig<D>
